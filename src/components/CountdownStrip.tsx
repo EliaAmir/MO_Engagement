@@ -40,7 +40,7 @@ export default function CountdownStrip() {
       initial={{ y: 80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 0.2, duration: 1, ease: easeLuxe }}
-      className="fixed inset-x-0 bottom-0 z-[150] border-t border-gold-light/20 bg-cream/85 backdrop-blur-xl"
+      className="fixed inset-x-0 bottom-0 z-[150] border-t border-gold-light/20 bg-onyx/80 backdrop-blur-xl"
       role="timer"
       aria-live="off"
       aria-label={`${t.countdown.label}: ${happened ? t.countdown.happened : ""}`}

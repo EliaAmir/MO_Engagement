@@ -25,7 +25,7 @@ export default function FilmGrain() {
   return (
     <div
       aria-hidden
-      className="pointer-events-none fixed inset-0 z-[60] opacity-[0.04] mix-blend-multiply"
+      className="pointer-events-none fixed inset-0 z-[60] opacity-[0.05] mix-blend-screen"
       style={{
         backgroundImage: `url("${noise}")`,
         backgroundRepeat: "repeat",

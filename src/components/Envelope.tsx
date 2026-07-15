@@ -67,7 +67,7 @@ export default function Envelope() {
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse 60% 50% at 50% 55%, color-mix(in oklab, var(--color-warm-taupe) 42%, transparent), transparent 70%)",
+              "radial-gradient(ellipse 60% 50% at 50% 55%, color-mix(in oklab, var(--color-warm-taupe) 50%, transparent), transparent 70%)",
           }}
         />
 
@@ -92,9 +92,9 @@ export default function Envelope() {
                   z: -8,
                   opacity: bodyOpacity,
                   background:
-                    "linear-gradient(160deg, var(--color-warm-taupe), var(--color-camel))",
+                    "linear-gradient(160deg, #241a2a, #14101b)",
                   boxShadow:
-                    "0 45px 90px -35px color-mix(in oklab, var(--color-mocha) 45%, transparent), inset 0 0 0 1px color-mix(in oklab, var(--color-old-gold) 45%, transparent)",
+                    "0 45px 90px -35px rgba(0,0,0,0.7), inset 0 0 0 1px color-mix(in oklab, var(--color-old-gold) 45%, transparent)",
                 }}
               />
 
@@ -124,7 +124,7 @@ export default function Envelope() {
                   z: 8,
                   opacity: bodyOpacity,
                   background:
-                    "linear-gradient(200deg, var(--color-camel), var(--color-warm-taupe))",
+                    "linear-gradient(200deg, #1b1424, #241a2a)",
                   clipPath:
                     "polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%)",
                   WebkitClipPath:
@@ -141,7 +141,7 @@ export default function Envelope() {
                   z: 9,
                   opacity: bodyOpacity,
                   background:
-                    "linear-gradient(to bottom, transparent 0%, color-mix(in oklab, var(--color-espresso) 35%, transparent) 58%, transparent 62%)",
+                    "linear-gradient(to bottom, transparent 0%, color-mix(in oklab, var(--color-jet) 55%, transparent) 58%, transparent 62%)",
                   clipPath:
                     "polygon(0 0, 50% 58%, 100% 0, 100% 64%, 50% 70%, 0 64%)",
                   WebkitClipPath:
@@ -161,17 +161,17 @@ export default function Envelope() {
                   opacity: bodyOpacity,
                 }}
               >
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    background:
-                      "linear-gradient(160deg, var(--color-warm-taupe), var(--color-camel))",
-                    clipPath: "polygon(0 0, 100% 0, 50% 100%)",
-                    WebkitClipPath: "polygon(0 0, 100% 0, 50% 100%)",
-                    boxShadow:
-                      "inset 0 0 0 1px color-mix(in oklab, var(--color-old-gold) 32%, transparent)",
-                  }}
-                />
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        "linear-gradient(160deg, #241a2a, #14101b)",
+                      clipPath: "polygon(0 0, 100% 0, 50% 100%)",
+                      WebkitClipPath: "polygon(0 0, 100% 0, 50% 100%)",
+                      boxShadow:
+                        "inset 0 0 0 1px color-mix(in oklab, var(--color-old-gold) 32%, transparent)",
+                    }}
+                  />
 
                 {/* Wax seal (deep mocha, gold ring) */}
                 <motion.div
@@ -184,9 +184,9 @@ export default function Envelope() {
                       width: 96,
                       height: 96,
                       background:
-                        "radial-gradient(circle at 35% 30%, var(--color-mocha), var(--color-espresso) 75%)",
+                        "radial-gradient(circle at 35% 30%, var(--color-wine), #2a0c16 75%)",
                       boxShadow:
-                        "0 10px 26px -8px color-mix(in oklab, var(--color-mocha) 60%, transparent), inset 0 0 0 2px color-mix(in oklab, var(--color-gold-shimmer) 60%, transparent), inset 0 -6px 12px rgba(0,0,0,0.4)",
+                        "0 10px 26px -8px rgba(0,0,0,0.75), inset 0 0 0 2px color-mix(in oklab, var(--color-gold-shimmer) 60%, transparent), inset 0 -6px 12px rgba(0,0,0,0.5)",
                     }}
                   >
                     <span className="font-display text-base tracking-[0.14em] text-cream/90">
@@ -247,9 +247,9 @@ function CardFace({ couple }: { couple: string }) {
       className="relative flex h-full w-full flex-col items-center justify-between overflow-hidden rounded-[4px] px-7 py-8 text-center"
       style={{
         background:
-          "linear-gradient(170deg, #fdfaf3, #f6efe2 60%, var(--color-ivory))",
+          "linear-gradient(170deg, var(--color-dark-choc), #100c14 60%, var(--color-onyx))",
         boxShadow:
-          "0 45px 90px -40px color-mix(in oklab, var(--color-mocha) 55%, transparent), inset 0 0 0 1px color-mix(in oklab, var(--color-old-gold) 45%, transparent), inset 0 0 0 7px rgba(253, 250, 243, 0.7)",
+          "0 45px 90px -40px rgba(0,0,0,0.7), inset 0 0 0 1px color-mix(in oklab, var(--color-old-gold) 55%, transparent), inset 0 0 0 7px color-mix(in oklab, var(--color-old-gold) 8%, transparent)",
         color: "var(--color-espresso)",
       }}
     >
@@ -275,7 +275,7 @@ function CardFace({ couple }: { couple: string }) {
           className="text-pretty font-display text-[2rem] font-semibold leading-tight tracking-[0.04em]"
           style={{
             background:
-              "linear-gradient(100deg, var(--color-old-gold), var(--color-mocha) 50%, var(--color-old-gold))",
+              "linear-gradient(100deg, var(--color-gold-shimmer), var(--color-old-gold) 50%, var(--color-gold-shimmer))",
             WebkitBackgroundClip: "text",
             backgroundClip: "text",
             color: "transparent",

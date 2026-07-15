@@ -52,7 +52,7 @@ export default function Hero() {
               className="absolute left-1/2 top-1/2 h-[60vmax] w-[60vmax] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-70"
               style={{
                 background:
-                  "radial-gradient(circle, color-mix(in oklab, var(--color-warm-taupe) 42%, transparent), transparent 60%)",
+                  "radial-gradient(circle, color-mix(in oklab, var(--color-warm-taupe) 55%, transparent), transparent 60%)",
               }}
         />
       </motion.div>

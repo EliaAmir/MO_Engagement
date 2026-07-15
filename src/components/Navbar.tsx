@@ -42,7 +42,7 @@ export default function Navbar() {
       className={cn(
         "fixed inset-x-0 top-0 z-[200] transition-all duration-700",
         scrolled
-          ? "border-b border-gold-light/15 bg-cream/80 backdrop-blur-xl"
+          ? "border-b border-gold-light/15 bg-onyx/70 backdrop-blur-xl"
           : "border-b border-transparent bg-transparent",
       )}
     >
@@ -129,7 +129,7 @@ export default function Navbar() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="overflow-hidden border-t border-gold-light/10 bg-cream/95 backdrop-blur-xl lg:hidden"
+            className="overflow-hidden border-t border-gold-light/10 bg-onyx/95 backdrop-blur-xl lg:hidden"
           >
             <ul className="flex flex-col gap-1 px-5 py-4">
               {items.map((item) => (

@@ -1,22 +1,31 @@
 @import "tailwindcss";
 
 /* ----------------------------------------------------------------------------
-   THEME TOKENS — Tailwind v4 CSS-first
+   THEME TOKENS — Tailwind v4 CSS-first  ·  "MIDNIGHT & GOLD" (dark luxe)
    Each --color-* generates utilities (bg-*, text-*, border-*, etc.)
+   Darks = midnight surfaces · golds = luminous foil · lights = text on dark
 ---------------------------------------------------------------------------- */
 @theme {
-  --color-ivory: #eae0d5;
-  --color-warm-taupe: #c8a882;
-  --color-camel: #c09860;
-  --color-old-gold: #a07820;
-  --color-gold-light: #c6a84b;
-  --color-gold-shimmer: #d4a843;
-  --color-mocha: #4a2c18;
-  --color-espresso: #3a1e10;
-  --color-dark-choc: #2c1408;
-  --color-onyx: #1a1a1a;
-  --color-jet: #0a0a0a;
-  --color-cream: #f5efe6;
+  /* deeps / surfaces */
+  --color-jet: #06050a;
+  --color-onyx: #0c0a12;
+  --color-dark-choc: #15121c;
+
+  /* luminous golds */
+  --color-old-gold: #d4af37;
+  --color-gold-light: #e8c66a;
+  --color-gold-shimmer: #f6dd92;
+  --color-camel: #b8902f;
+  --color-warm-taupe: #8c7338;
+
+  /* lights (repurposed as text on dark) */
+  --color-cream: #f6efde;
+  --color-ivory: #ece3cf;
+  --color-espresso: #f2ead6;
+  --color-mocha: #d9cdb2;
+
+  /* accent */
+  --color-wine: #6e1f30;
 
   --font-display: var(--font-cinzel);
   --font-serif: var(--font-cormorant);
@@ -29,15 +38,15 @@
 }
 
 /* ----------------------------------------------------------------------------
-   BASE — bright, warm ivory "paper"
+   BASE — warm midnight with soft gold ambience + cinematic vignette
 ---------------------------------------------------------------------------- */
 @layer base {
   :root {
-    color-scheme: light;
+    color-scheme: dark;
   }
 
   * {
-    border-color: color-mix(in oklab, var(--color-camel) 30%, transparent);
+    border-color: color-mix(in oklab, var(--color-camel) 22%, transparent);
   }
 
   html {
@@ -48,7 +57,7 @@
   }
 
   body {
-    background-color: #f7f2ea;
+    background-color: var(--color-onyx);
     color: var(--color-espresso);
     font-family: var(--font-serif);
     font-weight: 400;
@@ -58,18 +67,23 @@
     background-image:
       radial-gradient(
         ellipse 75% 55% at 50% -8%,
-        color-mix(in oklab, var(--color-warm-taupe) 38%, transparent),
-        transparent 62%
+        color-mix(in oklab, var(--color-old-gold) 16%, transparent),
+        transparent 60%
       ),
       radial-gradient(
         ellipse 55% 45% at 100% 105%,
-        color-mix(in oklab, var(--color-camel) 26%, transparent),
+        color-mix(in oklab, var(--color-camel) 14%, transparent),
         transparent 58%
       ),
       radial-gradient(
         ellipse 50% 40% at -5% 30%,
-        color-mix(in oklab, var(--color-gold-light) 16%, transparent),
+        color-mix(in oklab, var(--color-warm-taupe) 12%, transparent),
         transparent 60%
+      ),
+      radial-gradient(
+        ellipse 125% 110% at 50% 50%,
+        transparent 55%,
+        color-mix(in oklab, var(--color-jet) 70%, transparent)
       );
     background-attachment: fixed;
   }
@@ -90,18 +104,18 @@
   }
 
   ::selection {
-    background: color-mix(in oklab, var(--color-gold-shimmer) 50%, transparent);
-    color: var(--color-espresso);
+    background: color-mix(in oklab, var(--color-gold-shimmer) 60%, transparent);
+    color: var(--color-jet);
   }
 
   ::-webkit-scrollbar {
     width: 11px;
   }
   ::-webkit-scrollbar-track {
-    background: color-mix(in oklab, var(--color-cream) 80%, var(--color-warm-taupe));
+    background: var(--color-jet);
   }
   ::-webkit-scrollbar-thumb {
-    background: color-mix(in oklab, var(--color-camel) 70%, var(--color-old-gold));
+    background: color-mix(in oklab, var(--color-old-gold) 55%, var(--color-camel));
     border-radius: 999px;
     border: 3px solid transparent;
     background-clip: padding-box;
@@ -112,7 +126,7 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-old-gold);
+    outline: 2px solid var(--color-gold-light);
     outline-offset: 3px;
     border-radius: 2px;
   }
@@ -152,15 +166,15 @@ html.lenis body {
    UTILITIES & COMPONENTS
 ---------------------------------------------------------------------------- */
 @layer components {
-  /* Rich brown-gold "engraved ink" gradient, readable on cream */
+  /* Luminous gold-foil gradient text — reads bright on midnight */
   .text-gradient-gold {
     background: linear-gradient(
       105deg,
-      var(--color-camel) 0%,
-      var(--color-old-gold) 28%,
-      var(--color-mocha) 50%,
-      var(--color-old-gold) 72%,
-      var(--color-camel) 100%
+      var(--color-gold-shimmer) 0%,
+      var(--color-old-gold) 35%,
+      var(--color-camel) 50%,
+      var(--color-old-gold) 65%,
+      var(--color-gold-shimmer) 100%
     );
     background-size: 200% auto;
     -webkit-background-clip: text;
@@ -177,7 +191,7 @@ html.lenis body {
     text-transform: uppercase;
     letter-spacing: 0.42em;
     font-size: 0.7rem;
-    color: var(--color-old-gold);
+    color: var(--color-gold-light);
   }
 
   .hairline {
@@ -185,7 +199,7 @@ html.lenis body {
     background: linear-gradient(
       to right,
       transparent,
-      color-mix(in oklab, var(--color-old-gold) 55%, transparent),
+      color-mix(in oklab, var(--color-old-gold) 60%, transparent),
       transparent
     );
   }
@@ -195,47 +209,49 @@ html.lenis body {
     background: linear-gradient(
       to bottom,
       transparent,
-      color-mix(in oklab, var(--color-old-gold) 45%, transparent),
+      color-mix(in oklab, var(--color-old-gold) 50%, transparent),
       transparent
     );
   }
 
+  /* Dark glass panel with a hairline gold edge */
   .panel {
     background:
       linear-gradient(
         180deg,
-        rgba(255, 255, 255, 0.78),
-        rgba(245, 239, 230, 0.55)
+        rgba(255, 255, 255, 0.045),
+        rgba(255, 255, 255, 0.018)
       );
-    border: 1px solid color-mix(in oklab, var(--color-old-gold) 20%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-old-gold) 30%, transparent);
     box-shadow:
-      0 30px 70px -45px color-mix(in oklab, var(--color-mocha) 55%, transparent),
-      inset 0 1px 0 rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(8px);
+      0 30px 70px -45px rgba(0, 0, 0, 0.85),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
   }
 
+  /* Gold-foil primary CTA — dark ink on luminous gold */
   .btn-gold {
     font-family: var(--font-display);
     text-transform: uppercase;
     letter-spacing: 0.22em;
     font-size: 0.72rem;
     padding: 0.95rem 2rem;
-    color: var(--color-cream);
+    color: var(--color-jet);
     background: linear-gradient(
       180deg,
-      var(--color-mocha),
-      var(--color-espresso)
+      var(--color-gold-light),
+      var(--color-old-gold)
     );
-    border: 1px solid color-mix(in oklab, var(--color-gold-light) 60%, transparent);
+    border: 1px solid var(--color-gold-shimmer);
     border-radius: 2px;
     transition: all 0.5s var(--ease-luxe);
   }
   .btn-gold:hover {
-    color: var(--color-espresso);
-    background: linear-gradient(180deg, var(--color-gold-shimmer), var(--color-camel));
-    border-color: var(--color-old-gold);
+    color: var(--color-jet);
+    background: linear-gradient(180deg, var(--color-gold-shimmer), var(--color-gold-light));
+    border-color: var(--color-gold-shimmer);
     transform: translateY(-2px);
-    box-shadow: 0 18px 40px -18px color-mix(in oklab, var(--color-old-gold) 65%, transparent);
+    box-shadow: 0 18px 40px -18px color-mix(in oklab, var(--color-gold-shimmer) 70%, transparent);
   }
 
   .btn-ghost {
@@ -244,16 +260,16 @@ html.lenis body {
     letter-spacing: 0.22em;
     font-size: 0.72rem;
     padding: 0.95rem 2rem;
-    color: var(--color-espresso);
-    border: 1px solid color-mix(in oklab, var(--color-mocha) 35%, transparent);
+    color: var(--color-cream);
+    border: 1px solid color-mix(in oklab, var(--color-old-gold) 42%, transparent);
     border-radius: 2px;
     transition: all 0.5s var(--ease-luxe);
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.03);
   }
   .btn-ghost:hover {
-    border-color: var(--color-old-gold);
-    color: var(--color-old-gold);
-    background: rgba(255, 255, 255, 0.6);
+    border-color: var(--color-gold-shimmer);
+    color: var(--color-gold-light);
+    background: rgba(255, 255, 255, 0.06);
     transform: translateY(-2px);
   }
 }
@@ -371,4 +387,3 @@ html[lang="ar"] .eyebrow {
   letter-spacing: 0.08em !important;
   line-height: 1.6 !important;
 }
-

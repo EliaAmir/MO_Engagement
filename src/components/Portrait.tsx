@@ -62,9 +62,9 @@ export default function Portrait() {
             className="relative rounded-[3px] p-3 sm:p-4"
             style={{
               background:
-                "linear-gradient(160deg, #fdfaf3, var(--color-cream))",
+                "linear-gradient(160deg, var(--color-dark-choc), var(--color-onyx))",
               boxShadow:
-                "0 50px 90px -40px color-mix(in oklab, var(--color-mocha) 50%, transparent), 0 0 0 1px color-mix(in oklab, var(--color-old-gold) 45%, transparent)",
+                "0 50px 90px -40px rgba(0,0,0,0.65), 0 0 0 1px color-mix(in oklab, var(--color-old-gold) 45%, transparent)",
             }}
           >
             {/* inner mat + gold hairline */}
@@ -78,7 +78,7 @@ export default function Portrait() {
                 className="pointer-events-none absolute inset-0 z-10"
                 style={{
                   background:
-                    "linear-gradient(170deg, color-mix(in oklab, var(--color-warm-taupe) 30%, transparent), transparent 40%, color-mix(in oklab, var(--color-mocha) 22%, transparent))",
+                    "linear-gradient(170deg, color-mix(in oklab, var(--color-old-gold) 16%, transparent), transparent 45%, color-mix(in oklab, var(--color-jet) 55%, transparent))",
                 }}
               />
               <motion.div
@@ -107,11 +107,11 @@ export default function Portrait() {
               <span
                 className="grid h-12 w-12 place-items-center rounded-full font-display text-xs tracking-[0.16em]"
                 style={{
-                  color: "var(--color-cream)",
+                  color: "var(--color-gold-light)",
                   background:
-                    "linear-gradient(180deg, var(--color-mocha), var(--color-espresso))",
+                    "linear-gradient(180deg, var(--color-dark-choc), var(--color-onyx))",
                   boxShadow:
-                    "0 8px 20px -8px color-mix(in oklab, var(--color-mocha) 60%, transparent), inset 0 0 0 1px color-mix(in oklab, var(--color-gold-shimmer) 60%, transparent)",
+                    "0 8px 20px -8px rgba(0,0,0,0.7), inset 0 0 0 1px color-mix(in oklab, var(--color-gold-shimmer) 60%, transparent)",
                 }}
               >
                 M&amp;O

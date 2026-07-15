@@ -115,7 +115,7 @@ function Gate({ children }: { children: React.ReactNode }) {
           placeholder={t.admin.passwordPlaceholder}
           aria-invalid={error}
           autoComplete="off"
-          className="rounded-sm border border-gold-light/30 bg-white/50 px-4 py-3 text-center font-display text-sm tracking-[0.3em] text-espresso placeholder:tracking-normal placeholder:font-serif placeholder:text-mocha/30 focus:border-gold-shimmer focus:outline-none"
+          className="rounded-sm border border-gold-light/30 bg-white/5 px-4 py-3 text-center font-display text-sm tracking-[0.3em] text-espresso placeholder:tracking-normal placeholder:font-serif placeholder:text-mocha/30 focus:border-gold-shimmer focus:outline-none"
         />
         <AnimatePresence>
           {error && (
@@ -222,7 +222,7 @@ function Dashboard({ lang }: { lang: "en" | "ar" }) {
             onChange={(e) => setQuery(e.target.value)}
             placeholder={t.admin.searchPlaceholder}
             dir={lang === "ar" ? "rtl" : "ltr"}
-            className="w-full rounded-sm border border-gold-light/25 bg-white/40 px-4 py-2.5 font-serif text-sm text-espresso placeholder:text-mocha/30 focus:border-gold-shimmer focus:outline-none"
+            className="w-full rounded-sm border border-gold-light/25 bg-white/5 px-4 py-2.5 font-serif text-sm text-espresso placeholder:text-mocha/30 focus:border-gold-shimmer focus:outline-none"
           />
         </div>
         <button type="button" onClick={exportCsv} className="btn-ghost py-2.5">
