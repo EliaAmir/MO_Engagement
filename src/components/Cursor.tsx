@@ -71,13 +71,13 @@ export default function Cursor() {
           scale: pressed ? 0.82 : 1,
         }}
         transition={{ type: "spring", stiffness: 260, damping: 22 }}
-        className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full border"
+        className="absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2 rounded-full border"
       />
       {/* Inner dot */}
       <motion.div
         style={{ translateX: dotX, translateY: dotY }}
         animate={{ scale: hovering ? 0 : 1 }}
-        className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full"
+        className="absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2 rounded-full"
       >
         <span
           className="block h-1.5 w-1.5 rounded-full"
