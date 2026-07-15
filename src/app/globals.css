@@ -1,0 +1,347 @@
+@import "tailwindcss";
+
+/* ----------------------------------------------------------------------------
+   THEME TOKENS — Tailwind v4 CSS-first
+   Each --color-* generates utilities (bg-*, text-*, border-*, etc.)
+---------------------------------------------------------------------------- */
+@theme {
+  --color-ivory: #eae0d5;
+  --color-warm-taupe: #c8a882;
+  --color-camel: #c09860;
+  --color-old-gold: #a07820;
+  --color-gold-light: #c6a84b;
+  --color-gold-shimmer: #d4a843;
+  --color-mocha: #4a2c18;
+  --color-espresso: #3a1e10;
+  --color-dark-choc: #2c1408;
+  --color-onyx: #1a1a1a;
+  --color-jet: #0a0a0a;
+  --color-cream: #f5efe6;
+
+  --font-display: var(--font-cinzel);
+  --font-serif: var(--font-cormorant);
+  --font-arabic: var(--font-amiri);
+
+  --ease-luxe: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-weighted: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --animate-grain: grain 8s steps(8) infinite;
+}
+
+/* ----------------------------------------------------------------------------
+   BASE — bright, warm ivory "paper"
+---------------------------------------------------------------------------- */
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  * {
+    border-color: color-mix(in oklab, var(--color-camel) 30%, transparent);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: auto;
+  }
+
+  body {
+    background-color: #f7f2ea;
+    color: var(--color-espresso);
+    font-family: var(--font-serif);
+    font-weight: 400;
+    /* `clip` (not `hidden`) so we don't create a vertical scroll container
+       that would break position: sticky inside the envelope section. */
+    overflow-x: clip;
+    background-image:
+      radial-gradient(
+        ellipse 75% 55% at 50% -8%,
+        color-mix(in oklab, var(--color-warm-taupe) 38%, transparent),
+        transparent 62%
+      ),
+      radial-gradient(
+        ellipse 55% 45% at 100% 105%,
+        color-mix(in oklab, var(--color-camel) 26%, transparent),
+        transparent 58%
+      ),
+      radial-gradient(
+        ellipse 50% 40% at -5% 30%,
+        color-mix(in oklab, var(--color-gold-light) 16%, transparent),
+        transparent 60%
+      );
+    background-attachment: fixed;
+  }
+
+  /* Arabic language: switch every font stack to Amiri */
+  html[lang="ar"] body,
+  html[lang="ar"] .font-display,
+  html[lang="ar"] .font-serif,
+  html[lang="ar"] .font-arabic {
+    font-family: var(--font-arabic);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--color-espresso);
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-gold-shimmer) 50%, transparent);
+    color: var(--color-espresso);
+  }
+
+  ::-webkit-scrollbar {
+    width: 11px;
+  }
+  ::-webkit-scrollbar-track {
+    background: color-mix(in oklab, var(--color-cream) 80%, var(--color-warm-taupe));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--color-camel) 70%, var(--color-old-gold));
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-old-gold);
+    background-clip: padding-box;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-old-gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   LENIS SMOOTH SCROLL
+---------------------------------------------------------------------------- */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* ----------------------------------------------------------------------------
+   CUSTOM CURSOR — hide native cursor on fine-pointer devices only
+---------------------------------------------------------------------------- */
+@media (pointer: fine) {
+  .cursor-ready,
+  .cursor-ready * {
+    cursor: none !important;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   UTILITIES & COMPONENTS
+---------------------------------------------------------------------------- */
+@layer components {
+  /* Rich brown-gold "engraved ink" gradient, readable on cream */
+  .text-gradient-gold {
+    background: linear-gradient(
+      105deg,
+      var(--color-camel) 0%,
+      var(--color-old-gold) 28%,
+      var(--color-mocha) 50%,
+      var(--color-old-gold) 72%,
+      var(--color-camel) 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .text-shimmer {
+    animation: shimmer 7s linear infinite;
+  }
+
+  .eyebrow {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.42em;
+    font-size: 0.7rem;
+    color: var(--color-old-gold);
+  }
+
+  .hairline {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      color-mix(in oklab, var(--color-old-gold) 55%, transparent),
+      transparent
+    );
+  }
+
+  .gold-divider {
+    width: 1px;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      color-mix(in oklab, var(--color-old-gold) 45%, transparent),
+      transparent
+    );
+  }
+
+  .panel {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.78),
+        rgba(245, 239, 230, 0.55)
+      );
+    border: 1px solid color-mix(in oklab, var(--color-old-gold) 20%, transparent);
+    box-shadow:
+      0 30px 70px -45px color-mix(in oklab, var(--color-mocha) 55%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(8px);
+  }
+
+  .btn-gold {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 0.72rem;
+    padding: 0.95rem 2rem;
+    color: var(--color-cream);
+    background: linear-gradient(
+      180deg,
+      var(--color-mocha),
+      var(--color-espresso)
+    );
+    border: 1px solid color-mix(in oklab, var(--color-gold-light) 60%, transparent);
+    border-radius: 2px;
+    transition: all 0.5s var(--ease-luxe);
+  }
+  .btn-gold:hover {
+    color: var(--color-espresso);
+    background: linear-gradient(180deg, var(--color-gold-shimmer), var(--color-camel));
+    border-color: var(--color-old-gold);
+    transform: translateY(-2px);
+    box-shadow: 0 18px 40px -18px color-mix(in oklab, var(--color-old-gold) 65%, transparent);
+  }
+
+  .btn-ghost {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 0.72rem;
+    padding: 0.95rem 2rem;
+    color: var(--color-espresso);
+    border: 1px solid color-mix(in oklab, var(--color-mocha) 35%, transparent);
+    border-radius: 2px;
+    transition: all 0.5s var(--ease-luxe);
+    background: rgba(255, 255, 255, 0.3);
+  }
+  .btn-ghost:hover {
+    border-color: var(--color-old-gold);
+    color: var(--color-old-gold);
+    background: rgba(255, 255, 255, 0.6);
+    transform: translateY(-2px);
+  }
+}
+
+@layer utilities {
+  .perspective-near {
+    perspective: 1400px;
+  }
+  .perspective-far {
+    perspective: 2400px;
+  }
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+}
+
+@keyframes shimmer {
+  to {
+    background-position: 200% center;
+  }
+}
+
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-4%, -6%); }
+  20% { transform: translate(-8%, 4%); }
+  30% { transform: translate(6%, -10%); }
+  40% { transform: translate(-4%, 12%); }
+  50% { transform: translate(-10%, 6%); }
+  60% { transform: translate(8%, 2%); }
+  70% { transform: translate(-2%, 8%); }
+  80% { transform: translate(6%, -4%); }
+  90% { transform: translate(-8%, -2%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   ARABIC TYPOGRAPHY
+   These rules are deliberately UNLAYERED so they win over Tailwind's
+   @layer utilities. Arabic is a cursive script: inter-letter tracking
+   breaks the joins, and it needs looser leading than Latin to avoid
+   clipping ascenders/descenders.
+---------------------------------------------------------------------------- */
+html[lang="ar"] {
+  letter-spacing: 0;
+}
+
+html[lang="ar"] * {
+  letter-spacing: 0 !important;
+}
+
+html[lang="ar"] body {
+  line-height: 1.85;
+}
+
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3,
+html[lang="ar"] h4,
+html[lang="ar"] h5,
+html[lang="ar"] h6,
+html[lang="ar"] .font-display {
+  line-height: 1.45 !important;
+}
+
+html[lang="ar"] .eyebrow {
+  letter-spacing: 0.08em !important;
+  line-height: 1.6 !important;
+}
+
