@@ -41,7 +41,7 @@ export default function Calendar() {
     const lines = [
       "BEGIN:VCALENDAR",
       "VERSION:2.0",
-      "PRODID:-//Marina & Onur//Engagement//EN",
+      "PRODID:-//Onur & Marina//Engagement//EN",
       "CALSCALE:GREGORIAN",
       "METHOD:PUBLISH",
       "BEGIN:VEVENT",

@@ -14,7 +14,6 @@ export default function MusicPlayer() {
   const { t } = useLang();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const fadeRaf = useRef<number>(0);
-  const triedAuto = useRef(false);
 
   const [available, setAvailable] = useState(true);
   const [playing, setPlaying] = useState(false);
@@ -58,17 +57,12 @@ export default function MusicPlayer() {
     });
   }, [fadeTo]);
 
-  // Best-effort autoplay on the first user gesture.
+  // Start the ambient track once the invitation letter opens (envelope scroll).
   useEffect(() => {
     if (!available) return;
-    const attempt = () => {
-      if (triedAuto.current) return;
-      triedAuto.current = true;
-      start();
-    };
-    const gestures = ["pointerdown", "keydown", "touchstart", "wheel"];
-    gestures.forEach((g) => window.addEventListener(g, attempt, { once: true, passive: true }));
-    return () => gestures.forEach((g) => window.removeEventListener(g, attempt));
+    const onOpen = () => start();
+    window.addEventListener("mo:invite-opened", onOpen, { once: true });
+    return () => window.removeEventListener("mo:invite-opened", onOpen);
   }, [available, start]);
 
   const toggle = () => (playing ? stop() : start());

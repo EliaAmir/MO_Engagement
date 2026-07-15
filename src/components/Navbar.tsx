@@ -51,14 +51,14 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => scrollToTarget(0)}
-          aria-label="Marina & Onur â€” back to top"
+          aria-label="Onur & Marina â€” back to top"
           className="group flex items-center gap-3"
         >
           <span className="grid h-9 w-9 place-items-center rounded-full border border-gold-light/40 font-display text-xs tracking-widest text-old-gold transition-colors group-hover:border-gold-shimmer">
-            M&amp;O
+            O&amp;M
           </span>
           <span className="hidden font-display text-[0.7rem] uppercase tracking-[0.3em] text-mocha/80 sm:block">
-            {lang === "ar" ? "Ù…Ø§Ø±ÙŠÙ†Ø§ ÙˆØ§ÙˆÙ†ÙˆØ±" : "Marina & Onur"}
+            {lang === "ar" ? "اونور ومارينا" : "Onur & Marina"}
           </span>
         </button>
 

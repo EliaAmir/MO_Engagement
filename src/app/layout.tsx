@@ -36,16 +36,16 @@ const siteUrl =
 export const metadata: Metadata = {
   metadataBase: siteUrl ? new URL(siteUrl) : undefined,
   title: {
-    default: "Marina & Onur â€” Engagement Invitation",
-    template: "%s Â· Marina & Onur",
+    default: "Onur & Marina â€” Engagement Invitation",
+    template: "%s Â· Onur & Marina",
   },
   description:
-    "You are cordially invited to the engagement of Marina & Onur, Saturday, September 13, 2026 at 7:00 PM, Dar Gardenia Wedding Halls, Cairo.",
-  applicationName: "Marina & Onur Engagement",
-  authors: [{ name: "Marina & Onur" }],
-  creator: "Marina & Onur",
+    "You are cordially invited to the engagement of Onur & Marina, Saturday, September 13, 2026 at 7:00 PM, Dar Gardenia Wedding Halls, Cairo.",
+  applicationName: "Onur & Marina Engagement",
+  authors: [{ name: "Onur & Marina" }],
+  creator: "Onur & Marina",
   keywords: [
-    "Marina and Onur",
+    "Onur and Marina",
     "engagement",
     "invitation",
     "Cairo",
@@ -61,14 +61,14 @@ export const metadata: Metadata = {
     locale: "en_US",
     alternateLocale: "ar_EG",
     url: siteUrl ? `${siteUrl}/` : "/",
-    siteName: "Marina & Onur â€” Engagement",
-    title: "Marina & Onur â€” Engagement Invitation",
+    siteName: "Onur & Marina â€” Engagement",
+    title: "Onur & Marina â€” Engagement Invitation",
     description:
       "Saturday, September 13, 2026 at 7:00 PM Â· Dar Gardenia Wedding Halls, Tulip Hall, Cairo.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Marina & Onur â€” Engagement Invitation",
+    title: "Onur & Marina â€” Engagement Invitation",
     description:
       "Saturday, September 13, 2026 at 7:00 PM Â· Dar Gardenia Wedding Halls, Cairo.",
   },

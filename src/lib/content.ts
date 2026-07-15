@@ -13,10 +13,10 @@ export const langDir = (lang: Lang): Dir => (lang === "ar" ? "rtl" : "ltr");
 
 /* ----- Event data (language-neutral) ----------------------------------- */
 export const EVENT = {
-  couple: { en: "Marina & Onur", ar: "مارينا واونور" },
-  firstPerson: { en: "Marina", ar: "مارينا" },
-  secondPerson: { en: "Onur", ar: "اونور" },
-  monogram: "M&O",
+  couple: { en: "Onur & Marina", ar: "اونور ومارينا" },
+  firstPerson: { en: "Onur", ar: "اونور" },
+  secondPerson: { en: "Marina", ar: "مارينا" },
+  monogram: "O&M",
   type: { en: "Engagement Party", ar: "حفل الخطوبة" },
   dateLong: {
     en: "Saturday, September 13, 2026",
@@ -35,7 +35,7 @@ export const EVENT = {
   },
   /** Used to build Google Maps search + directions URLs */
   mapsQuery: "Dar Gardenia Wedding Halls, Cairo, Egypt",
-  calendarTitle: "Marina & Onur — Engagement Party",
+  calendarTitle: "Onur & Marina — Engagement Party",
 } as const;
 
 /* ----- Dress-code palette (DressCode component only) -------------------- */
@@ -228,9 +228,9 @@ export const CONTENT: Record<Lang, Dict> = {
   en: {
     meta: {
       htmlLang: "en",
-      title: "Marina & Onur — Engagement Invitation",
+      title: "Onur & Marina — Engagement Invitation",
       description:
-        "You are cordially invited to the engagement of Marina & Onur, Saturday, September 13, 2026 at 7:00 PM, Dar Gardenia Wedding Halls, Cairo.",
+        "You are cordially invited to the engagement of Onur & Marina, Saturday, September 13, 2026 at 7:00 PM, Dar Gardenia Wedding Halls, Cairo.",
     },
     nav: {
       story: "Story",
@@ -245,15 +245,15 @@ export const CONTENT: Record<Lang, Dict> = {
     preloader: {
       tagline: "An Invitation",
       loading: "Preparing your invitation",
-      enter: "Marina & Onur",
+      enter: "Onur & Marina",
     },
     envelope: {
       hint: "Scroll to open",
-      sealLabel: "M & O",
+      sealLabel: "O & M",
       cardEyebrow: "Together with their families",
       cardHeadline: "are getting engaged",
       cardTo: "Request the honour of your presence as",
-      cardCouple: "Marina & Onur",
+      cardCouple: "Onur & Marina",
       cardBody:
         "Saturday, the thirteenth of September, two thousand twenty-six — at seven in the evening.",
       cardSignoff: "Dar Gardenia Wedding Halls · Tulip Hall · Cairo",
@@ -273,7 +273,7 @@ export const CONTENT: Record<Lang, Dict> = {
         "On September 13th, they invite you to witness",
         "the moment it becomes forever.",
       ],
-      closing: "Marina & Onur",
+      closing: "Onur & Marina",
     },
     details: {
       eyebrow: "When & Where",
@@ -289,8 +289,8 @@ export const CONTENT: Record<Lang, Dict> = {
     portrait: {
       eyebrow: "Two Hearts",
       quote: "Two lives, one forever — written in the stars, sealed on September thirteenth.",
-      caption: "Marina & Onur · 13.09.2026",
-      alt: "Portrait of Marina and Onur",
+      caption: "Onur & Marina · 13.09.2026",
+      alt: "Portrait of Onur and Marina",
     },
     dress: {
       eyebrow: "Style Guide",
@@ -316,7 +316,7 @@ export const CONTENT: Record<Lang, Dict> = {
     guestbook: {
       eyebrow: "Guestbook",
       title: "Leave a Wish",
-      intro: "Share a note, a blessing, or a memory for Marina & Onur.",
+      intro: "Share a note, a blessing, or a memory for Onur & Marina.",
       nameLabel: "Your Name",
       namePlaceholder: "Enter your name",
       messageLabel: "Your Wish",
@@ -352,14 +352,14 @@ export const CONTENT: Record<Lang, Dict> = {
       happened: "Forever has begun",
     },
     footer: {
-      names: "Marina & Onur",
+      names: "Onur & Marina",
       rights: "Engagement · September 13, 2026",
       madeWith: "With love, forever.",
       backToTop: "Back to top",
     },
     admin: {
       title: "RSVP Dashboard",
-      subtitle: "Marina & Onur — Engagement",
+      subtitle: "Onur & Marina — Engagement",
       backHome: "Back to invitation",
       lockedTitle: "Private",
       lockedHint: "Enter the access code to view responses.",
@@ -386,9 +386,9 @@ export const CONTENT: Record<Lang, Dict> = {
   ar: {
     meta: {
       htmlLang: "ar",
-      title: "مارينا واونور — دعوة الخطوبة",
+      title: "اونور ومارينا — دعوة الخطوبة",
       description:
-        "يسعدنا أن ندعوك لحضور خطوبة مارينا واونور، يوم السبت ١٣ سبتمبر ٢٠٢٦ الساعة ٧:٠٠ مساءً، قاعات دار جاردينيا للأفراح، القاهرة.",
+        "يسعدنا أن ندعوك لحضور خطوبة اونور ومارينا، يوم السبت ١٣ سبتمبر ٢٠٢٦ الساعة ٧:٠٠ مساءً، قاعات دار جاردينيا للأفراح، القاهرة.",
     },
     nav: {
       story: "قصتنا",
@@ -403,7 +403,7 @@ export const CONTENT: Record<Lang, Dict> = {
     preloader: {
       tagline: "دعوة",
       loading: "نُجهّز دعوتك",
-      enter: "مارينا واونور",
+      enter: "اونور ومارينا",
     },
     envelope: {
       hint: "مرّر للفتح",
@@ -411,7 +411,7 @@ export const CONTENT: Record<Lang, Dict> = {
       cardEyebrow: "مع عائلتَيْهما",
       cardHeadline: "يخطِبان",
       cardTo: "يَطْلبان شرف حضورك",
-      cardCouple: "مارينا واونور",
+      cardCouple: "اونور ومارينا",
       cardBody: "السبت، الثالث عشر من سبتمبر، ألفان وستة وعشرون — السابعة مساءً.",
       cardSignoff: "قاعات دار جاردينيا · قاعة التيوليب · القاهرة",
     },
@@ -430,7 +430,7 @@ export const CONTENT: Record<Lang, Dict> = {
         "في ١٣ سبتمبر، يدعوانك لتكون شاهداً",
         "على اللحظة التي تصبح فيها إلى الأبد.",
       ],
-      closing: "مارينا واونور",
+      closing: "اونور ومارينا",
     },
     details: {
       eyebrow: "الموعد والمكان",
@@ -446,8 +446,8 @@ export const CONTENT: Record<Lang, Dict> = {
     portrait: {
       eyebrow: "قلبان",
       quote: "حياتان، إلى الأبد واحدة — كُتبتا في النجوم، ووُسِمتا في الثالث عشر من سبتمبر.",
-      caption: "مارينا واونور · ١٣٫٠٩٫٢٠٢٦",
-      alt: "صورة لمارينا واونور",
+      caption: "اونور ومارينا · ١٣٫٠٩٫٢٠٢٦",
+      alt: "صورة لاونور ومارينا",
     },
     dress: {
       eyebrow: "دليل الأناقة",
@@ -473,7 +473,7 @@ export const CONTENT: Record<Lang, Dict> = {
     guestbook: {
       eyebrow: "دفتر الزوار",
       title: "اترك أمنية",
-      intro: "شارك كلمة أو دعوة أو ذكرى لمارينا واونور.",
+      intro: "شارك كلمة أو دعوة أو ذكرى لاونور ومارينا.",
       nameLabel: "اسمك",
       namePlaceholder: "أدخل اسمك",
       messageLabel: "أمنيتك",
@@ -509,14 +509,14 @@ export const CONTENT: Record<Lang, Dict> = {
       happened: "بدأ الأبد",
     },
     footer: {
-      names: "مارينا واونور",
+      names: "اونور ومارينا",
       rights: "خطوبة · ١٣ سبتمبر ٢٠٢٦",
       madeWith: "بحب، إلى الأبد.",
       backToTop: "العودة للأعلى",
     },
     admin: {
       title: "لوحة الردود",
-      subtitle: "مارينا واونور — الخطوبة",
+      subtitle: "اونور ومارينا — الخطوبة",
       backHome: "العودة للدعوة",
       lockedTitle: "خاص",
       lockedHint: "أدخل رمز الدخول لعرض الردود.",

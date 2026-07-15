@@ -1,16 +1,16 @@
 ﻿"use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useSpring, useTransform } from "motion/react";
+import { motion, useMotionValueEvent, useScroll, useSpring, useTransform } from "motion/react";
 import { useLang } from "@/components/LangProvider";
 import { EVENT } from "@/lib/content";
 
 /* Fixed design size (px). The whole scene is responsively scaled by a
    CSS transform on the outer wrapper, keeping the scroll math consistent. */
-const ENVELOPE_W = 360;
-const ENVELOPE_H = 250;
-const CARD_W = 320;
-const CARD_H = 324;
+const ENVELOPE_W = 400;
+const ENVELOPE_H = 280;
+const CARD_W = 376;
+const CARD_H = 472;
 
 export default function Envelope() {
   const { t, lang } = useLang();
@@ -49,6 +49,15 @@ export default function Envelope() {
   /* ---- Envelope body: fades as it sinks away ---- */
   const bodyOpacity = useTransform(p, [0.7, 0.95], [1, 0]);
 
+  /* ---- Signal the MusicPlayer once the invitation letter is open ---- */
+  const openedRef = useRef(false);
+  useMotionValueEvent(p, "change", (v) => {
+    if (!openedRef.current && v >= 0.5) {
+      openedRef.current = true;
+      window.dispatchEvent(new Event("mo:invite-opened"));
+    }
+  });
+
   /* ---- UI ---- */
   const hintOpacity = useTransform(p, [0, 0.05, 0.12], [0.95, 0.95, 0]);
   const hintY = useTransform(p, [0, 0.12], [0, 12]);
@@ -74,7 +83,7 @@ export default function Envelope() {
         />
 
         {/* responsive scale wrapper (separate from the entrance transform) */}
-        <div className="relative scale-[0.72] sm:scale-90 lg:scale-100">
+        <div className="relative scale-[0.8] sm:scale-95 lg:scale-105">
         <motion.div
           initial={{ opacity: 0, y: 26 }}
           animate={{ opacity: 1, y: 0 }}
@@ -250,7 +259,7 @@ function CardFace({ couple }: { couple: string }) {
   const { t, lang } = useLang();
   return (
     <div
-      className="relative flex h-full w-full flex-col items-center justify-between overflow-hidden rounded-[4px] px-7 py-8 text-center"
+      className="relative flex h-full w-full flex-col items-center justify-between overflow-hidden rounded-[4px] px-9 py-10 text-center"
       style={{
         background:
           "linear-gradient(170deg, var(--color-dark-choc), #100c14 60%, var(--color-onyx))",
@@ -265,20 +274,20 @@ function CardFace({ couple }: { couple: string }) {
       <Corner className="bottom-2 left-2 -rotate-90" />
       <Corner className="bottom-2 right-2 rotate-180" />
 
-      <p className="font-serif text-[0.72rem] italic leading-snug text-mocha/70">
+      <p className="font-serif text-[0.85rem] italic leading-snug text-mocha/70">
         {t.envelope.cardEyebrow}
       </p>
-      <p className="font-display text-[0.66rem] uppercase tracking-[0.34em] text-old-gold">
+      <p className="font-display text-[0.78rem] uppercase tracking-[0.34em] text-old-gold">
         {t.envelope.cardHeadline}
       </p>
 
       <div className="flex flex-col items-center gap-2">
-        <span className="font-display text-xs uppercase tracking-[0.3em] text-mocha/60">
+        <span className="font-display text-sm uppercase tracking-[0.3em] text-mocha/70">
           {t.envelope.cardTo}
         </span>
         <h2
           dir={lang === "ar" ? "rtl" : "ltr"}
-          className="text-pretty font-display text-[2rem] font-semibold leading-tight tracking-[0.04em]"
+          className="text-pretty font-display text-[2.7rem] font-semibold leading-tight tracking-[0.04em]"
           style={{
             background:
               "linear-gradient(100deg, var(--color-gold-shimmer), var(--color-old-gold) 50%, var(--color-gold-shimmer))",
@@ -293,14 +302,14 @@ function CardFace({ couple }: { couple: string }) {
 
       <div className="flex w-full items-center gap-3">
         <span className="hairline flex-1" />
-        <span className="font-display text-sm text-old-gold">&amp;</span>
+        <span className="font-display text-base text-old-gold">&amp;</span>
         <span className="hairline flex-1" />
       </div>
 
-      <p className="font-serif text-[0.82rem] leading-relaxed text-mocha/80">
+      <p className="font-serif text-[1.02rem] leading-relaxed text-mocha/85">
         {t.envelope.cardBody}
       </p>
-      <p className="font-display text-[0.6rem] uppercase tracking-[0.22em] text-mocha/55">
+      <p className="font-display text-[0.72rem] uppercase tracking-[0.22em] text-mocha/65">
         {t.envelope.cardSignoff}
       </p>
     </div>

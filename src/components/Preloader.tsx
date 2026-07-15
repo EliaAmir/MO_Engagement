@@ -118,7 +118,7 @@ export default function Preloader() {
                 animate={{ opacity: [0.55, 1, 0.55] }}
                 transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
               >
-                M&amp;O
+                O&amp;M
               </motion.span>
             </div>
 

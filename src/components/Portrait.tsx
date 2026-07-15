@@ -114,7 +114,7 @@ export default function Portrait() {
                     "0 8px 20px -8px rgba(0,0,0,0.7), inset 0 0 0 1px color-mix(in oklab, var(--color-gold-shimmer) 60%, transparent)",
                 }}
               >
-                M&amp;O
+                O&amp;M
               </span>
             </div>
           </div>
