@@ -56,7 +56,7 @@ export default function Cursor() {
   if (!enabled) return null;
 
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 z-[9999]">
+    <div aria-hidden className="pointer-events-none fixed inset-0 z-[10001]">
       {/* Lagging ring */}
       <motion.div
         style={{

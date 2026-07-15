@@ -13,6 +13,7 @@ function getLenis(): LenisLike | undefined {
 export default function Preloader() {
   const { t } = useLang();
   const [done, setDone] = useState(false);
+  const [ready, setReady] = useState(false);
   const [count, setCount] = useState(0);
 
   const progress = useMotionValue(0);
@@ -33,7 +34,7 @@ export default function Preloader() {
         window.setTimeout(() => {
           if (!completedRef.current) {
             completedRef.current = true;
-            setDone(true);
+            setReady(true);
           }
         }, 460);
       }
@@ -122,23 +123,38 @@ export default function Preloader() {
               </motion.span>
             </div>
 
-            {/* counter */}
-            <div className="flex items-baseline gap-1 font-display text-espresso">
-              <span className="text-5xl tabular-nums tracking-tight">{count}</span>
-              <span className="text-xl text-old-gold">%</span>
-            </div>
+            {ready ? (
+              <motion.button
+                type="button"
+                onClick={() => setDone(true)}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                className="btn-gold mt-2"
+              >
+                {t.hero.cta}
+              </motion.button>
+            ) : (
+              <>
+                {/* counter */}
+                <div className="flex items-baseline gap-1 font-display text-espresso">
+                  <span className="text-5xl tabular-nums tracking-tight">{count}</span>
+                  <span className="text-xl text-old-gold">%</span>
+                </div>
 
-            {/* progress line */}
-            <div className="mt-8 h-px w-56 overflow-hidden bg-warm-taupe/30">
-              <motion.div
-                className="h-full origin-left bg-linear-to-r from-old-gold via-gold-light to-camel"
-                style={{ scaleX: bar, transformOrigin: "left" }}
-              />
-            </div>
+                {/* progress line */}
+                <div className="mt-8 h-px w-56 overflow-hidden bg-warm-taupe/30">
+                  <motion.div
+                    className="h-full origin-left bg-linear-to-r from-old-gold via-gold-light to-camel"
+                    style={{ scaleX: bar, transformOrigin: "left" }}
+                  />
+                </div>
 
-            <span className="mt-5 font-serif text-xs uppercase tracking-[0.3em] text-mocha/50">
-              {t.preloader.loading}
-            </span>
+                <span className="mt-5 font-serif text-xs uppercase tracking-[0.3em] text-mocha/50">
+                  {t.preloader.loading}
+                </span>
+              </>
+            )}
           </motion.div>
         </motion.div>
       )}
