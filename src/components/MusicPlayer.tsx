@@ -77,6 +77,7 @@ export default function MusicPlayer() {
     <AnimatePresence>
       {available && (
         <motion.button
+          key="music-toggle"
           type="button"
           onClick={toggle}
           aria-pressed={playing}
@@ -120,6 +121,7 @@ export default function MusicPlayer() {
       )}
 
       <audio
+        key="music-audio"
         ref={audioRef}
         src={MUSIC_SRC}
         loop

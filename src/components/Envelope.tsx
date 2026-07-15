@@ -11,7 +11,6 @@ const ENVELOPE_W = 360;
 const ENVELOPE_H = 250;
 const CARD_W = 320;
 const CARD_H = 324;
-const RISE = -((ENVELOPE_H + CARD_H) / 2) + 12; // distance the card travels up
 
 export default function Envelope() {
   const { t, lang } = useLang();
@@ -39,13 +38,16 @@ export default function Envelope() {
   const flapRotate = useTransform(p, [0.16, 0.46], [0, -166]);
   const flapZ = useTransform(p, [0.16, 0.46], [12, -16]);
 
-  /* ---- Card: rises out of the throat ---- */
-  const cardY = useTransform(p, [0.4, 0.84], [0, RISE]);
+  /* ---- Card: lifts gently, stays central & readable ---- */
+  const cardY = useTransform(p, [0.4, 0.84], [0, -60]);
   const cardScale = useTransform(p, [0.4, 0.84], [1, 1.04]);
   const cardOpacity = useTransform(p, [0.36, 0.42], [0, 1]);
 
-  /* ---- Envelope body: dissolves away once the card is out ---- */
-  const bodyOpacity = useTransform(p, [0.82, 0.99], [1, 0]);
+  /* ---- Holder: sinks down so both card + envelope stay visible ---- */
+  const holderY = useTransform(p, [0.36, 0.92], [0, 180]);
+
+  /* ---- Envelope body: fades as it sinks away ---- */
+  const bodyOpacity = useTransform(p, [0.7, 0.95], [1, 0]);
 
   /* ---- UI ---- */
   const hintOpacity = useTransform(p, [0, 0.05, 0.12], [0.95, 0.95, 0]);
@@ -90,6 +92,7 @@ export default function Envelope() {
                 className="absolute inset-0 rounded-[6px]"
                 style={{
                   z: -8,
+                  y: holderY,
                   opacity: bodyOpacity,
                   background:
                     "linear-gradient(160deg, #241a2a, #14101b)",
@@ -122,6 +125,7 @@ export default function Envelope() {
                 className="absolute inset-0 rounded-[6px]"
                 style={{
                   z: 8,
+                  y: holderY,
                   opacity: bodyOpacity,
                   background:
                     "linear-gradient(200deg, #1b1424, #241a2a)",
@@ -139,6 +143,7 @@ export default function Envelope() {
                 className="absolute inset-0"
                 style={{
                   z: 9,
+                  y: holderY,
                   opacity: bodyOpacity,
                   background:
                     "linear-gradient(to bottom, transparent 0%, color-mix(in oklab, var(--color-jet) 55%, transparent) 58%, transparent 62%)",
@@ -157,6 +162,7 @@ export default function Envelope() {
                   width: ENVELOPE_W,
                   height: ENVELOPE_H * 0.56,
                   rotateX: flapRotate,
+                  y: holderY,
                   z: flapZ,
                   opacity: bodyOpacity,
                 }}
