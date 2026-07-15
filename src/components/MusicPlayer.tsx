@@ -14,6 +14,8 @@ export default function MusicPlayer() {
   const { t } = useLang();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const fadeRaf = useRef<number>(0);
+  const openedRef = useRef(false);
+  const autoStartedRef = useRef(false);
 
   const [available, setAvailable] = useState(true);
   const [playing, setPlaying] = useState(false);
@@ -57,12 +59,38 @@ export default function MusicPlayer() {
     });
   }, [fadeTo]);
 
-  // Start the ambient track once the invitation letter opens (envelope scroll).
+  // Mark the letter as opened + try to start. Browsers block autoplay until a
+  // real gesture, so this may silently fail — the gesture effect below retries.
   useEffect(() => {
     if (!available) return;
-    const onOpen = () => start();
+    const onOpen = () => {
+      openedRef.current = true;
+      start();
+    };
     window.addEventListener("mo:invite-opened", onOpen, { once: true });
     return () => window.removeEventListener("mo:invite-opened", onOpen);
+  }, [available, start]);
+
+  // Autoplay fallback: if the letter opened but the track is still paused
+  // (autoplay was blocked), start it on the first click / tap / keypress
+  // anywhere on the page. Fires only once so the button still controls after.
+  useEffect(() => {
+    if (!available) return;
+    const onGesture = () => {
+      if (autoStartedRef.current) return;
+      if (!openedRef.current) return;
+      const audio = audioRef.current;
+      if (audio && audio.paused) {
+        autoStartedRef.current = true;
+        start();
+      }
+    };
+    const gestures = ["pointerdown", "keydown", "touchstart"];
+    gestures.forEach((g) =>
+      window.addEventListener(g, onGesture, { passive: true }),
+    );
+    return () =>
+      gestures.forEach((g) => window.removeEventListener(g, onGesture));
   }, [available, start]);
 
   const toggle = () => (playing ? stop() : start());
