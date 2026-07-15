@@ -85,6 +85,7 @@ export type Dict = {
     details: string;
     dressCode: string;
     rsvp: string;
+    guestbook: string;
     calendar: string;
     langToggle: string;
     langToggleLong: string;
@@ -152,6 +153,27 @@ export type Dict = {
     edit: string;
     requiredName: string;
   };
+  guestbook: {
+    eyebrow: string;
+    title: string;
+    intro: string;
+    nameLabel: string;
+    namePlaceholder: string;
+    messageLabel: string;
+    messagePlaceholder: string;
+    submit: string;
+    submitting: string;
+    empty: string;
+    countOne: string;
+    countMany: (n: number) => string;
+    requiredName: string;
+    requiredMessage: string;
+    charsLeft: (n: number) => string;
+  };
+  music: {
+    ariaOn: string;
+    ariaOff: string;
+  };
   calendar: {
     eyebrow: string;
     title: string;
@@ -215,6 +237,7 @@ export const CONTENT: Record<Lang, Dict> = {
       details: "Details",
       dressCode: "Dress Code",
       rsvp: "RSVP",
+      guestbook: "Wishes",
       calendar: "Calendar",
       langToggle: "العربية",
       langToggleLong: "Switch to Arabic",
@@ -290,6 +313,27 @@ export const CONTENT: Record<Lang, Dict> = {
       edit: "Edit response",
       requiredName: "Please enter your name to continue.",
     },
+    guestbook: {
+      eyebrow: "Guestbook",
+      title: "Leave a Wish",
+      intro: "Share a note, a blessing, or a memory for Marina & Onur.",
+      nameLabel: "Your Name",
+      namePlaceholder: "Enter your name",
+      messageLabel: "Your Wish",
+      messagePlaceholder: "Write a few words for the couple…",
+      submit: "Sign the Guestbook",
+      submitting: "Saving…",
+      empty: "Be the first to leave a wish.",
+      countOne: "1 wish",
+      countMany: (n) => `${n} wishes`,
+      requiredName: "Please enter your name.",
+      requiredMessage: "Please write a short wish.",
+      charsLeft: (n) => `${n} characters left`,
+    },
+    music: {
+      ariaOn: "Mute ambient music",
+      ariaOff: "Play ambient music",
+    },
     calendar: {
       eyebrow: "Save the Date",
       title: "Add to Calendar",
@@ -351,6 +395,7 @@ export const CONTENT: Record<Lang, Dict> = {
       details: "التفاصيل",
       dressCode: "ملابس",
       rsvp: "تأكيد الحضور",
+      guestbook: "تمنيات",
       calendar: "التقويم",
       langToggle: "English",
       langToggleLong: "التبديل إلى الإنجليزية",
@@ -424,6 +469,27 @@ export const CONTENT: Record<Lang, Dict> = {
         `لقد حجزنا ${total} مقعداً لك، ${name}.`,
       edit: "تعديل الرد",
       requiredName: "من فضلك أدخل اسمك للمتابعة.",
+    },
+    guestbook: {
+      eyebrow: "دفتر الزوار",
+      title: "اترك أمنية",
+      intro: "شارك كلمة أو دعوة أو ذكرى لمارينا واونور.",
+      nameLabel: "اسمك",
+      namePlaceholder: "أدخل اسمك",
+      messageLabel: "أمنيتك",
+      messagePlaceholder: "اكتب بضع كلمات للعروسَين…",
+      submit: "وقّع دفتر الزوار",
+      submitting: "جارٍ الحفظ…",
+      empty: "كن أول من يترك أمنية.",
+      countOne: "أمنية واحدة",
+      countMany: (n) => `${n} أمنية`,
+      requiredName: "من فضلك أدخل اسمك.",
+      requiredMessage: "من فضلك اكتب أمنية قصيرة.",
+      charsLeft: (n) => `متبقّى ${n} حرفاً`,
+    },
+    music: {
+      ariaOn: "كتم الموسيقى",
+      ariaOff: "تشغيل الموسيقى",
     },
     calendar: {
       eyebrow: "احفظ الموعد",

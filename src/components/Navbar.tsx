@@ -24,8 +24,9 @@ export default function Navbar() {
     { id: "story", label: t.nav.story },
     { id: "details", label: t.nav.details },
     { id: "dress", label: t.nav.dressCode },
-    { id: "calendar", label: t.nav.calendar },
     { id: "rsvp", label: t.nav.rsvp },
+    { id: "guestbook", label: t.nav.guestbook },
+    { id: "calendar", label: t.nav.calendar },
   ];
 
   const go = (id: string) => {
