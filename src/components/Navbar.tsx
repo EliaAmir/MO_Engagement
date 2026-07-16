@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useLang } from "@/components/LangProvider";
 import { scrollToTarget } from "@/components/SmoothScroll";
+import ThemeToggle from "@/components/ThemeToggle";
 import { cn } from "@/lib/utils";
 
 type NavItem = { id: string; label: string };
@@ -42,7 +43,7 @@ export default function Navbar() {
       className={cn(
         "fixed inset-x-0 top-0 z-[200] transition-all duration-700",
         scrolled
-          ? "border-b border-gold-light/15 bg-onyx/70 backdrop-blur-xl"
+          ? "border-b border-gold-light/15 bg-[var(--bar-bg)] backdrop-blur-xl"
           : "border-b border-transparent bg-transparent",
       )}
     >
@@ -79,6 +80,8 @@ export default function Navbar() {
         </ul>
 
         <div className="flex items-center gap-3">
+          <ThemeToggle />
+
           {/* Language toggle */}
           <button
             type="button"
@@ -129,7 +132,7 @@ export default function Navbar() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="overflow-hidden border-t border-gold-light/10 bg-onyx/95 backdrop-blur-xl lg:hidden"
+            className="overflow-hidden border-t border-gold-light/10 bg-[var(--bar-bg-strong)] backdrop-blur-xl lg:hidden"
           >
             <ul className="flex flex-col gap-1 px-5 py-4">
               {items.map((item) => (

@@ -108,7 +108,7 @@ export default function MusicPlayer() {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.7 }}
           transition={{ delay: 0.4, duration: 0.8, ease: easeLuxe }}
-          className="group fixed bottom-24 left-4 z-[170] grid h-12 w-12 place-items-center rounded-full border border-old-gold/45 bg-onyx/70 backdrop-blur-md transition-colors hover:border-old-gold sm:bottom-28 sm:left-6"
+          className="group fixed bottom-24 left-4 z-[170] grid h-12 w-12 place-items-center rounded-full border border-old-gold/45 bg-[var(--bar-bg)] backdrop-blur-md transition-colors hover:border-old-gold sm:bottom-28 sm:left-6"
         >
           {/* soft pulse ring when idle */}
           {!playing && (

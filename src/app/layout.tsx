@@ -90,9 +90,16 @@ export default function RootLayout({
     <html
       lang="en"
       dir="ltr"
+      data-theme="dark"
       className={`${cinzel.variable} ${cormorant.variable} ${amiri.variable} antialiased`}
     >
       <body className="min-h-dvh">
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{var t=localStorage.getItem('mo_theme_v1');if(t!=='light'&&t!=='dark'){t='dark';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();",
+          }}
+        />
         <SmoothScroll>
           <LangProvider>
             <FilmGrain />

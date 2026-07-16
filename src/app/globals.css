@@ -1,12 +1,13 @@
 @import "tailwindcss";
 
-/* ----------------------------------------------------------------------------
-   THEME TOKENS — Tailwind v4 CSS-first  ·  "MIDNIGHT & GOLD" (dark luxe)
-   Each --color-* generates utilities (bg-*, text-*, border-*, etc.)
-   Darks = midnight surfaces · golds = luminous foil · lights = text on dark
----------------------------------------------------------------------------- */
+/* ============================================================================
+   THEME TOKENS — Tailwind v4 CSS-first
+   Default = "MIDNIGHT & GOLD" (dark). Light mode overrides the same --color-*
+   variables under [data-theme="light"], so every utility (bg-*, text-*, ...)
+   flips automatically. Component-specific surfaces use the --surface-* vars.
+============================================================================ */
 @theme {
-  /* deeps / surfaces */
+  /* deeps / surfaces (dark defaults) */
   --color-jet: #06050a;
   --color-onyx: #0c0a12;
   --color-dark-choc: #15121c;
@@ -18,7 +19,7 @@
   --color-camel: #b8902f;
   --color-warm-taupe: #8c7338;
 
-  /* lights (repurposed as text on dark) */
+  /* lights (text on dark) */
   --color-cream: #f6efde;
   --color-ivory: #ece3cf;
   --color-espresso: #f2ead6;
@@ -38,15 +39,75 @@
 }
 
 /* ----------------------------------------------------------------------------
-   BASE — warm midnight with soft gold ambience + cinematic vignette
+   THEME SURFACES — dark is the default (:root). Light overrides below.
+   Unlayered so they reliably win over Tailwind's layered @theme output.
+---------------------------------------------------------------------------- */
+:root {
+  color-scheme: dark;
+  --page-bg: var(--color-onyx);
+  --page-bg-image:
+    radial-gradient(ellipse 75% 55% at 50% -8%, color-mix(in oklab, var(--color-old-gold) 16%, transparent), transparent 60%),
+    radial-gradient(ellipse 55% 45% at 100% 105%, color-mix(in oklab, var(--color-camel) 14%, transparent), transparent 58%),
+    radial-gradient(ellipse 50% 40% at -5% 30%, color-mix(in oklab, var(--color-warm-taupe) 12%, transparent), transparent 60%),
+    radial-gradient(ellipse 125% 110% at 50% 50%, transparent 55%, color-mix(in oklab, var(--color-jet) 70%, transparent));
+  --grain-blend: screen;
+  --surface-envelope: linear-gradient(160deg, #241a2a, #14101b);
+  --surface-envelope-2: linear-gradient(200deg, #1b1424, #241a2a);
+  --surface-card: linear-gradient(170deg, var(--color-dark-choc), #100c14 60%, var(--color-onyx));
+  --surface-card-edge:
+    0 45px 90px -40px rgba(0, 0, 0, 0.7),
+    inset 0 0 0 1px color-mix(in oklab, var(--color-old-gold) 55%, transparent),
+    inset 0 0 0 7px color-mix(in oklab, var(--color-old-gold) 8%, transparent);
+  --surface-seal: radial-gradient(circle at 35% 30%, var(--color-wine), #2a0c16 75%);
+  --panel-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018));
+  --ghost-bg: rgba(255, 255, 255, 0.03);
+  --bar-bg: color-mix(in oklab, var(--color-onyx) 70%, transparent);
+  --bar-bg-strong: color-mix(in oklab, var(--color-onyx) 95%, transparent);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  /* light palette overrides (original cream / espresso / gold) */
+  --color-ivory: #eae0d5;
+  --color-warm-taupe: #c8a882;
+  --color-camel: #c09860;
+  --color-old-gold: #a07820;
+  --color-gold-light: #c6a84b;
+  --color-gold-shimmer: #d4a843;
+  --color-mocha: #4a2c18;
+  --color-espresso: #3a1e10;
+  --color-dark-choc: #2c1408;
+  --color-onyx: #1a1a1a;
+  --color-jet: #0a0a0a;
+  --color-cream: #f5efe6;
+  --color-wine: #5a200d;
+
+  --page-bg: #f7f2ea;
+  --page-bg-image:
+    radial-gradient(ellipse 75% 55% at 50% -8%, color-mix(in oklab, var(--color-warm-taupe) 38%, transparent), transparent 62%),
+    radial-gradient(ellipse 55% 45% at 100% 105%, color-mix(in oklab, var(--color-camel) 26%, transparent), transparent 58%),
+    radial-gradient(ellipse 50% 40% at -5% 30%, color-mix(in oklab, var(--color-gold-light) 16%, transparent), transparent 60%);
+  --grain-blend: multiply;
+  --surface-envelope: linear-gradient(160deg, var(--color-warm-taupe), var(--color-camel));
+  --surface-envelope-2: linear-gradient(200deg, var(--color-camel), var(--color-warm-taupe));
+  --surface-card: linear-gradient(170deg, #fdfaf3, #f6efe2 60%, var(--color-ivory));
+  --surface-card-edge:
+    0 45px 90px -40px color-mix(in oklab, var(--color-mocha) 55%, transparent),
+    inset 0 0 0 1px color-mix(in oklab, var(--color-old-gold) 45%, transparent),
+    inset 0 0 0 7px rgba(253, 250, 243, 0.7);
+  --surface-seal: radial-gradient(circle at 35% 30%, var(--color-mocha), var(--color-espresso) 75%);
+  --panel-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(245, 239, 230, 0.5));
+  --ghost-bg: rgba(255, 255, 255, 0.35);
+  --bar-bg: color-mix(in oklab, var(--color-cream) 82%, transparent);
+  --bar-bg-strong: color-mix(in oklab, var(--color-cream) 96%, transparent);
+}
+
+/* ----------------------------------------------------------------------------
+   BASE
 ---------------------------------------------------------------------------- */
 @layer base {
-  :root {
-    color-scheme: dark;
-  }
-
   * {
-    border-color: color-mix(in oklab, var(--color-camel) 22%, transparent);
+    border-color: color-mix(in oklab, var(--color-camel) 24%, transparent);
   }
 
   html {
@@ -57,34 +118,12 @@
   }
 
   body {
-    background-color: var(--color-onyx);
+    background-color: var(--page-bg);
     color: var(--color-espresso);
     font-family: var(--font-serif);
     font-weight: 400;
-    /* `clip` (not `hidden`) so we don't create a vertical scroll container
-       that would break position: sticky inside the envelope section. */
     overflow-x: clip;
-    background-image:
-      radial-gradient(
-        ellipse 75% 55% at 50% -8%,
-        color-mix(in oklab, var(--color-old-gold) 16%, transparent),
-        transparent 60%
-      ),
-      radial-gradient(
-        ellipse 55% 45% at 100% 105%,
-        color-mix(in oklab, var(--color-camel) 14%, transparent),
-        transparent 58%
-      ),
-      radial-gradient(
-        ellipse 50% 40% at -5% 30%,
-        color-mix(in oklab, var(--color-warm-taupe) 12%, transparent),
-        transparent 60%
-      ),
-      radial-gradient(
-        ellipse 125% 110% at 50% 50%,
-        transparent 55%,
-        color-mix(in oklab, var(--color-jet) 70%, transparent)
-      );
+    background-image: var(--page-bg-image);
     background-attachment: fixed;
   }
 
@@ -104,7 +143,7 @@
   }
 
   ::selection {
-    background: color-mix(in oklab, var(--color-gold-shimmer) 60%, transparent);
+    background: color-mix(in oklab, var(--color-gold-shimmer) 50%, transparent);
     color: var(--color-jet);
   }
 
@@ -126,7 +165,7 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-gold-light);
+    outline: 2px solid var(--color-old-gold);
     outline-offset: 3px;
     border-radius: 2px;
   }
@@ -166,7 +205,6 @@ html.lenis body {
    UTILITIES & COMPONENTS
 ---------------------------------------------------------------------------- */
 @layer components {
-  /* Luminous gold-foil gradient text — reads bright on midnight */
   .text-gradient-gold {
     background: linear-gradient(
       105deg,
@@ -214,22 +252,19 @@ html.lenis body {
     );
   }
 
-  /* Dark glass panel with a hairline gold edge */
+  .film-grain {
+    mix-blend-mode: var(--grain-blend);
+  }
+
   .panel {
-    background:
-      linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.045),
-        rgba(255, 255, 255, 0.018)
-      );
+    background: var(--panel-bg);
     border: 1px solid color-mix(in oklab, var(--color-old-gold) 30%, transparent);
     box-shadow:
-      0 30px 70px -45px rgba(0, 0, 0, 0.85),
-      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      0 30px 70px -45px rgba(0, 0, 0, 0.55),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(10px);
   }
 
-  /* Gold-foil primary CTA — dark ink on luminous gold */
   .btn-gold {
     font-family: var(--font-display);
     text-transform: uppercase;
@@ -260,16 +295,16 @@ html.lenis body {
     letter-spacing: 0.22em;
     font-size: 0.72rem;
     padding: 0.95rem 2rem;
-    color: var(--color-cream);
+    color: var(--color-espresso);
     border: 1px solid color-mix(in oklab, var(--color-old-gold) 42%, transparent);
     border-radius: 2px;
     transition: all 0.5s var(--ease-luxe);
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--ghost-bg);
   }
   .btn-ghost:hover {
-    border-color: var(--color-gold-shimmer);
-    color: var(--color-gold-light);
-    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--color-old-gold);
+    color: var(--color-old-gold);
+    background: var(--ghost-bg);
     transform: translateY(-2px);
   }
 }
@@ -356,10 +391,6 @@ html.lenis body {
 
 /* ----------------------------------------------------------------------------
    ARABIC TYPOGRAPHY
-   These rules are deliberately UNLAYERED so they win over Tailwind's
-   @layer utilities. Arabic is a cursive script: inter-letter tracking
-   breaks the joins, and it needs looser leading than Latin to avoid
-   clipping ascenders/descenders.
 ---------------------------------------------------------------------------- */
 html[lang="ar"] {
   letter-spacing: 0;

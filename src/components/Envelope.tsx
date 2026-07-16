@@ -104,7 +104,7 @@ export default function Envelope() {
                   y: holderY,
                   opacity: bodyOpacity,
                   background:
-                    "linear-gradient(160deg, #241a2a, #14101b)",
+                    "var(--surface-envelope)",
                   boxShadow:
                     "0 45px 90px -35px rgba(0,0,0,0.7), inset 0 0 0 1px color-mix(in oklab, var(--color-old-gold) 45%, transparent)",
                 }}
@@ -137,7 +137,7 @@ export default function Envelope() {
                   y: holderY,
                   opacity: bodyOpacity,
                   background:
-                    "linear-gradient(200deg, #1b1424, #241a2a)",
+                    "var(--surface-envelope-2)",
                   clipPath:
                     "polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%)",
                   WebkitClipPath:
@@ -180,7 +180,7 @@ export default function Envelope() {
                     className="absolute inset-0"
                     style={{
                       background:
-                        "linear-gradient(160deg, #241a2a, #14101b)",
+                        "var(--surface-envelope)",
                       clipPath: "polygon(0 0, 100% 0, 50% 100%)",
                       WebkitClipPath: "polygon(0 0, 100% 0, 50% 100%)",
                       boxShadow:
@@ -199,7 +199,7 @@ export default function Envelope() {
                       width: 96,
                       height: 96,
                       background:
-                        "radial-gradient(circle at 35% 30%, var(--color-wine), #2a0c16 75%)",
+                        "var(--surface-seal)",
                       boxShadow:
                         "0 10px 26px -8px rgba(0,0,0,0.75), inset 0 0 0 2px color-mix(in oklab, var(--color-gold-shimmer) 60%, transparent), inset 0 -6px 12px rgba(0,0,0,0.5)",
                     }}
@@ -262,9 +262,9 @@ function CardFace({ couple }: { couple: string }) {
       className="relative flex h-full w-full flex-col items-center justify-between overflow-hidden rounded-[4px] px-9 py-10 text-center"
       style={{
         background:
-          "linear-gradient(170deg, var(--color-dark-choc), #100c14 60%, var(--color-onyx))",
+          "var(--surface-card)",
         boxShadow:
-          "0 45px 90px -40px rgba(0,0,0,0.7), inset 0 0 0 1px color-mix(in oklab, var(--color-old-gold) 55%, transparent), inset 0 0 0 7px color-mix(in oklab, var(--color-old-gold) 8%, transparent)",
+          "var(--surface-card-edge)",
         color: "var(--color-espresso)",
       }}
     >

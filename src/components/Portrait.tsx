@@ -62,7 +62,7 @@ export default function Portrait() {
             className="relative rounded-[3px] p-3 sm:p-4"
             style={{
               background:
-                "linear-gradient(160deg, var(--color-dark-choc), var(--color-onyx))",
+                "var(--surface-card)",
               boxShadow:
                 "0 50px 90px -40px rgba(0,0,0,0.65), 0 0 0 1px color-mix(in oklab, var(--color-old-gold) 45%, transparent)",
             }}

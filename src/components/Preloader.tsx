@@ -62,7 +62,7 @@ export default function Preloader() {
           key="preloader"
           className="fixed inset-0 z-[10000] flex flex-col items-center justify-center"
           style={{
-            backgroundColor: "var(--color-onyx)",
+            backgroundColor: "var(--page-bg)",
           }}
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
