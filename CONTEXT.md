@@ -75,7 +75,7 @@ src/
 │   ├── DressCode.tsx     # Color swatch palette (tap-to-copy hex)
 │   ├── RSVP.tsx          # Attendance form → localStorage
 │   ├── Guestbook.tsx     # Wishes form + list → localStorage
-│   ├── Calendar.tsx      # Add-to-calendar (Google / Apple .ics / Outlook)
+│   ├── Calendar.tsx      # Add-to-calendar (Google / Apple .ics) — 2-up grid
 │   ├── CountdownStrip.tsx# Sticky countdown to the event ISO
 │   ├── Petals.tsx        # Falling petals + sparkles (respects reduced-motion)
 │   ├── MusicPlayer.tsx   # Ambient music: starts on "mo:invite-opened"; toggle mutes

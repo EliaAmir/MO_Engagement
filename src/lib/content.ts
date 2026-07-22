@@ -180,7 +180,6 @@ export type Dict = {
     intro: string;
     google: string;
     apple: string;
-    outlook: string;
     download: string;
   };
   countdown: {
@@ -340,7 +339,6 @@ export const CONTENT: Record<Lang, Dict> = {
       intro: "Keep this evening close — add it to your calendar in a single tap.",
       google: "Google Calendar",
       apple: "Apple Calendar (.ics)",
-      outlook: "Outlook",
       download: "Download .ics",
     },
     countdown: {
@@ -497,7 +495,6 @@ export const CONTENT: Record<Lang, Dict> = {
       intro: "اجعل هذه اللحظة قريبة منك — أضفها إلى تقويمك بضغطة واحدة.",
       google: "تقويم جوجل",
       apple: "تقويم آبل (.ics)",
-      outlook: "آوتلوك",
       download: "تنزيل .ics",
     },
     countdown: {

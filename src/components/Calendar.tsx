@@ -13,7 +13,7 @@ export default function Calendar() {
   const { t, lang } = useLang();
   const isAr = lang === "ar";
 
-  const { googleUrl, outlookUrl, icsContent } = useMemo(() => {
+  const { googleUrl, icsContent } = useMemo(() => {
     const startDate = new Date(EVENT.iso);
     const endDate = new Date(startDate.getTime() + DURATION_HOURS * 3600_000);
 
@@ -21,7 +21,7 @@ export default function Calendar() {
     const endStamp = toIcsStamp(endDate);
 
     const title = EVENT.calendarTitle;
-    const description = `${EVENT.type[lang]} Â· ${EVENT.dateLong[lang]} Â· ${EVENT.time[lang]}`;
+    const description = `${EVENT.type[lang]} · ${EVENT.dateLong[lang]} · ${EVENT.time[lang]}`;
     const location = `${EVENT.venue[lang]}, ${EVENT.address[lang]}`;
 
     const google = new URL("https://calendar.google.com/calendar/render");
@@ -30,13 +30,6 @@ export default function Calendar() {
     google.searchParams.set("dates", `${startStamp}/${endStamp}`);
     google.searchParams.set("details", description);
     google.searchParams.set("location", location);
-
-    const outlook = new URL("https://outlook.live.com/calendar/0/deeplink/compose");
-    outlook.searchParams.set("subject", title);
-    outlook.searchParams.set("startdt", `${startDate.toISOString()}`);
-    outlook.searchParams.set("enddt", `${endDate.toISOString()}`);
-    outlook.searchParams.set("body", description);
-    outlook.searchParams.set("location", location);
 
     const lines = [
       "BEGIN:VCALENDAR",
@@ -59,7 +52,6 @@ export default function Calendar() {
 
     return {
       googleUrl: google.toString(),
-      outlookUrl: outlook.toString(),
       icsContent: lines.map(foldIcs).join("\r\n"),
     };
   }, [lang]);
@@ -89,13 +81,6 @@ export default function Calendar() {
       label: t.calendar.apple,
       onClick: downloadIcs,
       icon: AppleIcon,
-    },
-    {
-      key: "outlook",
-      label: t.calendar.outlook,
-      href: outlookUrl,
-      external: true,
-      icon: OutlookIcon,
     },
   ] as const;
 
@@ -138,7 +123,7 @@ export default function Calendar() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 1, ease: easeLuxe }}
-          className="mt-12 grid gap-4 sm:grid-cols-3"
+          className="mt-12 grid gap-4 sm:grid-cols-2"
         >
           {options.map((opt) => {
             const Icon = opt.icon;
@@ -173,7 +158,7 @@ export default function Calendar() {
         </motion.div>
 
         <p className="mt-6 text-center font-serif text-xs uppercase tracking-[0.24em] text-mocha/40">
-          {EVENT.dateLong[lang]} Â· {EVENT.time[lang]}
+          {EVENT.dateLong[lang]} · {EVENT.time[lang]}
         </p>
       </div>
     </section>
@@ -196,15 +181,6 @@ function AppleIcon() {
         d="M17.5 13.6c0-3 2.4-4.4 2.5-4.5-1.4-2-3.5-2.3-4.3-2.3-1.8-.2-3.5 1.1-4.5 1.1-.9 0-2.3-1-3.8-1-2 0-3.8 1.1-4.8 2.9-2 3.6-.5 8.8 1.5 11.7 1 1.4 2.1 3 3.6 2.9 1.4-.1 2-.9 3.7-.9s2.2.9 3.7.9c1.5 0 2.5-1.4 3.5-2.8.7-1 1.3-2.2 1.7-3.4-3.6-1.4-3.8-5.4-.8-6.6z"
         fill="currentColor"
       />
-    </svg>
-  );
-}
-function OutlookIcon() {
-  return (
-    <svg width="28" height="26" viewBox="0 0 28 26" fill="none">
-      <rect x="2" y="5" width="14" height="16" rx="1.5" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M12 9.5h12v8H14" stroke="currentColor" strokeWidth="1.4" />
-      <circle cx="9" cy="13" r="2.4" stroke="currentColor" strokeWidth="1.4" />
     </svg>
   );
 }
