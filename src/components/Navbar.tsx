@@ -52,7 +52,7 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => scrollToTarget(0)}
-          aria-label="Onur & Marina â€” back to top"
+          aria-label="Onur & Marina — back to top"
           className="group flex items-center gap-3"
         >
           <span className="grid h-9 w-9 place-items-center rounded-full border border-gold-light/40 font-display text-xs tracking-widest text-old-gold transition-colors group-hover:border-gold-shimmer">

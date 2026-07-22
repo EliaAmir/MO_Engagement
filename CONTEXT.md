@@ -21,7 +21,7 @@ A bilingual (English / Arabic) **digital engagement invitation** website for
 landing page plus a private admin dashboard. The aesthetic is a warm
 cream/espresso/gold **light mode** (default) with a **"Midnight & Gold" dark
 luxe** mode — toggleable via a sun/moon button. Serif typography,
-a wax-seal envelope that opens on scroll, drifting sparkles, film grain, smooth
+a four-panel paper letter that unfolds on scroll, drifting sparkles, film grain, smooth
 Lenis scroll, and motion (Framer Motion) throughout.
 
 - **Event:** Sunday, September 13, 2026 · 7:00 PM
@@ -66,11 +66,11 @@ src/
 │   ├── Cursor.tsx        # Custom cursor (z-[10001], above preloader)
 │   ├── FilmGrain.tsx     # Full-screen grain overlay (.film-grain uses --grain-blend)
 │   ├── Preloader.tsx     # Loader gate → "Open the invitation" button (click unlocks audio)
-│   ├── Envelope.tsx      # Wax-seal envelope scroll-open + invitation card; fires "mo:invite-opened"
+│   ├── Envelope.tsx      # ★ Four-panel paper letter unfold + full-screen letter
+│   │                     #   (copy + couple.jpeg); fires "mo:invite-opened"
 │   ├── Navbar.tsx        # Section nav + ThemeToggle + language toggle
 │   ├── Hero.tsx          # Couple names + CTA
 │   ├── Story.tsx         # Narrative copy block
-│   ├── Portrait.tsx      # Couple photo + quote (frame uses --surface-card)
 │   ├── Details.tsx       # When/where + Google Maps links
 │   ├── DressCode.tsx     # Color swatch palette (tap-to-copy hex)
 │   ├── RSVP.tsx          # Attendance form → localStorage
@@ -121,6 +121,30 @@ place (`content.ts`) if the date ever moves.
 was corrected. If `iso` ever moves, update those six strings by hand to match.
 
 ---
+
+## 5b. The intro letter (`Envelope.tsx`)
+
+Scroll-driven, `h-[320vh]` with a `sticky top-0` viewport. Four panels cover the
+screen and fold outward from the centre crease in **two stages** — left/right
+flaps first (`0.08→0.44`), then top/bottom caps (`0.36→0.70`) — revealing a
+full-screen letter with the invitation copy and `couple.jpeg` (`next/image`,
+`fill`, `loading="eager"`; **`priority` is deprecated in Next 16**). A monogram
+seal sits where the four folds meet and fades as they part.
+
+- **`mo:invite-opened`** fires exactly once (guarded by a ref) when scroll
+  progress crosses `OPEN_AT = 0.6`. `MusicPlayer` listens for it — do not rename
+  or drop this event.
+- **Reduced motion**: `prefers-reduced-motion` is resolved in an effect (not at
+  render) so SSR output stays stable. When set, the panels are not rendered at
+  all, the section collapses to `min-h-dvh`, the letter simply fades in, and
+  `mo:invite-opened` fires on mount instead.
+- The letter is a 2-col grid at `lg` (photo / copy) that mirrors under RTL via
+  `dir`; below `lg` it stacks. The photo is sized `h-[26dvh] aspect-[4/5]` on
+  mobile so it can never push the copy out of a 100dvh sticky viewport.
+- `Portrait.tsx` was **deleted** — its photo now lives in the letter. Its copy
+  block (`portrait.*`, incl. the "Two lives, one forever" quote) was removed from
+  `content.ts`; `envelope.photoAlt` replaced `portrait.alt`. Nothing links to
+  `#portrait`.
 
 ## 6. Admin / RSVP dashboard
 

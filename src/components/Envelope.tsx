@@ -1,330 +1,275 @@
-﻿"use client";
+"use client";
 
-import { useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { motion, useMotionValueEvent, useScroll, useSpring, useTransform } from "motion/react";
 import { useLang } from "@/components/LangProvider";
 import { EVENT } from "@/lib/content";
 
-/* Fixed design size (px). The whole scene is responsively scaled by a
-   CSS transform on the outer wrapper, keeping the scroll math consistent. */
-const ENVELOPE_W = 400;
-const ENVELOPE_H = 280;
-const CARD_W = 376;
-const CARD_H = 472;
+const easeLuxe = [0.16, 1, 0.3, 1] as const;
+const PHOTO_SRC = "/couple.jpeg";
+const OPEN_AT = 0.6;
 
 export default function Envelope() {
   const { t, lang } = useLang();
   const sectionRef = useRef<HTMLElement>(null);
+  const [reduce, setReduce] = useState(false);
+
+  useEffect(() => {
+    // Browser-only media query; resolved after mount so SSR output stays stable.
+    /* eslint-disable react-hooks/set-state-in-effect */
+    setReduce(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    /* eslint-enable react-hooks/set-state-in-effect */
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end end"],
   });
 
-  // Weighted, cinematic scrubbing.
   const p = useSpring(scrollYProgress, {
     stiffness: 110,
     damping: 30,
     mass: 0.6,
   });
 
-  /* ---- Wax seal: cracks, scales, fades ---- */
-  const sealScale = useTransform(p, [0, 0.1, 0.2], [1, 1.22, 0.55]);
-  const sealOpacity = useTransform(p, [0, 0.1, 0.2], [1, 1, 0]);
-  const sealRotate = useTransform(p, [0, 0.2], [0, 16]);
-  const crackOpacity = useTransform(p, [0.04, 0.14, 0.2], [0, 1, 0]);
+  /* Side flaps part first, then the top/bottom caps — a letter folded in
+     quarters, opening outward from the centre crease. */
+  const sideRotate = useTransform(p, [0.08, 0.44], [0, 104]);
+  const sideRotateNeg = useTransform(p, [0.08, 0.44], [0, -104]);
+  const sideFade = useTransform(p, [0.3, 0.48], [1, 0]);
+  const capRotate = useTransform(p, [0.36, 0.7], [0, 104]);
+  const capRotateNeg = useTransform(p, [0.36, 0.7], [0, -104]);
+  const capFade = useTransform(p, [0.58, 0.74], [1, 0]);
 
-  /* ---- Flap: swings open, recedes behind the card ---- */
-  const flapRotate = useTransform(p, [0.16, 0.46], [0, -166]);
-  const flapZ = useTransform(p, [0.16, 0.46], [12, -16]);
+  const sealScale = useTransform(p, [0, 0.1, 0.2], [1, 1.18, 0.4]);
+  const sealOpacity = useTransform(p, [0, 0.08, 0.18], [1, 1, 0]);
 
-  /* ---- Card: lifts gently, stays central & readable ---- */
-  const cardY = useTransform(p, [0.4, 0.84], [0, -60]);
-  const cardScale = useTransform(p, [0.4, 0.84], [1, 1.04]);
-  const cardOpacity = useTransform(p, [0.36, 0.42], [0, 1]);
+  const letterOpacity = useTransform(p, [0.42, 0.62], [0, 1]);
+  const letterScale = useTransform(p, [0.42, 0.86], [0.94, 1]);
 
-  /* ---- Holder: sinks down so both card + envelope stay visible ---- */
-  const holderY = useTransform(p, [0.36, 0.92], [0, 180]);
-
-  /* ---- Envelope body: fades as it sinks away ---- */
-  const bodyOpacity = useTransform(p, [0.7, 0.95], [1, 0]);
-
-  /* ---- Signal the MusicPlayer once the invitation letter is open ---- */
-  const openedRef = useRef(false);
-  useMotionValueEvent(p, "change", (v) => {
-    if (!openedRef.current && v >= 0.5) {
-      openedRef.current = true;
-      window.dispatchEvent(new Event("mo:invite-opened"));
-    }
-  });
-
-  /* ---- UI ---- */
   const hintOpacity = useTransform(p, [0, 0.05, 0.12], [0.95, 0.95, 0]);
   const hintY = useTransform(p, [0, 0.12], [0, 12]);
 
+  /* ---- Signal the MusicPlayer once the letter is open (exactly once) ---- */
+  const openedRef = useRef(false);
+  const fireOpened = useCallback(() => {
+    if (openedRef.current) return;
+    openedRef.current = true;
+    window.dispatchEvent(new Event("mo:invite-opened"));
+  }, []);
+
+  useMotionValueEvent(p, "change", (v) => {
+    if (!reduce && v >= OPEN_AT) fireOpened();
+  });
+
+  useEffect(() => {
+    if (reduce) fireOpened();
+  }, [reduce, fireOpened]);
+
   const couple = lang === "ar" ? EVENT.couple.ar : EVENT.couple.en;
+  const dir = lang === "ar" ? "rtl" : "ltr";
 
   return (
     <section
       ref={sectionRef}
       id="envelope"
       aria-label={t.preloader.enter}
-      className="relative h-[340vh]"
+      className={reduce ? "relative" : "relative h-[320vh]"}
     >
-      <div className="sticky top-0 grid h-dvh place-items-center overflow-hidden">
+      <div
+        className={
+          reduce
+            ? "relative grid min-h-dvh place-items-center overflow-hidden px-6 py-24"
+            : "sticky top-0 grid h-dvh place-items-center overflow-hidden"
+        }
+      >
         {/* ambient champagne glow */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse 60% 50% at 50% 55%, color-mix(in oklab, var(--color-warm-taupe) 50%, transparent), transparent 70%)",
+              "radial-gradient(ellipse 60% 50% at 50% 50%, color-mix(in oklab, var(--color-warm-taupe) 42%, transparent), transparent 70%)",
           }}
         />
 
-        {/* responsive scale wrapper (separate from the entrance transform) */}
-        <div className="relative scale-[0.8] sm:scale-95 lg:scale-105">
+        {/* ---- The letter ---- */}
         <motion.div
-          initial={{ opacity: 0, y: 26 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 1.3, ease: [0.16, 1, 0.3, 1] }}
-          className="relative"
+          style={reduce ? undefined : { opacity: letterOpacity, scale: letterScale }}
+          initial={reduce ? { opacity: 0 } : undefined}
+          animate={reduce ? { opacity: 1 } : undefined}
+          transition={reduce ? { duration: 0.8, ease: easeLuxe } : undefined}
+          className="relative z-10 w-full px-5 sm:px-8"
         >
-          <div className="perspective-near">
-            <div
-              className="preserve-3d relative"
-              style={{ width: ENVELOPE_W, height: ENVELOPE_H }}
-            >
-              {/* ---- Back panel (champagne) ---- */}
-              <motion.div
-                aria-hidden
-                className="absolute inset-0 rounded-[6px]"
-                style={{
-                  z: -8,
-                  y: holderY,
-                  opacity: bodyOpacity,
-                  background:
-                    "var(--surface-envelope)",
-                  boxShadow:
-                    "0 45px 90px -35px rgba(0,0,0,0.7), inset 0 0 0 1px color-mix(in oklab, var(--color-old-gold) 45%, transparent)",
-                }}
-              />
+          <div
+            dir={dir}
+            className="mx-auto grid w-full max-w-5xl items-center gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)] lg:gap-14"
+          >
+            {/* photo */}
+            <figure className="relative mx-auto aspect-[4/5] h-[26dvh] w-auto lg:h-auto lg:w-full">
+              <div
+                className="relative h-full w-full overflow-hidden rounded-[3px]"
+                style={{ boxShadow: "var(--surface-card-edge)" }}
+              >
+                <Image
+                  src={PHOTO_SRC}
+                  alt={t.envelope.photoAlt}
+                  fill
+                  sizes="(max-width: 1024px) 60vw, 32vw"
+                  className="object-cover"
+                  loading="eager"
+                />
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(170deg, color-mix(in oklab, var(--color-old-gold) 14%, transparent), transparent 45%, color-mix(in oklab, var(--color-jet) 40%, transparent))",
+                  }}
+                />
+              </div>
+            </figure>
 
-              {/* ---- Invitation card ---- */}
-              <motion.div
-                className="absolute"
+            {/* copy */}
+            <div className="flex flex-col items-center gap-3 text-center lg:items-start lg:gap-4 lg:text-start">
+              <p className="font-serif text-[0.9rem] italic leading-snug text-mocha/75">
+                {t.envelope.cardEyebrow}
+              </p>
+              <p className="font-display text-[0.72rem] uppercase tracking-[0.3em] text-old-gold sm:text-[0.78rem]">
+                {t.envelope.cardHeadline}
+              </p>
+
+              <span className="font-display text-[0.68rem] uppercase tracking-[0.26em] text-mocha/65 sm:text-xs">
+                {t.envelope.cardTo}
+              </span>
+              <h2
+                className="text-balance font-display text-[2.4rem] font-semibold leading-[1.05] tracking-[0.03em] sm:text-[3.2rem] lg:text-[3.8rem]"
                 style={{
-                  z: 0,
-                  width: CARD_W,
-                  height: CARD_H,
-                  left: "50%",
-                  bottom: 0,
-                  marginLeft: -CARD_W / 2,
-                  y: cardY,
-                  scale: cardScale,
-                  opacity: cardOpacity,
+                  background:
+                    "linear-gradient(100deg, var(--color-gold-shimmer), var(--color-old-gold) 50%, var(--color-gold-shimmer))",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  color: "transparent",
                 }}
               >
-                <CardFace couple={couple} />
-              </motion.div>
+                {couple}
+              </h2>
 
-              {/* ---- Front pocket (throat) ---- */}
-              <motion.div
-                aria-hidden
-                className="absolute inset-0 rounded-[6px]"
-                style={{
-                  z: 8,
-                  y: holderY,
-                  opacity: bodyOpacity,
-                  background:
-                    "var(--surface-envelope-2)",
-                  clipPath:
-                    "polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%)",
-                  WebkitClipPath:
-                    "polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%)",
-                  boxShadow:
-                    "inset 0 0 0 1px color-mix(in oklab, var(--color-old-gold) 30%, transparent)",
-                }}
-              />
-              {/* throat shadow line */}
-              <motion.div
-                aria-hidden
-                className="absolute inset-0"
-                style={{
-                  z: 9,
-                  y: holderY,
-                  opacity: bodyOpacity,
-                  background:
-                    "linear-gradient(to bottom, transparent 0%, color-mix(in oklab, var(--color-jet) 55%, transparent) 58%, transparent 62%)",
-                  clipPath:
-                    "polygon(0 0, 50% 58%, 100% 0, 100% 64%, 50% 70%, 0 64%)",
-                  WebkitClipPath:
-                    "polygon(0 0, 50% 58%, 100% 0, 100% 64%, 50% 70%, 0 64%)",
-                }}
-              />
+              <span className="flex w-full items-center gap-3 py-1">
+                <span className="hairline flex-1" />
+                <span className="font-display text-base text-old-gold">&amp;</span>
+                <span className="hairline flex-1" />
+              </span>
 
-              {/* ---- Closing flap (rotates open) ---- */}
-              <motion.div
-                aria-hidden
-                className="absolute left-0 top-0 origin-top preserve-3d"
-                style={{
-                  width: ENVELOPE_W,
-                  height: ENVELOPE_H * 0.56,
-                  rotateX: flapRotate,
-                  y: holderY,
-                  z: flapZ,
-                  opacity: bodyOpacity,
-                }}
-              >
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      background:
-                        "var(--surface-envelope)",
-                      clipPath: "polygon(0 0, 100% 0, 50% 100%)",
-                      WebkitClipPath: "polygon(0 0, 100% 0, 50% 100%)",
-                      boxShadow:
-                        "inset 0 0 0 1px color-mix(in oklab, var(--color-old-gold) 32%, transparent)",
-                    }}
-                  />
-
-                {/* Wax seal (deep mocha, gold ring) */}
-                <motion.div
-                  className="absolute left-1/2 top-full -translate-x-1/2 -translate-y-[58%]"
-                  style={{ scale: sealScale, opacity: sealOpacity, rotate: sealRotate }}
-                >
-                  <div
-                    className="grid place-items-center rounded-full"
-                    style={{
-                      width: 96,
-                      height: 96,
-                      background:
-                        "var(--surface-seal)",
-                      boxShadow:
-                        "0 10px 26px -8px rgba(0,0,0,0.75), inset 0 0 0 2px color-mix(in oklab, var(--color-gold-shimmer) 60%, transparent), inset 0 -6px 12px rgba(0,0,0,0.5)",
-                    }}
-                  >
-                    <span className="font-display text-base tracking-[0.14em] text-cream/90">
-                      {t.envelope.sealLabel}
-                    </span>
-                    {/* crack lines */}
-                    <motion.div
-                      className="pointer-events-none absolute inset-0"
-                      style={{ opacity: crackOpacity }}
-                    >
-                      <span className="absolute left-1/2 top-1/2 h-[2px] w-[88px] origin-center -translate-x-1/2 -translate-y-1/2 rotate-[24deg] bg-cream/55" />
-                      <span className="absolute left-1/2 top-1/2 h-[2px] w-[78px] origin-center -translate-x-1/2 -translate-y-1/2 -rotate-[28deg] bg-cream/55" />
-                    </motion.div>
-                  </div>
-                </motion.div>
-              </motion.div>
+              <p className="text-balance font-serif text-[1rem] leading-relaxed text-mocha/90 sm:text-[1.1rem]">
+                {t.envelope.cardBody}
+              </p>
+              <p className="font-display text-[0.66rem] uppercase tracking-[0.2em] text-mocha/70 sm:text-[0.7rem]">
+                {t.envelope.cardSignoff}
+              </p>
             </div>
           </div>
         </motion.div>
-        </div>
+
+        {/* ---- Folding paper panels ---- */}
+        {!reduce && (
+          <div aria-hidden className="perspective-far pointer-events-none absolute inset-0 z-20">
+            <div className="preserve-3d relative h-full w-full">
+              {/* top cap */}
+              <motion.div
+                className="absolute inset-x-0 top-0 h-1/2 origin-top"
+                style={{
+                  rotateX: capRotateNeg,
+                  opacity: capFade,
+                  background: "var(--surface-envelope)",
+                  boxShadow:
+                    "inset 0 -1px 0 color-mix(in oklab, var(--color-old-gold) 45%, transparent)",
+                }}
+              />
+              {/* bottom cap */}
+              <motion.div
+                className="absolute inset-x-0 bottom-0 h-1/2 origin-bottom"
+                style={{
+                  rotateX: capRotate,
+                  opacity: capFade,
+                  background: "var(--surface-envelope)",
+                  boxShadow:
+                    "inset 0 1px 0 color-mix(in oklab, var(--color-old-gold) 45%, transparent)",
+                }}
+              />
+              {/* left flap */}
+              <motion.div
+                className="absolute inset-y-0 left-0 z-10 w-1/2 origin-left"
+                style={{
+                  rotateY: sideRotate,
+                  opacity: sideFade,
+                  background: "var(--surface-envelope-2)",
+                  boxShadow:
+                    "inset -1px 0 0 color-mix(in oklab, var(--color-old-gold) 45%, transparent)",
+                }}
+              />
+              {/* right flap */}
+              <motion.div
+                className="absolute inset-y-0 right-0 z-10 w-1/2 origin-right"
+                style={{
+                  rotateY: sideRotateNeg,
+                  opacity: sideFade,
+                  background: "var(--surface-envelope-2)",
+                  boxShadow:
+                    "inset 1px 0 0 color-mix(in oklab, var(--color-old-gold) 45%, transparent)",
+                }}
+              />
+
+              {/* monogram seal at the meeting point of the four folds */}
+              <motion.div
+                className="absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2"
+                style={{ scale: sealScale, opacity: sealOpacity }}
+              >
+                <div
+                  className="grid place-items-center rounded-full"
+                  style={{
+                    width: 92,
+                    height: 92,
+                    background: "var(--surface-seal)",
+                    boxShadow:
+                      "0 10px 26px -8px rgba(0,0,0,0.6), inset 0 0 0 2px color-mix(in oklab, var(--color-gold-shimmer) 60%, transparent)",
+                  }}
+                >
+                  <span className="font-display text-base tracking-[0.14em] text-cream/90">
+                    {t.envelope.sealLabel}
+                  </span>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        )}
 
         {/* scroll hint */}
-        <motion.div
-          style={{ opacity: hintOpacity, y: hintY }}
-          className="absolute inset-x-0 bottom-[14%] flex flex-col items-center gap-3"
-        >
-          <span className="eyebrow">{t.envelope.hint}</span>
-          <motion.span
-            aria-hidden
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-            className="text-old-gold"
+        {!reduce && (
+          <motion.div
+            style={{ opacity: hintOpacity, y: hintY }}
+            className="pointer-events-none absolute inset-x-0 bottom-[10%] z-30 flex flex-col items-center gap-3"
           >
-            <svg width="18" height="28" viewBox="0 0 18 28" fill="none">
-              <path
-                d="M9 1v25M9 26l-7-7M9 26l7-7"
-                stroke="currentColor"
-                strokeWidth="1.2"
-                strokeLinecap="round"
-              />
-            </svg>
-          </motion.span>
-        </motion.div>
-
-        <span className="sr-only">
-          {couple} — {t.envelope.cardHeadline}
-        </span>
+            <span className="eyebrow">{t.envelope.hint}</span>
+            <motion.span
+              aria-hidden
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+              className="text-old-gold"
+            >
+              <svg width="18" height="28" viewBox="0 0 18 28" fill="none">
+                <path
+                  d="M9 1v25M9 26l-7-7M9 26l7-7"
+                  stroke="currentColor"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </motion.span>
+          </motion.div>
+        )}
       </div>
     </section>
-  );
-}
-
-/* The face of the rising invitation card. */
-function CardFace({ couple }: { couple: string }) {
-  const { t, lang } = useLang();
-  return (
-    <div
-      className="relative flex h-full w-full flex-col items-center justify-between overflow-hidden rounded-[4px] px-9 py-10 text-center"
-      style={{
-        background:
-          "var(--surface-card)",
-        boxShadow:
-          "var(--surface-card-edge)",
-        color: "var(--color-espresso)",
-      }}
-    >
-      {/* gilded corners */}
-      <Corner className="left-2 top-2" />
-      <Corner className="right-2 top-2 rotate-90" />
-      <Corner className="bottom-2 left-2 -rotate-90" />
-      <Corner className="bottom-2 right-2 rotate-180" />
-
-      <p className="font-serif text-[0.85rem] italic leading-snug text-mocha/70">
-        {t.envelope.cardEyebrow}
-      </p>
-      <p className="font-display text-[0.78rem] uppercase tracking-[0.34em] text-old-gold">
-        {t.envelope.cardHeadline}
-      </p>
-
-      <div className="flex flex-col items-center gap-2">
-        <span className="font-display text-sm uppercase tracking-[0.3em] text-mocha/70">
-          {t.envelope.cardTo}
-        </span>
-        <h2
-          dir={lang === "ar" ? "rtl" : "ltr"}
-          className="text-pretty font-display text-[2.7rem] font-semibold leading-tight tracking-[0.04em]"
-          style={{
-            background:
-              "linear-gradient(100deg, var(--color-gold-shimmer), var(--color-old-gold) 50%, var(--color-gold-shimmer))",
-            WebkitBackgroundClip: "text",
-            backgroundClip: "text",
-            color: "transparent",
-          }}
-        >
-          {couple}
-        </h2>
-      </div>
-
-      <div className="flex w-full items-center gap-3">
-        <span className="hairline flex-1" />
-        <span className="font-display text-base text-old-gold">&amp;</span>
-        <span className="hairline flex-1" />
-      </div>
-
-      <p className="font-serif text-[1.02rem] leading-relaxed text-mocha/85">
-        {t.envelope.cardBody}
-      </p>
-      <p className="font-display text-[0.72rem] uppercase tracking-[0.22em] text-mocha/65">
-        {t.envelope.cardSignoff}
-      </p>
-    </div>
-  );
-}
-
-function Corner({ className }: { className?: string }) {
-  return (
-    <span
-      aria-hidden
-      className={`pointer-events-none absolute h-5 w-5 ${className ?? ""}`}
-      style={{
-        borderTop: "1px solid color-mix(in oklab, var(--color-old-gold) 60%, transparent)",
-        borderLeft: "1px solid color-mix(in oklab, var(--color-old-gold) 60%, transparent)",
-      }}
-    />
   );
 }

@@ -104,6 +104,7 @@ export type Dict = {
     cardCouple: string;
     cardBody: string;
     cardSignoff: string;
+    photoAlt: string;
   };
   hero: {
     eyebrow: string;
@@ -126,12 +127,6 @@ export type Dict = {
     addressLabel: string;
     maps: string;
     directions: string;
-  };
-  portrait: {
-    eyebrow: string;
-    quote: string;
-    caption: string;
-    alt: string;
   };
   dress: {
     eyebrow: string;
@@ -256,6 +251,7 @@ export const CONTENT: Record<Lang, Dict> = {
       cardBody:
         "Sunday, the thirteenth of September, two thousand twenty-six — at seven in the evening.",
       cardSignoff: "Dar Gardenia Wedding Halls · Tulip Hall · Cairo",
+      photoAlt: "Portrait of Onur and Marina",
     },
     hero: {
       eyebrow: "The Engagement Of",
@@ -284,12 +280,6 @@ export const CONTENT: Record<Lang, Dict> = {
       addressLabel: "Address",
       maps: "View on Map",
       directions: "Get Directions",
-    },
-    portrait: {
-      eyebrow: "Two Hearts",
-      quote: "Two lives, one forever — written in the stars, sealed on September thirteenth.",
-      caption: "Onur & Marina · 13.09.2026",
-      alt: "Portrait of Onur and Marina",
     },
     dress: {
       eyebrow: "Style Guide",
@@ -412,6 +402,7 @@ export const CONTENT: Record<Lang, Dict> = {
       cardCouple: "اونور ومارينا",
       cardBody: "الأحد، الثالث عشر من سبتمبر، ألفان وستة وعشرون — السابعة مساءً.",
       cardSignoff: "قاعات دار جاردينيا · قاعة التيوليب · القاهرة",
+      photoAlt: "صورة لاونور ومارينا",
     },
     hero: {
       eyebrow: "خطوبة",
@@ -440,12 +431,6 @@ export const CONTENT: Record<Lang, Dict> = {
       addressLabel: "العنوان",
       maps: "اعرض على الخريطة",
       directions: "احصل على الاتجاهات",
-    },
-    portrait: {
-      eyebrow: "قلبان",
-      quote: "حياتان، إلى الأبد واحدة — كُتبتا في النجوم، ووُسِمتا في الثالث عشر من سبتمبر.",
-      caption: "اونور ومارينا · ١٣٫٠٩٫٢٠٢٦",
-      alt: "صورة لاونور ومارينا",
     },
     dress: {
       eyebrow: "دليل الأناقة",

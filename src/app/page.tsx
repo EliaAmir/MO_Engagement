@@ -6,7 +6,6 @@ import MusicPlayer from "@/components/MusicPlayer";
 import Envelope from "@/components/Envelope";
 import Hero from "@/components/Hero";
 import Story from "@/components/Story";
-import Portrait from "@/components/Portrait";
 import Details from "@/components/Details";
 import DressCode from "@/components/DressCode";
 import Rsvp from "@/components/RSVP";
@@ -25,7 +24,6 @@ export default function Home() {
         <Envelope />
         <Hero />
         <Story />
-        <Portrait />
         <Details />
         <DressCode />
         <Rsvp />
