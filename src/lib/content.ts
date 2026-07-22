@@ -19,8 +19,8 @@ export const EVENT = {
   monogram: "O&M",
   type: { en: "Engagement Party", ar: "حفل الخطوبة" },
   dateLong: {
-    en: "Saturday, September 13, 2026",
-    ar: "السبت، ١٣ سبتمبر ٢٠٢٦",
+    en: "Sunday, September 13, 2026",
+    ar: "الأحد، ١٣ سبتمبر ٢٠٢٦",
   },
   dateShort: { en: "13.09.2026", ar: "١٣٫٠٩٫٢٠٢٦" },
   time: { en: "7:00 PM", ar: "الساعة ٧:٠٠ مساءً" },
@@ -230,7 +230,7 @@ export const CONTENT: Record<Lang, Dict> = {
       htmlLang: "en",
       title: "Onur & Marina — Engagement Invitation",
       description:
-        "You are cordially invited to the engagement of Onur & Marina, Saturday, September 13, 2026 at 7:00 PM, Dar Gardenia Wedding Halls, Cairo.",
+        "You are cordially invited to the engagement of Onur & Marina, Sunday, September 13, 2026 at 7:00 PM, Dar Gardenia Wedding Halls, Cairo.",
     },
     nav: {
       story: "Story",
@@ -255,7 +255,7 @@ export const CONTENT: Record<Lang, Dict> = {
       cardTo: "Request the honour of your presence as",
       cardCouple: "Onur & Marina",
       cardBody:
-        "Saturday, the thirteenth of September, two thousand twenty-six — at seven in the evening.",
+        "Sunday, the thirteenth of September, two thousand twenty-six — at seven in the evening.",
       cardSignoff: "Dar Gardenia Wedding Halls · Tulip Hall · Cairo",
     },
     hero: {
@@ -388,7 +388,7 @@ export const CONTENT: Record<Lang, Dict> = {
       htmlLang: "ar",
       title: "اونور ومارينا — دعوة الخطوبة",
       description:
-        "يسعدنا أن ندعوك لحضور خطوبة اونور ومارينا، يوم السبت ١٣ سبتمبر ٢٠٢٦ الساعة ٧:٠٠ مساءً، قاعات دار جاردينيا للأفراح، القاهرة.",
+        "يسعدنا أن ندعوك لحضور خطوبة اونور ومارينا، يوم الأحد ١٣ سبتمبر ٢٠٢٦ الساعة ٧:٠٠ مساءً، قاعات دار جاردينيا للأفراح، القاهرة.",
     },
     nav: {
       story: "قصتنا",
@@ -412,7 +412,7 @@ export const CONTENT: Record<Lang, Dict> = {
       cardHeadline: "يخطِبان",
       cardTo: "يَطْلبان شرف حضورك",
       cardCouple: "اونور ومارينا",
-      cardBody: "السبت، الثالث عشر من سبتمبر، ألفان وستة وعشرون — السابعة مساءً.",
+      cardBody: "الأحد، الثالث عشر من سبتمبر، ألفان وستة وعشرون — السابعة مساءً.",
       cardSignoff: "قاعات دار جاردينيا · قاعة التيوليب · القاهرة",
     },
     hero: {

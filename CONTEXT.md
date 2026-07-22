@@ -24,7 +24,7 @@ luxe** mode — toggleable via a sun/moon button. Serif typography,
 a wax-seal envelope that opens on scroll, falling petals, film grain, smooth
 Lenis scroll, and motion (Framer Motion) throughout.
 
-- **Event:** Saturday, September 13, 2026 · 7:00 PM
+- **Event:** Sunday, September 13, 2026 · 7:00 PM
 - **Venue:** Dar Gardenia Wedding Halls · Tulip Hall · Cairo, Egypt
 - **Audience:** Guests receive a link; the experience is intentionally rich and
   animated, not a plain text invite.
@@ -114,6 +114,11 @@ functions like `confirmation(name, total)` and `countMany(n)`.
 `EVENT.iso = "2026-09-13T19:00:00"` (local Cairo time, no offset) drives the
 `CountdownStrip` and the `.ics`/Google-calendar builders. Change it in one
 place (`content.ts`) if the date ever moves.
+
+⚠️ The **weekday is not derived** — it is baked into six display strings
+(`EVENT.dateLong` en/ar, `meta.description` en/ar, `envelope.cardBody` en/ar).
+`2026-09-13` is a **Sunday / الأحد**; the site shipped "Saturday/السبت" until it
+was corrected. If `iso` ever moves, update those six strings by hand to match.
 
 ---
 
