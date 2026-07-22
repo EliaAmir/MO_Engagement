@@ -5,7 +5,9 @@
 > and what is open/in-progress**. Keep it in sync when the architecture changes.
 
 `AGENTS.md` holds the hard rules (Next.js version caveat, do-not-run policy).
-This file holds the **soft context** (domain, structure, history, goals).
+`CLAUDE.md` holds the **task workflow** (read → plan → implement → build+lint →
+commit/push → update this file). This file holds the **soft context** (domain,
+structure, history, goals).
 
 > Note: the repo/folder is still named `Marina_Engagement`, but the couple is now
 > displayed as **Onur & Marina** (order flipped intentionally; monogram **O&M**).
