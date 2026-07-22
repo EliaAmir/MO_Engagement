@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Cinzel, Cormorant_Garamond, Amiri } from "next/font/google";
+import { Cinzel, Cormorant_Garamond, Aref_Ruqaa, Markazi_Text } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import { LangProvider } from "@/components/LangProvider";
@@ -22,12 +22,18 @@ const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
 });
 
-const amiri = Amiri({
-  subsets: ["arabic", "latin"],
+const arefRuqaa = Aref_Ruqaa({
+  subsets: ["arabic"],
   weight: ["400", "700"],
-  style: ["normal", "italic"],
   display: "swap",
-  variable: "--font-amiri",
+  variable: "--font-aref",
+});
+
+const markaziText = Markazi_Text({
+  subsets: ["arabic"],
+  weight: ["400"],
+  display: "swap",
+  variable: "--font-markazi",
 });
 
 const siteUrl =
@@ -93,7 +99,7 @@ export default function RootLayout({
       lang="en"
       dir="ltr"
       data-theme="light"
-      className={`${cinzel.variable} ${cormorant.variable} ${amiri.variable} antialiased`}
+      className={`${cinzel.variable} ${cormorant.variable} ${arefRuqaa.variable} ${markaziText.variable} antialiased`}
     >
       <body className="min-h-dvh">
         <script

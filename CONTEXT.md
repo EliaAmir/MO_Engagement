@@ -42,7 +42,7 @@ Lenis scroll, and motion (Framer Motion) throughout.
 | Styling        | **Tailwind CSS v4** (CSS-first config via `@tailwindcss/postcss`, no `tailwind.config.js` — tokens live as `@theme` in `globals.css`) |
 | Theming        | **CSS-variable light/dark** via `data-theme` on `<html>` (see §10) |
 | Language       | TypeScript (strict), ESM                                     |
-| Fonts          | `next/font/google`: Cinzel (display), Cormorant Garamond (serif), Amiri (Arabic) |
+| Fonts          | `next/font/google`: Cinzel (Latin display), Cormorant Garamond (Latin serif), **Aref Ruqaa** (Arabic display), **Markazi Text** (Arabic body) |
 | State / data   | **Client-only.** No database. RSVP + guestbook persist to `localStorage`. Lang + theme preferences in `localStorage`. |
 
 No backend, no API routes, no server actions today. Everything is static
@@ -247,7 +247,20 @@ the user sees" (light).
   rather than hardcoded, so date/venue/name edits propagate to SEO + OG tags.
   `viewport` = `themeColor: "#f7f2ea"` (the light `--page-bg`) + `colorScheme: "light dark"`
   so native form controls follow the active theme.
-- Font variables: `--font-cinzel` (display), `--font-cormorant` (serif), `--font-amiri` (Arabic).
+- Font variables: `--font-cinzel` (Latin display), `--font-cormorant` (Latin serif),
+  `--font-aref` (Aref Ruqaa), `--font-markazi` (Markazi Text).
+- **Arabic typography is switched by remapping the font *variables***, not by
+  listing selectors: an unlayered `html[lang="ar"] { --font-display: var(--font-aref);
+  --font-serif: var(--font-markazi); … }` block at the bottom of `globals.css`.
+  Because the `font-*` utilities compile to `font-family: var(--font-…)`, and
+  `.eyebrow` / `.btn-gold` / `.btn-ghost` reference those vars directly, one block
+  switches every consumer. (The old selector-list approach missed the buttons and
+  eyebrows, which fell back to Cinzel — a font with no Arabic glyphs.)
+- Neither Arabic face has an italic, so `html[lang="ar"] *` forces
+  `font-style: normal !important` alongside the existing `letter-spacing: 0 !important`,
+  suppressing synthetic oblique. Arabic has no italic convention.
+- Arabic weights loaded: Aref Ruqaa 400/700, Markazi Text 400 only — all 16
+  `font-semibold` usages in the tree sit on display/heading elements, none on body serif.
 - Animation easing reused project-wide: `const easeLuxe = [0.16, 1, 0.3, 1] as const;`
 - Bilingual-safe: numeric/date formatting uses `toLocaleDateString(locale, …)` with
   `locale = lang === "ar" ? "ar-EG" : "en-GB"`.

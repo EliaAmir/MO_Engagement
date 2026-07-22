@@ -30,7 +30,7 @@
 
   --font-display: var(--font-cinzel);
   --font-serif: var(--font-cormorant);
-  --font-arabic: var(--font-amiri);
+  --font-arabic: var(--font-markazi);
 
   --ease-luxe: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-weighted: cubic-bezier(0.65, 0, 0.35, 1);
@@ -131,14 +131,6 @@
     overflow-x: clip;
     background-image: var(--page-bg-image);
     background-attachment: fixed;
-  }
-
-  /* Arabic language: switch every font stack to Amiri */
-  html[lang="ar"] body,
-  html[lang="ar"] .font-display,
-  html[lang="ar"] .font-serif,
-  html[lang="ar"] .font-arabic {
-    font-family: var(--font-arabic);
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -418,12 +410,21 @@ html.lenis body {
 /* ----------------------------------------------------------------------------
    ARABIC TYPOGRAPHY
 ---------------------------------------------------------------------------- */
+/* Remapping the font *variables* (rather than chasing selectors) switches every
+   consumer at once — the font-* utilities, plus .eyebrow / .btn-gold / .btn-ghost
+   which reference var(--font-display) directly. Unlayered, so it wins over @theme. */
 html[lang="ar"] {
+  --font-display: var(--font-aref);
+  --font-serif: var(--font-markazi);
+  --font-arabic: var(--font-markazi);
   letter-spacing: 0;
 }
 
+/* Neither Aref Ruqaa nor Markazi Text ships an italic; Arabic has no italic
+   convention, so suppress the browser's synthetic oblique instead. */
 html[lang="ar"] * {
   letter-spacing: 0 !important;
+  font-style: normal !important;
 }
 
 html[lang="ar"] body {
