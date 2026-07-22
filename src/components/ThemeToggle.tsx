@@ -9,11 +9,11 @@ const KEY = "mo_theme_v1";
 
 export default function ThemeToggle() {
   const { lang } = useLang();
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
     const current =
-      (document.documentElement.dataset.theme as Theme | undefined) ?? "dark";
+      (document.documentElement.dataset.theme as Theme | undefined) ?? "light";
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setTheme(current);
   }, []);

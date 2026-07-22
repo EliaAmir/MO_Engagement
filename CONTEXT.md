@@ -18,9 +18,9 @@ structure, history, goals).
 
 A bilingual (English / Arabic) **digital engagement invitation** website for
 **Onur & Marina**, an engagement party in Cairo. It is a single marketing-style
-landing page plus a private admin dashboard. The aesthetic is **"Midnight &
-Gold" dark luxe** (default) with a **light mode** that restores the original
-cream/espresso/gold look — toggleable via a sun/moon button. Serif typography,
+landing page plus a private admin dashboard. The aesthetic is a warm
+cream/espresso/gold **light mode** (default) with a **"Midnight & Gold" dark
+luxe** mode — toggleable via a sun/moon button. Serif typography,
 a wax-seal envelope that opens on scroll, falling petals, film grain, smooth
 Lenis scroll, and motion (Framer Motion) throughout.
 
@@ -203,10 +203,16 @@ Candidate next steps (confirm with user before building):
 
 ## 10. Design system — light/dark theming
 
-Design tokens live in `globals.css`. **Dark ("Midnight & Gold") is the default**
-in `@theme`; **light mode** overrides the same variables under `:root[data-theme="light"]`.
-Tailwind v4 utilities reference these vars, so flipping `<html data-theme>`
-flips the whole site.
+Design tokens live in `globals.css`. The **dark** ("Midnight & Gold") values are
+the CSS base layer in `@theme` / `:root`; **light mode** overrides the same
+variables under `:root[data-theme="light"]`. Tailwind v4 utilities reference
+these vars, so flipping `<html data-theme>` flips the whole site.
+
+⚠️ **Light is the shipped default**, even though dark is the CSS base layer:
+`layout.tsx` renders `<html data-theme="light">` and the pre-paint script falls
+back to `light` when no `mo_theme_v1` is stored. A first-time visitor therefore
+paints light with no flash. Don't confuse "CSS base layer" (dark) with "default
+the user sees" (light).
 
 - ⚠️ **Token NAMES are historical, not semantic** — read the values, not the names:
   - Dark: `--color-espresso #f2ead6`, `--color-mocha #d9cdb2` are **LIGHT** (text on dark);
@@ -222,7 +228,12 @@ flips the whole site.
 - `.text-gradient-gold` = gold-foil heading; `.btn-gold` = gold bg + dark (`jet`) text;
   `.panel` = `--panel-bg` glass; `.btn-ghost` text = espresso (switches).
 - `ThemeToggle.tsx` toggles `data-theme` + persists to `mo_theme_v1`; a pre-paint
-  inline `<script>` in `layout.tsx` applies the stored theme before first paint (no FOUC).
+  inline `<script>` in `layout.tsx` applies the stored theme before first paint (no FOUC),
+  defaulting to `light`. Its `useState` seed is `light` to match the SSR attribute.
+- `layout.tsx` metadata is **derived from `content.ts`** (`CONTENT.en.meta`, `EVENT`)
+  rather than hardcoded, so date/venue/name edits propagate to SEO + OG tags.
+  `viewport` = `themeColor: "#f7f2ea"` (the light `--page-bg`) + `colorScheme: "light dark"`
+  so native form controls follow the active theme.
 - Font variables: `--font-cinzel` (display), `--font-cormorant` (serif), `--font-amiri` (Arabic).
 - Animation easing reused project-wide: `const easeLuxe = [0.16, 1, 0.3, 1] as const;`
 - Bilingual-safe: numeric/date formatting uses `toLocaleDateString(locale, …)` with

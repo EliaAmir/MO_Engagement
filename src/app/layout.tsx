@@ -1,10 +1,11 @@
-﻿import type { Metadata, Viewport } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cinzel, Cormorant_Garamond, Amiri } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import { LangProvider } from "@/components/LangProvider";
 import Cursor from "@/components/Cursor";
 import FilmGrain from "@/components/FilmGrain";
+import { CONTENT, EVENT } from "@/lib/content";
 
 const cinzel = Cinzel({
   subsets: ["latin"],
@@ -33,17 +34,20 @@ const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ??
   (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined);
 
+const en = CONTENT.en;
+const coupleEn = EVENT.couple.en;
+const whenEn = `${EVENT.dateLong.en} at ${EVENT.time.en}`;
+
 export const metadata: Metadata = {
   metadataBase: siteUrl ? new URL(siteUrl) : undefined,
   title: {
-    default: "Onur & Marina â€” Engagement Invitation",
-    template: "%s Â· Onur & Marina",
+    default: en.meta.title,
+    template: `%s · ${coupleEn}`,
   },
-  description:
-    "You are cordially invited to the engagement of Onur & Marina, Saturday, September 13, 2026 at 7:00 PM, Dar Gardenia Wedding Halls, Cairo.",
-  applicationName: "Onur & Marina Engagement",
-  authors: [{ name: "Onur & Marina" }],
-  creator: "Onur & Marina",
+  description: en.meta.description,
+  applicationName: `${coupleEn} Engagement`,
+  authors: [{ name: coupleEn }],
+  creator: coupleEn,
   keywords: [
     "Onur and Marina",
     "engagement",
@@ -61,24 +65,22 @@ export const metadata: Metadata = {
     locale: "en_US",
     alternateLocale: "ar_EG",
     url: siteUrl ? `${siteUrl}/` : "/",
-    siteName: "Onur & Marina â€” Engagement",
-    title: "Onur & Marina â€” Engagement Invitation",
-    description:
-      "Saturday, September 13, 2026 at 7:00 PM Â· Dar Gardenia Wedding Halls, Tulip Hall, Cairo.",
+    siteName: `${coupleEn} — Engagement`,
+    title: en.meta.title,
+    description: `${whenEn} · ${EVENT.venue.en}, ${EVENT.hall.en}, Cairo.`,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Onur & Marina â€” Engagement Invitation",
-    description:
-      "Saturday, September 13, 2026 at 7:00 PM Â· Dar Gardenia Wedding Halls, Cairo.",
+    title: en.meta.title,
+    description: `${whenEn} · ${EVENT.venue.en}, Cairo.`,
   },
   category: "event",
   robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0A0A0A",
-  colorScheme: "dark",
+  themeColor: "#f7f2ea",
+  colorScheme: "light dark",
   width: "device-width",
   initialScale: 1,
 };
@@ -90,14 +92,14 @@ export default function RootLayout({
     <html
       lang="en"
       dir="ltr"
-      data-theme="dark"
+      data-theme="light"
       className={`${cinzel.variable} ${cormorant.variable} ${amiri.variable} antialiased`}
     >
       <body className="min-h-dvh">
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "(function(){try{var t=localStorage.getItem('mo_theme_v1');if(t!=='light'&&t!=='dark'){t='dark';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();",
+              "(function(){try{var t=localStorage.getItem('mo_theme_v1');if(t!=='light'&&t!=='dark'){t='light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();",
           }}
         />
         <SmoothScroll>
