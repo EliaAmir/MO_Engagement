@@ -1,7 +1,7 @@
 ﻿import Preloader from "@/components/Preloader";
 import Navbar from "@/components/Navbar";
 import CountdownStrip from "@/components/CountdownStrip";
-import Petals from "@/components/Petals";
+import Sparkles from "@/components/Sparkles";
 import MusicPlayer from "@/components/MusicPlayer";
 import Envelope from "@/components/Envelope";
 import Hero from "@/components/Hero";
@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <>
       <Preloader />
-      <Petals />
+      <Sparkles />
       <MusicPlayer />
       <Navbar />
       <main className="relative">

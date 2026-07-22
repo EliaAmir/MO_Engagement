@@ -21,7 +21,7 @@ A bilingual (English / Arabic) **digital engagement invitation** website for
 landing page plus a private admin dashboard. The aesthetic is a warm
 cream/espresso/gold **light mode** (default) with a **"Midnight & Gold" dark
 luxe** mode — toggleable via a sun/moon button. Serif typography,
-a wax-seal envelope that opens on scroll, falling petals, film grain, smooth
+a wax-seal envelope that opens on scroll, drifting sparkles, film grain, smooth
 Lenis scroll, and motion (Framer Motion) throughout.
 
 - **Event:** Sunday, September 13, 2026 · 7:00 PM
@@ -77,7 +77,7 @@ src/
 │   ├── Guestbook.tsx     # Wishes form + list → localStorage
 │   ├── Calendar.tsx      # Add-to-calendar (Google / Apple .ics) — 2-up grid
 │   ├── CountdownStrip.tsx# Sticky countdown to the event ISO
-│   ├── Petals.tsx        # Falling petals + sparkles (respects reduced-motion)
+│   ├── Sparkles.tsx      # Drifting glowing sparkles (respects reduced-motion)
 │   ├── MusicPlayer.tsx   # Ambient music: starts on "mo:invite-opened"; toggle mutes
 │   └── Footer.tsx
 └── lib/
@@ -228,8 +228,16 @@ the user sees" (light).
   text-vs-material dual-use trap): `--page-bg`, `--page-bg-image`, `--grain-blend`,
   `--surface-envelope`, `--surface-envelope-2`, `--surface-card`, `--surface-card-edge`,
   `--surface-seal`, `--panel-bg`, `--ghost-bg`, `--bar-bg`, `--bar-bg-strong`.
+  `--sparkle-core`, `--sparkle-edge`, `--sparkle-halo`.
   Each has a dark and light value. Use these (or `bg-[var(--bar-bg)]`) for any new
   theme-aware surface; avoid hardcoded hexes.
+- `Sparkles.tsx` uses **two nested elements**: the outer one owns the fall + sway
+  (`sparkle-drift`, transform + an opacity envelope), the inner one owns the
+  continuous glint (`sparkle-shimmer`, opacity + scale). Nested opacity multiplies,
+  so the sparkle shimmers the whole way down while still fading in/out at the edges.
+  Animations are **transform/opacity only**; the glow is a static `box-shadow`.
+  In light mode the core drops to `--color-gold-light` over a `--color-camel` halo
+  so it stays legible on the cream `--page-bg`.
 - `.text-gradient-gold` = gold-foil heading; `.btn-gold` = gold bg + dark (`jet`) text;
   `.panel` = `--panel-bg` glass; `.btn-ghost` text = espresso (switches).
 - `ThemeToggle.tsx` toggles `data-theme` + persists to `mo_theme_v1`; a pre-paint

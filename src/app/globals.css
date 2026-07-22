@@ -63,6 +63,9 @@
   --ghost-bg: rgba(255, 255, 255, 0.03);
   --bar-bg: color-mix(in oklab, var(--color-onyx) 70%, transparent);
   --bar-bg-strong: color-mix(in oklab, var(--color-onyx) 95%, transparent);
+  --sparkle-core: var(--color-gold-shimmer);
+  --sparkle-edge: var(--color-old-gold);
+  --sparkle-halo: color-mix(in oklab, var(--color-gold-shimmer) 60%, transparent);
 }
 
 :root[data-theme="light"] {
@@ -100,6 +103,9 @@
   --ghost-bg: rgba(255, 255, 255, 0.35);
   --bar-bg: color-mix(in oklab, var(--color-cream) 82%, transparent);
   --bar-bg-strong: color-mix(in oklab, var(--color-cream) 96%, transparent);
+  --sparkle-core: var(--color-gold-light);
+  --sparkle-edge: var(--color-old-gold);
+  --sparkle-halo: color-mix(in oklab, var(--color-camel) 55%, transparent);
 }
 
 /* ----------------------------------------------------------------------------
@@ -339,21 +345,41 @@ html.lenis body {
   }
 }
 
-@keyframes petal-fall {
+@keyframes sparkle-drift {
   0% {
-    transform: translate(0, -12vh) rotate(0deg);
+    transform: translate3d(0, -12vh, 0);
     opacity: 0;
   }
-  12% {
-    opacity: var(--petal-opacity, 0.55);
+  6% {
+    opacity: var(--sparkle-opacity, 0.75);
   }
-  88% {
-    opacity: var(--petal-opacity, 0.55);
+  25% {
+    transform: translate3d(var(--sparkle-sway, 2vw), 20vh, 0);
+  }
+  50% {
+    transform: translate3d(calc(var(--sparkle-sway, 2vw) * -1), 48vh, 0);
+  }
+  75% {
+    transform: translate3d(var(--sparkle-sway, 2vw), 76vh, 0);
+  }
+  94% {
+    opacity: var(--sparkle-opacity, 0.75);
   }
   100% {
-    transform: translate(var(--petal-drift, 4vw), 112vh)
-      rotate(var(--petal-spin, 360deg));
+    transform: translate3d(0, 112vh, 0);
     opacity: 0;
+  }
+}
+
+@keyframes sparkle-shimmer {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.7);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
