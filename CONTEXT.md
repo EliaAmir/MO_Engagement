@@ -124,23 +124,32 @@ was corrected. If `iso` ever moves, update those six strings by hand to match.
 
 ## 5b. The intro letter (`Envelope.tsx`)
 
-Scroll-driven, `h-[320vh]` with a `sticky top-0` viewport. Four panels cover the
-screen and fold outward from the centre crease in **two stages** — left/right
-flaps first (`0.08→0.44`), then top/bottom caps (`0.36→0.70`) — revealing a
-full-screen letter with the invitation copy and `couple.jpeg` (`next/image`,
-`fill`, `loading="eager"`; **`priority` is deprecated in Next 16**). A monogram
-seal sits where the four folds meet and fades as they part.
+Scroll-driven, `h-[260vh]` with a `sticky top-0` viewport. Four panels cover the
+screen and **all four part together** as you scroll — left, right, top and
+bottom open over one unified range (`0.05→0.5`, rotating to ±104°) so the letter
+unfolds outward from the centre cross in a single continuous motion (it is no
+longer a two-stage left/right-then-top/bottom sequence). The panels fade out at
+the tail of their rotation (`0.4→0.52`) as they pass edge-on. A monogram seal
+sits where the four folds meet and fades early (`0.05→0.15`) as they part. The
+panels reveal a full-bleed letter: `couple.jpeg` fills the whole viewport as a
+`next/image` `fill` cover (`sizes="100vw"`, `loading="eager"`; **`priority` is
+deprecated in Next 16**) under a theme-agnostic dark scrim (layered radial vignette
++ vertical gradient, ~rgba(6,5,10,.5→.9)) for legibility, with the invitation copy
+(eyebrow / "are getting engaged" / **Onur & Marina** gold-foil / date / venue)
+overlaid and centered on top in cream + gold tones.
 
 - **`mo:invite-opened`** fires exactly once (guarded by a ref) when scroll
-  progress crosses `OPEN_AT = 0.6`. `MusicPlayer` listens for it — do not rename
-  or drop this event.
+  progress crosses `OPEN_AT = 0.05` — i.e. the moment the flaps begin parting,
+  so music starts as the letter starts opening (not once it's fully open).
+  `MusicPlayer` listens for it — do not rename or drop this event.
 - **Reduced motion**: `prefers-reduced-motion` is resolved in an effect (not at
   render) so SSR output stays stable. When set, the panels are not rendered at
   all, the section collapses to `min-h-dvh`, the letter simply fades in, and
   `mo:invite-opened` fires on mount instead.
-- The letter is a 2-col grid at `lg` (photo / copy) that mirrors under RTL via
-  `dir`; below `lg` it stacks. The photo is sized `h-[26dvh] aspect-[4/5]` on
-  mobile so it can never push the copy out of a 100dvh sticky viewport.
+- The letter is a full-bleed photo background (absolute inset-0) with the
+  invitation copy overlaid in a centered column (`max-w-2xl`, `text-center`,
+  RTL-aware via `dir`). Text is cream + gold on the dark scrim so it reads in
+  both light and dark themes; no 2-col photo/copy split anymore.
 - `Portrait.tsx` was **deleted** — its photo now lives in the letter. Its copy
   block (`portrait.*`, incl. the "Two lives, one forever" quote) was removed from
   `content.ts`; `envelope.photoAlt` replaced `portrait.alt`. Nothing links to
@@ -237,11 +246,10 @@ the CSS base layer in `@theme` / `:root`; **light mode** overrides the same
 variables under `:root[data-theme="light"]`. Tailwind v4 utilities reference
 these vars, so flipping `<html data-theme>` flips the whole site.
 
-⚠️ **Light is the shipped default**, even though dark is the CSS base layer:
-`layout.tsx` renders `<html data-theme="light">` and the pre-paint script falls
-back to `light` when no `mo_theme_v1` is stored. A first-time visitor therefore
-paints light with no flash. Don't confuse "CSS base layer" (dark) with "default
-the user sees" (light).
+⚠️ **Dark is the shipped default** (the dark CSS base layer is also what a
+first-time visitor sees): `layout.tsx` renders `<html data-theme="dark">` and
+the pre-paint script falls back to `dark` when no `mo_theme_v1` is stored. A
+first-time visitor therefore paints dark ("Midnight & Gold") with no flash.
 
 - ⚠️ **Token NAMES are historical, not semantic** — read the values, not the names:
   - Dark: `--color-espresso #f2ead6`, `--color-mocha #d9cdb2` are **LIGHT** (text on dark);
@@ -266,10 +274,10 @@ the user sees" (light).
   `.panel` = `--panel-bg` glass; `.btn-ghost` text = espresso (switches).
 - `ThemeToggle.tsx` toggles `data-theme` + persists to `mo_theme_v1`; a pre-paint
   inline `<script>` in `layout.tsx` applies the stored theme before first paint (no FOUC),
-  defaulting to `light`. Its `useState` seed is `light` to match the SSR attribute.
+  defaulting to `dark`. Its `useState` seed is `dark` to match the SSR attribute.
 - `layout.tsx` metadata is **derived from `content.ts`** (`CONTENT.en.meta`, `EVENT`)
   rather than hardcoded, so date/venue/name edits propagate to SEO + OG tags.
-  `viewport` = `themeColor: "#f7f2ea"` (the light `--page-bg`) + `colorScheme: "light dark"`
+  `viewport` = `themeColor: "#0c0a12"` (the dark `--page-bg`) + `colorScheme: "light dark"`
   so native form controls follow the active theme.
 - Font variables: `--font-cinzel` (Latin display), `--font-cormorant` (Latin serif),
   `--font-aref` (Aref Ruqaa), `--font-markazi` (Markazi Text).

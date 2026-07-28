@@ -8,7 +8,7 @@ import { EVENT } from "@/lib/content";
 
 const easeLuxe = [0.16, 1, 0.3, 1] as const;
 const PHOTO_SRC = "/couple.jpeg";
-const OPEN_AT = 0.6;
+const OPEN_AT = 0.05;
 
 export default function Envelope() {
   const { t, lang } = useLang();
@@ -27,31 +27,38 @@ export default function Envelope() {
     offset: ["start start", "end end"],
   });
 
+  const { scrollYProgress: exitProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+
   const p = useSpring(scrollYProgress, {
     stiffness: 110,
     damping: 30,
     mass: 0.6,
   });
 
-  /* Side flaps part first, then the top/bottom caps — a letter folded in
-     quarters, opening outward from the centre crease. */
-  const sideRotate = useTransform(p, [0.08, 0.44], [0, 104]);
-  const sideRotateNeg = useTransform(p, [0.08, 0.44], [0, -104]);
-  const sideFade = useTransform(p, [0.3, 0.48], [1, 0]);
-  const capRotate = useTransform(p, [0.36, 0.7], [0, 104]);
-  const capRotateNeg = useTransform(p, [0.36, 0.7], [0, -104]);
-  const capFade = useTransform(p, [0.58, 0.74], [1, 0]);
+  /* All four panels part together as you scroll — the letter unfolds
+      outward from the centre cross in a single continuous motion, not in
+      two separate left/right then top/bottom stages. */
+  const flapOpen: [number, number] = [0.05, 0.5];
+  const rotate = useTransform(p, flapOpen, [0, 104]);
+  const rotateNeg = useTransform(p, flapOpen, [0, -104]);
+  const flapFade = useTransform(p, [0.4, 0.52], [1, 0]);
 
-  const sealScale = useTransform(p, [0, 0.1, 0.2], [1, 1.18, 0.4]);
-  const sealOpacity = useTransform(p, [0, 0.08, 0.18], [1, 1, 0]);
+  const sealScale = useTransform(p, [0, 0.06, 0.16], [1, 1.2, 0.45]);
+  const sealOpacity = useTransform(p, [0, 0.05, 0.15], [1, 1, 0]);
 
-  const letterOpacity = useTransform(p, [0.42, 0.62], [0, 1]);
-  const letterScale = useTransform(p, [0.42, 0.86], [0.94, 1]);
+  const fadeIn = useTransform(scrollYProgress, [0.2, 0.5], [0, 1]);
+  const fadeOut = useTransform(exitProgress, [0.6, 1], [1, 0]);
+  const letterOpacity = useTransform([fadeIn, fadeOut], (v: number[]) => Math.min(v[0], v[1]));
+  const letterScale = useTransform(scrollYProgress, [0.2, 0.92], [0.94, 1]);
+  const blurOpacity = useTransform(exitProgress, [0.6, 0.85], [0, 1]);
 
-  const hintOpacity = useTransform(p, [0, 0.05, 0.12], [0.95, 0.95, 0]);
-  const hintY = useTransform(p, [0, 0.12], [0, 12]);
+  const hintOpacity = useTransform(p, [0, 0.05, 0.1], [0.95, 0.95, 0]);
+  const hintY = useTransform(p, [0, 0.1], [0, 12]);
 
-  /* ---- Signal the MusicPlayer once the letter is open (exactly once) ---- */
+  /* ---- Signal the MusicPlayer as soon as the letter starts opening (once) ---- */
   const openedRef = useRef(false);
   const fireOpened = useCallback(() => {
     if (openedRef.current) return;
@@ -75,7 +82,7 @@ export default function Envelope() {
       ref={sectionRef}
       id="envelope"
       aria-label={t.preloader.enter}
-      className={reduce ? "relative" : "relative h-[320vh]"}
+      className={reduce ? "relative" : "relative h-[260vh]"}
     >
       <div
         className={
@@ -94,78 +101,88 @@ export default function Envelope() {
           }}
         />
 
-        {/* ---- The letter ---- */}
+        {/* ---- The letter: full-bleed photo + overlaid invitation copy ---- */}
         <motion.div
           style={reduce ? undefined : { opacity: letterOpacity, scale: letterScale }}
           initial={reduce ? { opacity: 0 } : undefined}
           animate={reduce ? { opacity: 1 } : undefined}
           transition={reduce ? { duration: 0.8, ease: easeLuxe } : undefined}
-          className="relative z-10 w-full px-5 sm:px-8"
+          className="absolute inset-0 z-10 overflow-hidden"
         >
-          <div
-            dir={dir}
-            className="mx-auto grid w-full max-w-5xl items-center gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)] lg:gap-14"
+          <div className="absolute inset-0">
+            <Image
+              src={PHOTO_SRC}
+              alt={t.envelope.photoAlt}
+              fill
+              sizes="100vw"
+              className="object-cover"
+              loading="eager"
+            />
+          </div>
+          <motion.div
+            aria-hidden
+            className="absolute inset-0"
+            style={{ opacity: reduce ? 0 : blurOpacity }}
           >
-            {/* photo */}
-            <figure className="relative mx-auto aspect-[4/5] h-[26dvh] w-auto lg:h-auto lg:w-full">
-              <div
-                className="relative h-full w-full overflow-hidden rounded-[3px]"
-                style={{ boxShadow: "var(--surface-card-edge)" }}
-              >
-                <Image
-                  src={PHOTO_SRC}
-                  alt={t.envelope.photoAlt}
-                  fill
-                  sizes="(max-width: 1024px) 60vw, 32vw"
-                  className="object-cover"
-                  loading="eager"
-                />
-                <span
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0"
-                  style={{
-                    background:
-                      "linear-gradient(170deg, color-mix(in oklab, var(--color-old-gold) 14%, transparent), transparent 45%, color-mix(in oklab, var(--color-jet) 40%, transparent))",
-                  }}
-                />
-              </div>
-            </figure>
+            <Image
+              src={PHOTO_SRC}
+              alt=""
+              fill
+              sizes="100vw"
+              className="scale-105 object-cover blur-[8px]"
+              loading="eager"
+            />
+          </motion.div>
 
-            {/* copy */}
-            <div className="flex flex-col items-center gap-3 text-center lg:items-start lg:gap-4 lg:text-start">
-              <p className="font-serif text-[0.9rem] italic leading-snug text-mocha/75">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(ellipse 95% 60% at 50% 28%, rgba(6,5,10,0.34), transparent 65%), linear-gradient(to bottom, rgba(6,5,10,0.6) 0%, rgba(6,5,10,0.46) 26%, rgba(6,5,10,0.28) 52%, rgba(6,5,10,0.14) 72%, rgba(6,5,10,0.34) 100%)",
+            }}
+          />
+
+          <div className="relative z-10 flex h-full flex-col items-center justify-start px-6 pt-[16vh] sm:pt-[20vh]">
+            <div
+              dir={dir}
+              className="flex w-full max-w-2xl flex-col items-center gap-3 text-center"
+            >
+              <p className="text-halo font-serif text-[0.95rem] italic leading-snug text-cream/80 sm:text-[1.05rem]">
                 {t.envelope.cardEyebrow}
               </p>
-              <p className="font-display text-[0.72rem] uppercase tracking-[0.3em] text-old-gold sm:text-[0.78rem]">
+              <p className="text-halo font-display text-[0.72rem] uppercase tracking-[0.3em] text-old-gold sm:text-[0.8rem]">
                 {t.envelope.cardHeadline}
               </p>
 
-              <span className="font-display text-[0.68rem] uppercase tracking-[0.26em] text-mocha/65 sm:text-xs">
+              <span className="text-halo font-display text-[0.68rem] uppercase tracking-[0.26em] text-cream/75 sm:text-xs">
                 {t.envelope.cardTo}
               </span>
               <h2
-                className="text-balance font-display text-[2.4rem] font-semibold leading-[1.05] tracking-[0.03em] sm:text-[3.2rem] lg:text-[3.8rem]"
+                className="text-balance font-display text-[2.6rem] font-semibold leading-[1.05] tracking-[0.03em] sm:text-[3.6rem] lg:text-[4.5rem]"
                 style={{
                   background:
                     "linear-gradient(100deg, var(--color-gold-shimmer), var(--color-old-gold) 50%, var(--color-gold-shimmer))",
                   WebkitBackgroundClip: "text",
                   backgroundClip: "text",
                   color: "transparent",
+                  filter:
+                    "drop-shadow(0 1px 2px rgba(0,0,0,0.9)) drop-shadow(0 0 14px rgba(0,0,0,0.6))",
                 }}
               >
                 {couple}
               </h2>
 
-              <span className="flex w-full items-center gap-3 py-1">
+              <span className="flex w-full max-w-xs items-center gap-3 py-1">
                 <span className="hairline flex-1" />
-                <span className="font-display text-base text-old-gold">&amp;</span>
+                <span className="text-halo font-display text-base text-old-gold">&amp;</span>
                 <span className="hairline flex-1" />
               </span>
 
-              <p className="text-balance font-serif text-[1rem] leading-relaxed text-mocha/90 sm:text-[1.1rem]">
+              <p className="text-halo text-balance font-serif text-[1.05rem] leading-relaxed text-cream sm:text-[1.2rem]">
                 {t.envelope.cardBody}
               </p>
-              <p className="font-display text-[0.66rem] uppercase tracking-[0.2em] text-mocha/70 sm:text-[0.7rem]">
+              <p className="text-halo font-display text-[0.68rem] uppercase tracking-[0.2em] text-cream/90 sm:text-[0.74rem]">
                 {t.envelope.cardSignoff}
               </p>
             </div>
@@ -180,44 +197,36 @@ export default function Envelope() {
               <motion.div
                 className="absolute inset-x-0 top-0 h-1/2 origin-top"
                 style={{
-                  rotateX: capRotateNeg,
-                  opacity: capFade,
+                  rotateX: rotateNeg,
+                  opacity: flapFade,
                   background: "var(--surface-envelope)",
-                  boxShadow:
-                    "inset 0 -1px 0 color-mix(in oklab, var(--color-old-gold) 45%, transparent)",
                 }}
               />
               {/* bottom cap */}
               <motion.div
                 className="absolute inset-x-0 bottom-0 h-1/2 origin-bottom"
                 style={{
-                  rotateX: capRotate,
-                  opacity: capFade,
+                  rotateX: rotate,
+                  opacity: flapFade,
                   background: "var(--surface-envelope)",
-                  boxShadow:
-                    "inset 0 1px 0 color-mix(in oklab, var(--color-old-gold) 45%, transparent)",
                 }}
               />
               {/* left flap */}
               <motion.div
                 className="absolute inset-y-0 left-0 z-10 w-1/2 origin-left"
                 style={{
-                  rotateY: sideRotate,
-                  opacity: sideFade,
+                  rotateY: rotate,
+                  opacity: flapFade,
                   background: "var(--surface-envelope-2)",
-                  boxShadow:
-                    "inset -1px 0 0 color-mix(in oklab, var(--color-old-gold) 45%, transparent)",
                 }}
               />
               {/* right flap */}
               <motion.div
                 className="absolute inset-y-0 right-0 z-10 w-1/2 origin-right"
                 style={{
-                  rotateY: sideRotateNeg,
-                  opacity: sideFade,
+                  rotateY: rotateNeg,
+                  opacity: flapFade,
                   background: "var(--surface-envelope-2)",
-                  boxShadow:
-                    "inset 1px 0 0 color-mix(in oklab, var(--color-old-gold) 45%, transparent)",
                 }}
               />
 
@@ -236,9 +245,16 @@ export default function Envelope() {
                       "0 10px 26px -8px rgba(0,0,0,0.6), inset 0 0 0 2px color-mix(in oklab, var(--color-gold-shimmer) 60%, transparent)",
                   }}
                 >
-                  <span className="font-display text-base tracking-[0.14em] text-cream/90">
-                    {t.envelope.sealLabel}
-                  </span>
+                  <svg
+                    width="30"
+                    height="30"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden
+                    className="text-gold-shimmer drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]"
+                  >
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                  </svg>
                 </div>
               </motion.div>
             </div>

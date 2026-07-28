@@ -41,10 +41,10 @@ export default function Navbar() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 0.4, duration: 1, ease: [0.16, 1, 0.3, 1] }}
       className={cn(
-        "fixed inset-x-0 top-0 z-[200] transition-all duration-700",
+        "fixed inset-x-0 top-0 z-[200] border-b backdrop-blur-xl transition-all duration-700",
         scrolled
-          ? "border-b border-gold-light/15 bg-[var(--bar-bg)] backdrop-blur-xl"
-          : "border-b border-transparent bg-transparent",
+          ? "border-gold-light/20 bg-[var(--bar-bg-strong)]"
+          : "border-gold-light/10 bg-[var(--bar-bg)]",
       )}
     >
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8 lg:h-20">

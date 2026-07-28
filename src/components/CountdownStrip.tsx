@@ -84,6 +84,7 @@ function Unit({
   return (
     <div className="flex flex-1 flex-col items-center gap-0.5 py-1">
       <div
+        dir="ltr"
         className={`flex items-center ${wide ? "" : "justify-center"}`}
         style={{ perspective: 300 }}
       >

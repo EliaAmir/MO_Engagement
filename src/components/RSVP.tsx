@@ -12,6 +12,7 @@ export default function Rsvp() {
   const { t, lang } = useLang();
   const [name, setName] = useState("");
   const [extra, setExtra] = useState(0);
+  const [guestNames, setGuestNames] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [saved, setSaved] = useState<RsvpEntry | null>(null);
@@ -26,6 +27,9 @@ export default function Rsvp() {
       setSaved(latest);
       setName(latest.name);
       setExtra(clampExtraGuests(latest.totalGuests - 1));
+      setGuestNames(
+        Array.from({ length: clampExtraGuests(latest.totalGuests - 1) }, (_, i) => latest.guestNames?.[i] ?? ""),
+      );
       /* eslint-enable react-hooks/set-state-in-effect */
     }
   }, []);
@@ -41,7 +45,7 @@ export default function Rsvp() {
     setSubmitting(true);
     // Brief delay for the tactile "saving" beat.
     window.setTimeout(() => {
-      const entry = RSVPStore.add({ name: trimmed, extraGuests: extra });
+      const entry = RSVPStore.add({ name: trimmed, extraGuests: extra, guestNames });
       setSaved(entry);
       setSubmitting(false);
     }, 650);
@@ -50,6 +54,16 @@ export default function Rsvp() {
   const edit = () => setSaved(null);
 
   const total = 1 + extra;
+
+  const setExtraCount = (next: number) => {
+    const clamped = clampExtraGuests(next);
+    setExtra(clamped);
+    setGuestNames((prev) => {
+      const arr = prev.slice(0, clamped);
+      while (arr.length < clamped) arr.push("");
+      return arr;
+    });
+  };
 
   return (
     <section id="rsvp" className="relative px-6 py-28 sm:py-36">
@@ -185,7 +199,7 @@ export default function Rsvp() {
                     <CounterButton
                       direction="dec"
                       disabled={extra <= 0}
-                      onClick={() => setExtra((v) => clampExtraGuests(v - 1))}
+                      onClick={() => setExtraCount(extra - 1)}
                       label={lang === "ar" ? "ØªÙ‚Ù„ÙŠÙ„" : "Decrease guests"}
                     />
                     <motion.span
@@ -199,7 +213,7 @@ export default function Rsvp() {
                     <CounterButton
                       direction="inc"
                       disabled={extra >= EXTRA_MAX}
-                      onClick={() => setExtra((v) => clampExtraGuests(v + 1))}
+                      onClick={() => setExtraCount(extra + 1)}
                       label={lang === "ar" ? "Ø²ÙŠØ§Ø¯Ø©" : "Increase guests"}
                     />
                   </div>
@@ -209,6 +223,46 @@ export default function Rsvp() {
                 <p className="mt-4 font-serif text-sm text-mocha/50">
                   {total} {lang === "ar" ? "Ù…Ù‚Ø¹Ø¯" : "seat" + (total === 1 ? "" : "s")}
                 </p>
+
+                {/* per-extra-guest name fields */}
+                <AnimatePresence initial={false}>
+                  {Array.from({ length: extra }).map((_, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.4, ease: easeLuxe }}
+                      className="overflow-hidden"
+                    >
+                      <div className="mt-6 flex flex-col gap-2">
+                        <label
+                          htmlFor={`rsvp-guest-${i}`}
+                          className="eyebrow text-[0.62rem] tracking-[0.28em]"
+                        >
+                          {t.rsvp.guestNameLabel(i + 1)}
+                        </label>
+                        <input
+                          id={`rsvp-guest-${i}`}
+                          type="text"
+                          value={guestNames[i] ?? ""}
+                          onChange={(e) => {
+                            const v = e.target.value;
+                            setGuestNames((prev) => {
+                              const next = prev.slice(0, extra);
+                              while (next.length < extra) next.push("");
+                              next[i] = v;
+                              return next;
+                            });
+                          }}
+                          placeholder={t.rsvp.guestNamePlaceholder(i + 1)}
+                          dir={lang === "ar" ? "rtl" : "ltr"}
+                          className="border-b border-gold-light/30 bg-transparent pb-3 pt-1 font-serif text-lg text-espresso placeholder:text-mocha/30 focus:border-gold-shimmer focus:outline-none"
+                        />
+                      </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
               </div>
 
               <button

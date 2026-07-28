@@ -30,11 +30,13 @@ export const EVENT = {
   venue: { en: "Dar Gardenia Wedding Halls", ar: "قاعات دار جاردينيا للأفراح" },
   hall: { en: "Tulip Hall", ar: "قاعة التيوليب" },
   address: {
-    en: "Dar El Harb El Kimiya, Extension of El Thawra Street, immediately after El Geish Bridge, Cairo, Egypt",
-    ar: "دار الحرب الكيميا، امتداد شارع الثورة، بعد كوبري الجيش مباشرة، القاهرة، مصر",
+    en: "Dar El Harb El Kimiya, El Thawra Street, right after El Geish Bridge, Cairo, Egypt",
+    ar: "دار الحرب الكيميائية امتداد شارع الثورة بعد كوبري الجيش مباشرةً، القاهرة، مصر",
   },
-  /** Used to build Google Maps search + directions URLs */
-  mapsQuery: "Dar Gardenia Wedding Halls, Cairo, Egypt",
+  /** Exact Google Maps place URL for the venue */
+  mapsUrl: "https://maps.app.goo.gl/8cNo39q8UpjYsafu9?g_st=ic",
+  /** Exact venue coordinates — pin the embed + route directions here */
+  mapsCoord: { lat: 30.0796643, lng: 31.3996781 },
   calendarTitle: "Onur & Marina — Engagement Party",
 } as const;
 
@@ -97,7 +99,6 @@ export type Dict = {
   };
   envelope: {
     hint: string;
-    sealLabel: string;
     cardEyebrow: string;
     cardHeadline: string;
     cardTo: string;
@@ -142,6 +143,8 @@ export type Dict = {
     namePlaceholder: string;
     guestsLabel: string;
     guestsHint: string;
+    guestNameLabel: (n: number) => string;
+    guestNamePlaceholder: (n: number) => string;
     submit: string;
     submitting: string;
     confirmation: (name: string, total: number) => string;
@@ -243,7 +246,6 @@ export const CONTENT: Record<Lang, Dict> = {
     },
     envelope: {
       hint: "Scroll to open",
-      sealLabel: "O & M",
       cardEyebrow: "Together with their families",
       cardHeadline: "are getting engaged",
       cardTo: "Request the honour of your presence as",
@@ -295,6 +297,8 @@ export const CONTENT: Record<Lang, Dict> = {
       namePlaceholder: "Enter your full name",
       guestsLabel: "Extra Guests",
       guestsHint: "How many will accompany you? (0–3)",
+      guestNameLabel: (n) => `Guest ${n}`,
+      guestNamePlaceholder: (n) => `Guest ${n} name`,
       submit: "Confirm Attendance",
       submitting: "Saving…",
       confirmation: (name, total) =>
@@ -395,7 +399,6 @@ export const CONTENT: Record<Lang, Dict> = {
     },
     envelope: {
       hint: "مرّر للفتح",
-      sealLabel: "م و ا",
       cardEyebrow: "مع عائلتَيْهما",
       cardHeadline: "يخطِبان",
       cardTo: "يَطْلبان شرف حضورك",
@@ -446,6 +449,8 @@ export const CONTENT: Record<Lang, Dict> = {
       namePlaceholder: "أدخل اسمك الكامل",
       guestsLabel: "مدعوون إضافيون",
       guestsHint: "كم شخصاً سيكون معك؟ (٠–٣)",
+      guestNameLabel: (n) => `الضيف ${n}`,
+      guestNamePlaceholder: (n) => `اسم الضيف ${n}`,
       submit: "أكّد الحضور",
       submitting: "جارٍ الحفظ…",
       confirmation: (name, total) =>

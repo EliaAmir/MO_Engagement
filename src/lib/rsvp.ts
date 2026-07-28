@@ -10,6 +10,7 @@ export type RsvpEntry = {
   id: string;
   name: string;
   totalGuests: number;
+  guestNames?: string[];
   timestamp: number;
 };
 
@@ -17,6 +18,7 @@ export type RsvpEntry = {
 export type RsvpInput = {
   name: string;
   extraGuests: number;
+  guestNames?: string[];
 };
 
 const EXTRA_MIN = 0;
@@ -86,10 +88,16 @@ export const RSVPStore = {
   /** Create a new entry from guest input and persist it. */
   add(input: RsvpInput): RsvpEntry {
     const name = input.name.trim();
+    const extra = clampExtraGuests(input.extraGuests);
+    const guestNames = (input.guestNames ?? [])
+      .slice(0, extra)
+      .map((n) => n.trim())
+      .filter((n) => n.length > 0);
     const entry: RsvpEntry = {
       id: generateId(),
       name,
-      totalGuests: totalGuests(input.extraGuests),
+      totalGuests: totalGuests(extra),
+      ...(guestNames.length ? { guestNames } : {}),
       timestamp: Date.now(),
     };
     const storage = safeStorage();
@@ -116,11 +124,12 @@ export const RSVPStore = {
 
   /** Export the current dataset as RFC-4180 CSV text. */
   toCsv(): string {
-    const header = ["id", "name", "total_guests", "timestamp_iso"];
+    const header = ["id", "name", "total_guests", "guest_names", "timestamp_iso"];
     const rows = this.all().map((e) => [
       e.id,
       escapeCsv(e.name),
       String(e.totalGuests),
+      escapeCsv((e.guestNames ?? []).join("; ")),
       new Date(e.timestamp).toISOString(),
     ]);
     return [header, ...rows].map((r) => r.join(",")).join("\r\n");

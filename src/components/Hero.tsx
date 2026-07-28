@@ -4,7 +4,6 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { useLang } from "@/components/LangProvider";
 import { EVENT } from "@/lib/content";
-import { scrollToTarget } from "@/components/SmoothScroll";
 
 const easeLuxe = [0.16, 1, 0.3, 1] as const;
 
@@ -127,15 +126,6 @@ export default function Hero() {
             {EVENT.time[lang]} · {EVENT.venue[lang]}
           </p>
         </motion.div>
-
-        <motion.button
-          variants={item}
-          type="button"
-          onClick={() => scrollToTarget("#rsvp")}
-          className="btn-gold mt-12"
-        >
-          {t.nav.rsvp}
-        </motion.button>
       </motion.div>
     </section>
   );

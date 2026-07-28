@@ -293,6 +293,14 @@ function Dashboard({ lang }: { lang: "en" | "ar" }) {
                       >
                         {e.name}
                       </span>
+                      {e.guestNames && e.guestNames.length > 0 && (
+                        <span
+                          dir={lang === "ar" ? "rtl" : "ltr"}
+                          className="mt-1 block font-serif text-xs italic text-mocha/55"
+                        >
+                          {e.guestNames.join(lang === "ar" ? "، " : ", ")}
+                        </span>
+                      )}
                     </td>
                     <td className="px-5 py-4 align-middle">
                       <span className="inline-grid h-7 min-w-7 place-items-center rounded-full border border-gold-light/30 px-2 font-display text-xs text-old-gold">

@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import { useLang } from "@/components/LangProvider";
 import { EVENT } from "@/lib/content";
-import { directionsUrl, mapsUrl } from "@/lib/utils";
+import { directionsUrl } from "@/lib/utils";
 
 const easeLuxe = [0.16, 1, 0.3, 1] as const;
 
@@ -97,9 +97,7 @@ export default function Details() {
             <div className="panel group relative flex-1 overflow-hidden rounded-sm">
               <iframe
                 title={EVENT.venue[lang]}
-                src={`https://www.google.com/maps?q=${encodeURIComponent(
-                  EVENT.mapsQuery,
-                )}&output=embed`}
+                src={`https://www.google.com/maps?q=${EVENT.mapsCoord.lat},${EVENT.mapsCoord.lng}&output=embed`}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="h-full min-h-[260px] w-full transition-all duration-700"
@@ -113,7 +111,7 @@ export default function Details() {
 
             <div className="grid grid-cols-2 gap-4">
               <a
-                href={mapsUrl(EVENT.mapsQuery)}
+                href={EVENT.mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-gold flex items-center justify-center gap-2 text-center"
@@ -121,7 +119,7 @@ export default function Details() {
                 {t.details.maps}
               </a>
               <a
-                href={directionsUrl(EVENT.mapsQuery)}
+                href={directionsUrl(`${EVENT.mapsCoord.lat},${EVENT.mapsCoord.lng}`)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-ghost flex items-center justify-center gap-2 text-center"

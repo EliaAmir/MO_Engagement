@@ -85,7 +85,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f7f2ea",
+  themeColor: "#0c0a12",
   colorScheme: "light dark",
   width: "device-width",
   initialScale: 1,
@@ -98,14 +98,14 @@ export default function RootLayout({
     <html
       lang="en"
       dir="ltr"
-      data-theme="light"
+      data-theme="dark"
       className={`${cinzel.variable} ${cormorant.variable} ${arefRuqaa.variable} ${markaziText.variable} antialiased`}
     >
       <body className="min-h-dvh">
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "(function(){try{var t=localStorage.getItem('mo_theme_v1');if(t!=='light'&&t!=='dark'){t='light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();",
+              "(function(){try{var t=localStorage.getItem('mo_theme_v1');if(t!=='light'&&t!=='dark'){t='dark';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();",
           }}
         />
         <SmoothScroll>
