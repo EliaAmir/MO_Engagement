@@ -49,29 +49,34 @@ export type SwatchRow = {
 
 export const DRESS_CODE: readonly SwatchRow[] = [
   {
-    id: "warm-neutrals",
+    id: "  warm-neutrals",
     label: { en: "Warm Neutrals", ar: "محايد دافئ" },
-    colors: ["#C8A882", "#B08A60", "#A89078", "#C09860"],
+    colors: ["#A58C74", "#BC8B56", "#84614F"],
   },
   {
     id: "deep-browns",
     label: { en: "Deep Browns", ar: "بنّي عميق" },
-    colors: ["#3A1E10", "#2C1408", "#4A2C18", "#5C3A20", "#3E2010"],
+    colors: ["#5C4033", "#6F4A37", "#8B5A3C", "#755139"],
   },
   {
-    id: "earthy-greens",
-    label: { en: "Earthy Greens", ar: "أخضر ترابي" },
-    colors: ["#3B4A28", "#5A6B38", "#4D5E34", "#6E7A5C"],
+    id: "reds-wine",
+    label: { en: "Reds & Wine", ar: "أحمر نبيذي" },
+    colors: ["#5B2621", "#5A1F2D", "#6B2737", "#4A1C22", "#6A332A", "#7A3E32", "#8A4034"],
   },
   {
-    id: "metallics",
-    label: { en: "Metallics", ar: "معدني" },
-    colors: ["#C8A030", "#B8922A", "#A07820", "#8B6914"],
+    id: "greens",
+    label: { en: "Greens", ar: "أخضر" },
+    colors: ["#355E3B", "#556B2F", "#254117", "#555327"],
+  },
+  {
+    id: "golds",
+    label: { en: "Golds & Mustards", ar: "ذهبي وخردلي" },
+    colors: ["#C19A3D", "#C89B3C", "#9C7A2D", "#B38B59", "#8A642E", "#C49A00", "#B8860B", "#A9711A", "#BF8F00", "#B68A2E"],
   },
   {
     id: "blacks",
     label: { en: "Blacks", ar: "أسود" },
-    colors: ["#0A0A0A", "#2C2C2C", "#1A1A1A"],
+    colors: ["#0F0F0F"],
   },
 ] as const;
 
@@ -286,7 +291,7 @@ export const CONTENT: Record<Lang, Dict> = {
     dress: {
       eyebrow: "Style Guide",
       title: "Dress Code",
-      note: "Warm, earthy elegance. We would love for you to weave these tones into your ensemble — soft neutrals, deep browns, muted greens and quiet metallics. No bright neons, please.",
+      note: "Warm, earthy elegance — rich neutrals, deep browns, wine-reds, hunter greens, and burnished golds. We would love for you to weave these tones into your ensemble. No bright neons, please.",
       swatchLabel: "Tap a shade to copy its hex",
     },
     rsvp: {
@@ -438,7 +443,7 @@ export const CONTENT: Record<Lang, Dict> = {
     dress: {
       eyebrow: "دليل الأناقة",
       title: "ملابس الحفل",
-      note: "أناقة دافئة ترابية. يسعدنا أن تُدمج هذه الدرجات في إطلالتك — محايدات ناعمة، وبُنّي عميق، وأخضر هادئ، ولمسات معدنية راقية. نرجو تجنّب الألوان النيون الزاهية.",
+      note: "أناقة دافئة ترابية — مستوحاة من المحايدات الغنية، والبُنّي العميق، والأحمر النبيذي، والأخضر الداكن، والذهب المصقول. يسعدنا أن تُدمج هذه الدرجات في إطلالتك. نرجو تجنّب الألوان النيون الزاهية.",
       swatchLabel: "اضغط على اللون لنسخ درجته",
     },
     rsvp: {
