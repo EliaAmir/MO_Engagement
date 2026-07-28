@@ -41,42 +41,75 @@ export const EVENT = {
 } as const;
 
 /* ----- Dress-code palette (DressCode component only) -------------------- */
+export type SwatchColor =
+  | { type: "hex"; value: string }
+  | { type: "image"; src: string };
+
 export type SwatchRow = {
   id: string;
   label: { en: string; ar: string };
-  colors: readonly string[];
+  colors: readonly SwatchColor[];
 };
 
 export const DRESS_CODE: readonly SwatchRow[] = [
   {
     id: "warm-neutrals",
     label: { en: "Warm Neutrals", ar: "محايد دافئ" },
-    colors: ["#A58C74", "#BC8B56", "#84614F"],
+    colors: [
+      { type: "hex", value: "#A58C74" },
+      { type: "hex", value: "#BC8B56" },
+      { type: "hex", value: "#84614F" },
+    ],
   },
   {
     id: "deep-browns",
     label: { en: "Deep Browns", ar: "بنّي عميق" },
-    colors: ["#66463d", "#4f3129", "#522518", "#240e08", "#543128"],
+    colors: [
+      { type: "hex", value: "#66463d" },
+      { type: "hex", value: "#4f3129" },
+      { type: "hex", value: "#522518" },
+      { type: "hex", value: "#240e08" },
+      { type: "hex", value: "#543128" },
+    ],
   },
   {
     id: "reds-wine",
     label: { en: "Reds & Wine", ar: "أحمر نبيذي" },
-    colors: ["#5e1111", "#470505", "#7a1515", "#7d0e0e"],
+    colors: [
+      { type: "hex", value: "#5e1111" },
+      { type: "hex", value: "#470505" },
+      { type: "hex", value: "#7a1515" },
+      { type: "hex", value: "#7d0e0e" },
+    ],
   },
   {
     id: "greens",
     label: { en: "Greens", ar: "أخضر" },
-    colors: ["#4c5c1d", "#303b0e", "#2d331b", "#093009"],
+    colors: [
+      { type: "hex", value: "#4c5c1d" },
+      { type: "hex", value: "#303b0e" },
+      { type: "hex", value: "#2d331b" },
+      { type: "hex", value: "#093009" },
+    ],
   },
   {
     id: "golds",
     label: { en: "Warm Yellows", ar: "أصفر دافئ" },
-    colors: ["#9c6e3e", "#cca985", "#ab8359", "#7d5b37", "#967047"],
+    colors: [
+      { type: "hex", value: "#9c6e3e" },
+      { type: "hex", value: "#cca985" },
+      { type: "hex", value: "#ab8359" },
+      { type: "hex", value: "#7d5b37" },
+      { type: "hex", value: "#967047" },
+      { type: "image", src: "/dress-swatch.jpeg" },
+    ],
   },
   {
     id: "blacks",
     label: { en: "Blacks", ar: "أسود" },
-    colors: ["#0F0F0F"],
+    colors: [
+      { type: "hex", value: "#0F0F0F" },
+    ],
   },
 ] as const;
 

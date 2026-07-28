@@ -1,9 +1,11 @@
 ﻿"use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { useLang } from "@/components/LangProvider";
 import { DRESS_CODE } from "@/lib/content";
+import type { SwatchColor } from "@/lib/content";
 
 const easeLuxe = [0.16, 1, 0.3, 1] as const;
 
@@ -73,20 +75,30 @@ export default function DressCode() {
               </div>
 
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
-                {row.colors.map((hex) => {
-                  const isCopied = copied === hex;
+                {row.colors.map((c: SwatchColor) => {
+                  const label = c.type === "hex" ? c.value : "Pattern";
+                  const isCopied = copied === label;
                   return (
                     <button
-                      key={hex}
+                      key={label}
                       type="button"
-                      onClick={() => copy(hex)}
-                      aria-label={`${row.label[lang]} ${hex}`}
+                      onClick={() => c.type === "hex" && copy(c.value)}
+                      aria-label={`${row.label[lang]} ${label}`}
                       className="group relative aspect-[5/4] overflow-hidden rounded-sm border border-gold-light/20 transition-transform duration-500 hover:scale-[1.03] focus-visible:scale-[1.03]"
-                      style={{ background: hex }}
+                      style={c.type === "hex" ? { background: c.value } : undefined}
                     >
+                      {c.type === "image" && (
+                        <Image
+                          src={c.src}
+                          alt=""
+                          fill
+                          sizes="(max-width: 640px) 50vw, 25vw"
+                          className="object-cover"
+                        />
+                      )}
                       <span className="absolute inset-0 bg-linear-to-t from-black/35 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                       <span className="absolute inset-x-0 bottom-0 flex translate-y-3 items-center justify-between px-3 py-2 font-display text-[0.6rem] uppercase tracking-[0.2em] text-espresso opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-                        <span>{isCopied ? "âœ“" : hex}</span>
+                        <span>{isCopied ? "âœ“" : label}</span>
                       </span>
                       {isCopied && (
                         <motion.span
