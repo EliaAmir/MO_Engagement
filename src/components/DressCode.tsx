@@ -106,9 +106,7 @@ export default function DressCode() {
           ))}
         </div>
 
-        <p className="mt-10 text-center font-serif text-xs uppercase tracking-[0.24em] text-mocha/40">
-          {t.dress.swatchLabel}
-        </p>
+
       </div>
     </section>
   );
