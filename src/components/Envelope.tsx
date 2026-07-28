@@ -182,9 +182,7 @@ export default function Envelope() {
               <p className="text-halo text-balance font-serif text-[1.05rem] leading-relaxed text-cream sm:text-[1.2rem]">
                 {t.envelope.cardBody}
               </p>
-              <p className="text-halo font-display text-[0.68rem] uppercase tracking-[0.2em] text-cream/90 sm:text-[0.74rem]">
-                {t.envelope.cardSignoff}
-              </p>
+
             </div>
           </div>
         </motion.div>

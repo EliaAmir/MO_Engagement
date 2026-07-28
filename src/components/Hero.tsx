@@ -123,7 +123,7 @@ export default function Hero() {
             {EVENT.dateLong[lang]}
           </p>
           <p className="font-serif text-base text-mocha/70">
-            {EVENT.time[lang]}
+            {EVENT.time[lang]} · {EVENT.venue[lang]}
           </p>
         </motion.div>
       </motion.div>

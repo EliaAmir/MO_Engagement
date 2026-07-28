@@ -49,19 +49,19 @@ export type SwatchRow = {
 
 export const DRESS_CODE: readonly SwatchRow[] = [
   {
-    id: "  warm-neutrals",
+    id: "warm-neutrals",
     label: { en: "Warm Neutrals", ar: "محايد دافئ" },
     colors: ["#A58C74", "#BC8B56", "#84614F"],
   },
   {
     id: "deep-browns",
     label: { en: "Deep Browns", ar: "بنّي عميق" },
-    colors: ["#5C4033", "#6F4A37", "#8B5A3C", "#755139"],
+    colors: ["#6F4A37", "#8B5A3C"],
   },
   {
     id: "reds-wine",
     label: { en: "Reds & Wine", ar: "أحمر نبيذي" },
-    colors: ["#5B2621", "#5A1F2D", "#6B2737", "#4A1C22", "#6A332A", "#7A3E32", "#8A4034"],
+    colors: ["#5B2621", "#5A1F2D", "#6B2737", "#4A1C22", "#8A4034"],
   },
   {
     id: "greens",
@@ -71,7 +71,7 @@ export const DRESS_CODE: readonly SwatchRow[] = [
   {
     id: "golds",
     label: { en: "Golds & Mustards", ar: "ذهبي وخردلي" },
-    colors: ["#C19A3D", "#C89B3C", "#9C7A2D", "#B38B59", "#8A642E", "#C49A00", "#B8860B", "#A9711A", "#BF8F00", "#B68A2E"],
+    colors: ["#C89B3C", "#9C7A2D", "#B38B59", "#8A642E", "#C49A00", "#A9711A"],
   },
   {
     id: "blacks",
