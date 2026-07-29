@@ -228,7 +228,7 @@ export default function Envelope() {
                 }}
               />
 
-              {/* monogram seal at the meeting point of the four folds */}
+              {/* heart seal at the meeting point of the four folds */}
               <motion.div
                 className="absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2"
                 style={{ scale: sealScale, opacity: sealOpacity }}

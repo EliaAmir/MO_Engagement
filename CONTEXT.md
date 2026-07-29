@@ -129,7 +129,7 @@ screen and **all four part together** as you scroll — left, right, top and
 bottom open over one unified range (`0.05→0.5`, rotating to ±104°) so the letter
 unfolds outward from the centre cross in a single continuous motion (it is no
 longer a two-stage left/right-then-top/bottom sequence). The panels fade out at
-the tail of their rotation (`0.4→0.52`) as they pass edge-on. A monogram seal
+the tail of their rotation (`0.4→0.52`) as they pass edge-on. A gold heart seal
 sits where the four folds meet and fades early (`0.05→0.15`) as they part. The
 panels reveal a full-bleed letter: `couple.jpeg` fills the whole viewport as a
 `next/image` `fill` cover (`sizes="100vw"`, `loading="eager"`; **`priority` is

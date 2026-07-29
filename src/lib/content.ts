@@ -289,7 +289,7 @@ export const CONTENT: Record<Lang, Dict> = {
       cardTo: "Request the honour of your presence as",
       cardCouple: "Onur & Marina",
       cardBody:
-        "Sunday, the thirteenth of September, two thousand twenty-six — at seven in the evening.",
+        "Sunday the 13th of September, 2026 at 7:00 PM",
       cardSignoff: "Dar Gardenia Wedding Halls · Tulip Hall · Cairo",
       photoAlt: "Portrait of Onur and Marina",
     },

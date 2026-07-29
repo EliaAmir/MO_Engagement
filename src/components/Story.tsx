@@ -10,6 +10,8 @@ export default function Story() {
   const { t, lang } = useLang();
   const closing = lang === "ar" ? EVENT.couple.ar : EVENT.couple.en;
 
+  if (lang === "ar") return null;
+
   return (
     <section
       id="story"
@@ -50,7 +52,7 @@ export default function Story() {
         {t.story.lines.map((line, i) => (
           <motion.p
             key={i}
-            dir={lang === "ar" ? "rtl" : "ltr"}
+            dir="ltr"
             initial={{ opacity: 0, y: 40, filter: "blur(12px)" }}
             whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             viewport={{ once: true, amount: 0.55 }}
