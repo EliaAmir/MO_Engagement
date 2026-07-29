@@ -304,7 +304,6 @@ export const CONTENT: Record<Lang, Dict> = {
       lines: [
         "One promise.",
         "A thousand tomorrows",
-        "",
         "The wait is almost over.",
         "The story is just beginning.",
       ],
