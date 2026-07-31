@@ -177,34 +177,18 @@ export type Dict = {
     eyebrow: string;
     title: string;
     intro: string;
-    nameLabel: string;
-    namePlaceholder: string;
-    guestsLabel: string;
-    guestsHint: string;
-    guestNameLabel: (n: number) => string;
-    guestNamePlaceholder: (n: number) => string;
-    submit: string;
-    submitting: string;
-    confirmation: (name: string, total: number) => string;
-    edit: string;
-    requiredName: string;
+    formButton: string;
+    formNote: string;
   };
   guestbook: {
     eyebrow: string;
     title: string;
     intro: string;
-    nameLabel: string;
-    namePlaceholder: string;
-    messageLabel: string;
-    messagePlaceholder: string;
-    submit: string;
-    submitting: string;
+    formButton: string;
+    formNote: string;
     empty: string;
     countOne: string;
     countMany: (n: number) => string;
-    requiredName: string;
-    requiredMessage: string;
-    charsLeft: (n: number) => string;
   };
   music: {
     ariaOn: string;
@@ -303,7 +287,7 @@ export const CONTENT: Record<Lang, Dict> = {
       title: "A Spark That Refused to Fade",
       lines: [
         "One promise.",
-        "A thousand tomorrows",
+        "A million tomorrows",
         "The wait is almost over.",
         "The story is just beginning.",
       ],
@@ -330,35 +314,18 @@ export const CONTENT: Record<Lang, Dict> = {
       eyebrow: "Kindly Respond",
       title: "Will You Join Us?",
       intro: "Let us know if you can make it, and how many seats to reserve.",
-      nameLabel: "Your Name",
-      namePlaceholder: "Enter your full name",
-      guestsLabel: "Extra Guests",
-      guestsHint: "How many will accompany you? (0–3)",
-      guestNameLabel: (n) => `Guest ${n}`,
-      guestNamePlaceholder: (n) => `Guest ${n} name`,
-      submit: "Confirm Attendance",
-      submitting: "Saving…",
-      confirmation: (name, total) =>
-        `We've reserved ${total} seat${total === 1 ? "" : "s"} for you, ${name}.`,
-      edit: "Edit response",
-      requiredName: "Please enter your name to continue.",
+      formButton: "Confirm Your Attendance",
+      formNote: "A short form will open in a new tab.",
     },
     guestbook: {
       eyebrow: "Guestbook",
       title: "Leave a Wish",
       intro: "Share a note, a blessing, or a memory for Onur & Marina.",
-      nameLabel: "Your Name",
-      namePlaceholder: "Enter your name",
-      messageLabel: "Your Wish",
-      messagePlaceholder: "Write a few words for the couple…",
-      submit: "Sign the Guestbook",
-      submitting: "Saving…",
+      formButton: "Leave Your Wish",
+      formNote: "The form opens in a new tab.",
       empty: "Be the first to leave a wish.",
       countOne: "1 wish",
       countMany: (n) => `${n} wishes`,
-      requiredName: "Please enter your name.",
-      requiredMessage: "Please write a short wish.",
-      charsLeft: (n) => `${n} characters left`,
     },
     music: {
       ariaOn: "Mute ambient music",
@@ -482,35 +449,18 @@ export const CONTENT: Record<Lang, Dict> = {
       eyebrow: "أكد الحضور",
       title: "هل ستكون معنا؟",
       intro: "أخبرنا إن استطعت الحضور، وكم مقعداً نحجز لك.",
-      nameLabel: "اسمك",
-      namePlaceholder: "أدخل اسمك الكامل",
-      guestsLabel: "مدعوون إضافيون",
-      guestsHint: "كم شخصاً سيكون معك؟ (٠–٣)",
-      guestNameLabel: (n) => `الضيف ${n}`,
-      guestNamePlaceholder: (n) => `اسم الضيف ${n}`,
-      submit: "أكّد الحضور",
-      submitting: "جارٍ الحفظ…",
-      confirmation: (name, total) =>
-        `لقد حجزنا ${total} مقعداً لك، ${name}.`,
-      edit: "تعديل الرد",
-      requiredName: "من فضلك أدخل اسمك للمتابعة.",
+      formButton: "أكّد حضورك عبر النموذج",
+      formNote: "سيُفتح نموذج قصير في تبويب جديد.",
     },
     guestbook: {
       eyebrow: "دفتر الزوار",
       title: "اترك أمنية",
       intro: "شارك كلمة أو دعوة أو ذكرى لاونور ومارينا.",
-      nameLabel: "اسمك",
-      namePlaceholder: "أدخل اسمك",
-      messageLabel: "أمنيتك",
-      messagePlaceholder: "اكتب بضع كلمات للعروسَين…",
-      submit: "وقّع دفتر الزوار",
-      submitting: "جارٍ الحفظ…",
+      formButton: "اترك أمنيتك عبر النموذج",
+      formNote: "سيُفتح النموذج في تبويب جديد.",
       empty: "كن أول من يترك أمنية.",
       countOne: "أمنية واحدة",
       countMany: (n) => `${n} أمنية`,
-      requiredName: "من فضلك أدخل اسمك.",
-      requiredMessage: "من فضلك اكتب أمنية قصيرة.",
-      charsLeft: (n) => `متبقّى ${n} حرفاً`,
     },
     music: {
       ariaOn: "كتم الموسيقى",

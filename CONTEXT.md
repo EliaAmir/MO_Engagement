@@ -43,7 +43,7 @@ Lenis scroll, and motion (Framer Motion) throughout.
 | Theming        | **CSS-variable light/dark** via `data-theme` on `<html>` (see §10) |
 | Language       | TypeScript (strict), ESM                                     |
 | Fonts          | `next/font/google`: Cinzel (Latin display), Cormorant Garamond (Latin serif), **Aref Ruqaa** (Arabic display), **Markazi Text** (Arabic body) |
-| State / data   | **Client-only.** No database. RSVP + guestbook persist to `localStorage`. Lang + theme preferences in `localStorage`. |
+| State / data   | **Client-only.** No database. RSVP attendance and wishes are collected via **Google Forms** (button links in the sections); legacy guestbook wishes persist to `localStorage`. Lang + theme preferences in `localStorage`. |
 
 No backend, no API routes, no server actions today. Everything is static
 (`/`, `/_not-found`, `/admin` all prerender).
@@ -73,8 +73,8 @@ src/
 │   ├── Story.tsx         # Narrative copy block
 │   ├── Details.tsx       # When/where + Google Maps links
 │   ├── DressCode.tsx     # Color swatch palette (tap-to-copy hex)
-│   ├── RSVP.tsx          # Attendance form → localStorage
-│   ├── Guestbook.tsx     # Wishes form + list → localStorage
+│   ├── RSVP.tsx          # ★ "Will You Join Us?" — button → Google Form (no local form)
+│   ├── Guestbook.tsx     # ★ "Leave a Wish" — button → Google Form + legacy local wish list
 │   ├── Calendar.tsx      # Add-to-calendar (Google / Apple .ics) — 2-up grid
 │   ├── CountdownStrip.tsx# Sticky countdown to the event ISO
 │   ├── Sparkles.tsx      # Drifting glowing sparkles (respects reduced-motion)
@@ -158,10 +158,11 @@ overlaid and centered on top in cream + gold tones.
 ## 6. Admin / RSVP dashboard
 
 `/admin` is a **client-side, password-gated** dashboard that reads the same
-`localStorage` RSVP entries the public form writes. Features: stats, search,
-CSV export, per-row delete, clear-all. Password is checked client-side (it is
-obfuscation, not real security — acceptable for this use case). See
-`CONTENT.admin` for all its copy.
+`localStorage` RSVP entries the public form used to write. (Attendance now goes
+to Google Forms, so no fresh RSVP data lands here unless the form is ever
+re-connected.) Features: stats, search, CSV export, per-row delete, clear-all.
+Password is checked client-side (it is obfuscation, not real security —
+acceptable for this use case). See `CONTENT.admin` for all its copy.
 
 ---
 
@@ -219,10 +220,12 @@ the user's OK. (HTTPS auth is cached, so normal pushes just work.)
 
 ## 9. Current status & open ideas
 
-**Done recently:** Midnight & Gold redesign (dark), light/dark toggle, couple
-order flipped to Onur & Marina, bigger/more-readable invitation card, music
-auto-starts when the letter opens (click-to-enter unlocks browser autoplay),
-cursor RTL fix, envelope card-in-frame/holder-sink fix.
+**Done recently:** RSVP ("Will You Join Us?") and guestbook ("Leave a Wish") inline
+forms replaced with buttons that open **Google Forms** (RSVP → `forms.gle/3TE4zwnbXSHrD4C98`,
+wishes → `forms.gle/mAHyjyQmh1PLxxT86`); Midnight & Gold redesign (dark),
+light/dark toggle, couple order flipped to Onur & Marina, bigger/more-readable
+invitation card, music auto-starts when the letter opens (click-to-enter unlocks
+browser autoplay), cursor RTL fix, envelope card-in-frame/holder-sink fix.
 
 Reference material gathered from `https://github.com/topics/digital-invitation`
 (similar stacks): **Holymaiden/wedding-app** (Next+TS+Framer Motion — closest),

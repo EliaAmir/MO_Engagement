@@ -3,17 +3,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useLang } from "@/components/LangProvider";
-import { GuestbookStore, WISH_MAX, type WishEntry } from "@/lib/guestbook";
+import { GuestbookStore, type WishEntry } from "@/lib/guestbook";
 
 const easeLuxe = [0.16, 1, 0.3, 1] as const;
+const WISH_FORM_URL = "https://forms.gle/mAHyjyQmh1PLxxT86";
 
 export default function Guestbook() {
   const { t, lang } = useLang();
   const [entries, setEntries] = useState<WishEntry[]>([]);
-  const [name, setName] = useState("");
-  const [message, setMessage] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     // Hydrate from localStorage after mount (browser-only, SSR-safe).
@@ -21,27 +18,11 @@ export default function Guestbook() {
     setEntries(GuestbookStore.all());
   }, []);
 
-  const remaining = WISH_MAX - message.length;
   const countLabel = useMemo(() => {
     const n = entries.length;
     if (n === 0) return null;
     return n === 1 ? t.guestbook.countOne : t.guestbook.countMany(n);
   }, [entries, t]);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name.trim()) return setError(t.guestbook.requiredName);
-    if (!message.trim()) return setError(t.guestbook.requiredMessage);
-    setError(null);
-    setSubmitting(true);
-    window.setTimeout(() => {
-      const entry = GuestbookStore.add({ name, message });
-      setEntries((prev) => [entry, ...prev.filter((p) => p.id !== entry.id)]);
-      setName("");
-      setMessage("");
-      setSubmitting(false);
-    }, 550);
-  };
 
   const locale = lang === "ar" ? "ar-EG" : "en-GB";
 
@@ -78,79 +59,27 @@ export default function Guestbook() {
           </motion.p>
         </div>
 
-        {/* Form */}
-        <motion.form
+        {/* Form button */}
+        <motion.div
           initial={{ opacity: 0, y: 26 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 1, ease: easeLuxe }}
-          onSubmit={handleSubmit}
-          noValidate
-          className="panel mt-12 rounded-sm p-7 sm:p-9"
+          className="panel mt-12 rounded-sm p-7 text-center sm:p-9"
         >
-          <div className="flex flex-col gap-2">
-            <label htmlFor="gb-name" className="eyebrow text-[0.62rem] tracking-[0.28em]">
-              {t.guestbook.nameLabel}
-            </label>
-            <input
-              id="gb-name"
-              type="text"
-              value={name}
-              onChange={(e) => {
-                setName(e.target.value);
-                if (error) setError(null);
-              }}
-              placeholder={t.guestbook.namePlaceholder}
-              dir={lang === "ar" ? "rtl" : "ltr"}
-              maxLength={60}
-              className="border-b border-mocha/20 bg-transparent pb-3 pt-1 font-serif text-lg text-espresso placeholder:text-mocha/30 focus:border-old-gold focus:outline-none"
-            />
-          </div>
-
-          <div className="mt-7 flex flex-col gap-2">
-            <label htmlFor="gb-message" className="eyebrow text-[0.62rem] tracking-[0.28em]">
-              {t.guestbook.messageLabel}
-            </label>
-            <textarea
-              id="gb-message"
-              value={message}
-              onChange={(e) => {
-                setMessage(e.target.value.slice(0, WISH_MAX));
-                if (error) setError(null);
-              }}
-              placeholder={t.guestbook.messagePlaceholder}
-              dir={lang === "ar" ? "rtl" : "ltr"}
-              rows={3}
-              maxLength={WISH_MAX}
-              className="resize-none border-b border-mocha/20 bg-transparent pb-3 pt-1 font-serif text-lg leading-relaxed text-espresso placeholder:text-mocha/30 focus:border-old-gold focus:outline-none"
-            />
-            <div className="flex items-center justify-between gap-3">
-              <AnimatePresence>
-                {error && (
-                  <motion.span
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="font-serif text-sm text-old-gold"
-                  >
-                    {error}
-                  </motion.span>
-                )}
-              </AnimatePresence>
-              <span className="ms-auto font-serif text-xs text-mocha/40">
-                {t.guestbook.charsLeft(remaining)}
-              </span>
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            disabled={submitting}
-            className="btn-gold mt-7 w-full disabled:cursor-not-allowed disabled:opacity-60"
+          <a
+            href={WISH_FORM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            dir={lang === "ar" ? "rtl" : "ltr"}
+            className="btn-gold inline-block w-full text-center"
           >
-            {submitting ? t.guestbook.submitting : t.guestbook.submit}
-          </button>
-        </motion.form>
+            {t.guestbook.formButton}
+          </a>
+          <p className="mt-4 font-serif text-sm text-mocha/50">
+            {t.guestbook.formNote}
+          </p>
+        </motion.div>
 
         {/* Entries */}
         {countLabel && (
