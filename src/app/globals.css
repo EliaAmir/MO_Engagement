@@ -2,9 +2,8 @@
 
 /* ============================================================================
    THEME TOKENS — Tailwind v4 CSS-first
-   Default = "MIDNIGHT & GOLD" (dark). Light mode overrides the same --color-*
-   variables under [data-theme="light"], so every utility (bg-*, text-*, ...)
-   flips automatically. Component-specific surfaces use the --surface-* vars.
+   Single "MIDNIGHT & GOLD" dark theme (no light mode). Component-specific
+   surfaces use the --surface-* vars.
 ============================================================================ */
 @theme {
   /* deeps / surfaces (dark defaults) */
@@ -39,8 +38,8 @@
 }
 
 /* ----------------------------------------------------------------------------
-   THEME SURFACES — dark is the default (:root). Light overrides below.
-   Unlayered so they reliably win over Tailwind's layered @theme output.
+   THEME SURFACES — dark (:root). Unlayered so they reliably win over
+   Tailwind's layered @theme output.
 ---------------------------------------------------------------------------- */
 :root {
   color-scheme: dark;
@@ -66,46 +65,6 @@
   --sparkle-core: var(--color-gold-shimmer);
   --sparkle-edge: var(--color-old-gold);
   --sparkle-halo: color-mix(in oklab, var(--color-gold-shimmer) 60%, transparent);
-}
-
-:root[data-theme="light"] {
-  color-scheme: light;
-  /* light palette overrides (original cream / espresso / gold) */
-  --color-ivory: #eae0d5;
-  --color-warm-taupe: #c8a882;
-  --color-camel: #c09860;
-  --color-old-gold: #a07820;
-  --color-gold-light: #c6a84b;
-  --color-gold-shimmer: #d4a843;
-  --color-mocha: #4a2c18;
-  --color-espresso: #3a1e10;
-  --color-dark-choc: #2c1408;
-  --color-onyx: #1a1a1a;
-  --color-jet: #0a0a0a;
-  --color-cream: #f5efe6;
-  --color-wine: #5a200d;
-
-  --page-bg: #f7f2ea;
-  --page-bg-image:
-    radial-gradient(ellipse 75% 55% at 50% -8%, color-mix(in oklab, var(--color-warm-taupe) 38%, transparent), transparent 62%),
-    radial-gradient(ellipse 55% 45% at 100% 105%, color-mix(in oklab, var(--color-camel) 26%, transparent), transparent 58%),
-    radial-gradient(ellipse 50% 40% at -5% 30%, color-mix(in oklab, var(--color-gold-light) 16%, transparent), transparent 60%);
-  --grain-blend: multiply;
-  --surface-envelope: linear-gradient(160deg, var(--color-warm-taupe), var(--color-camel));
-  --surface-envelope-2: linear-gradient(200deg, var(--color-camel), var(--color-warm-taupe));
-  --surface-card: linear-gradient(170deg, #fdfaf3, #f6efe2 60%, var(--color-ivory));
-  --surface-card-edge:
-    0 45px 90px -40px color-mix(in oklab, var(--color-mocha) 55%, transparent),
-    inset 0 0 0 1px color-mix(in oklab, var(--color-old-gold) 45%, transparent),
-    inset 0 0 0 7px rgba(253, 250, 243, 0.7);
-  --surface-seal: radial-gradient(circle at 35% 30%, var(--color-mocha), var(--color-espresso) 75%);
-  --panel-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(245, 239, 230, 0.5));
-  --ghost-bg: rgba(255, 255, 255, 0.35);
-  --bar-bg: color-mix(in oklab, var(--color-cream) 60%, transparent);
-  --bar-bg-strong: color-mix(in oklab, var(--color-cream) 86%, transparent);
-  --sparkle-core: var(--color-gold-light);
-  --sparkle-edge: var(--color-old-gold);
-  --sparkle-halo: color-mix(in oklab, var(--color-camel) 55%, transparent);
 }
 
 /* ----------------------------------------------------------------------------
