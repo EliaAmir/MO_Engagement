@@ -19,8 +19,8 @@ structure, history, goals).
 A bilingual (English / Arabic) **digital engagement invitation** website for
 **Onur & Marina**, an engagement party in Cairo. It is a single marketing-style
 landing page plus a private admin dashboard. The aesthetic is a warm
-**"Midnight & Gold" dark luxe** mode (the only theme — light mode was removed).
-Serif typography,
+cream/espresso/gold **light mode** (default) with a **"Midnight & Gold" dark
+luxe** mode — toggleable via a sun/moon button. Serif typography,
 a four-panel paper letter that unfolds on scroll, drifting sparkles, film grain, smooth
 Lenis scroll, and motion (Framer Motion) throughout.
 
@@ -40,10 +40,10 @@ Lenis scroll, and motion (Framer Motion) throughout.
 | Animation      | **motion** v12 (`import { motion } from "motion/react"` — the new package name for Framer Motion) |
 | Smooth scroll  | **@studio-freight/lenis** v1 (`SmoothScroll.tsx`)            |
 | Styling        | **Tailwind CSS v4** (CSS-first config via `@tailwindcss/postcss`, no `tailwind.config.js` — tokens live as `@theme` in `globals.css`) |
-| Theming        | **CSS-variable dark theme only** ("Midnight & Gold") — no light mode (see §10) |
+| Theming        | **CSS-variable light/dark** via `data-theme` on `<html>` (see §10) |
 | Language       | TypeScript (strict), ESM                                     |
 | Fonts          | `next/font/google`: Cinzel (Latin display), Cormorant Garamond (Latin serif), **Aref Ruqaa** (Arabic display), **Markazi Text** (Arabic body) |
-| State / data   | **Client-only.** No database. RSVP attendance and wishes are collected via **Google Forms** (button links in the sections); legacy guestbook wishes persist to `localStorage`. Lang preference in `localStorage`. |
+| State / data   | **Client-only.** No database. RSVP attendance and wishes are collected via **Google Forms** (button links in the sections); legacy guestbook wishes persist to `localStorage`. Lang + theme preferences in `localStorage`. |
 
 No backend, no API routes, no server actions today. Everything is static
 (`/`, `/_not-found`, `/admin` all prerender).
@@ -55,19 +55,20 @@ No backend, no API routes, no server actions today. Everything is static
 ```
 src/
 ├── app/
-│   ├── layout.tsx        # Root layout: fonts, metadata, providers, global fx
-│   ├── globals.css       # Tailwind v4 @theme (dark) + surfaces + CSS (no light mode)
+│   ├── layout.tsx        # Root layout: fonts, metadata, providers, global fx, pre-paint theme script
+│   ├── globals.css       # Tailwind v4 @theme (dark) + [data-theme=light] overrides + surfaces + CSS
 │   ├── page.tsx          # Home — composes the landing sections in order
 │   └── admin/page.tsx    # Private RSVP dashboard (password-gated, client-side)
 ├── components/
 │   ├── LangProvider.tsx  # EN/AR context (useSyncExternalStore + localStorage)
 │   ├── SmoothScroll.tsx  # Lenis wrapper
+│   ├── ThemeToggle.tsx   # ★ Light/dark sun-moon button (sets <html data-theme>, persists)
 │   ├── Cursor.tsx        # Custom cursor (z-[10001], above preloader)
 │   ├── FilmGrain.tsx     # Full-screen grain overlay (.film-grain uses --grain-blend)
 │   ├── Preloader.tsx     # Loader gate → "Open the invitation" button (click unlocks audio)
 │   ├── Envelope.tsx      # ★ Four-panel paper letter unfold + full-screen letter
 │   │                     #   (copy + couple.jpeg); fires "mo:invite-opened"
-│   ├── Navbar.tsx        # Section nav + language toggle
+│   ├── Navbar.tsx        # Section nav + ThemeToggle + language toggle
 │   ├── Hero.tsx          # Couple names + CTA
 │   ├── Story.tsx         # Narrative copy block
 │   ├── Details.tsx       # When/where + Google Maps links
@@ -86,7 +87,7 @@ src/
 ```
 
 All client data lives in versioned `localStorage` keys (admin auth uses
-`sessionStorage`): `mo_rsvp_v1`, `mo_guestbook_v1`, `mo_lang_v1`,
+`sessionStorage`): `mo_rsvp_v1`, `mo_guestbook_v1`, `mo_lang_v1`, `mo_theme_v1`,
 `mo_admin_auth_v1` (session). Bump the `_v1` suffix to migrate schema.
 
 ---
@@ -219,13 +220,10 @@ the user's OK. (HTTPS auth is cached, so normal pushes just work.)
 
 ## 9. Current status & open ideas
 
-**Done recently:** **light mode removed** — the site is now single dark theme
-("Midnight & Gold"); the `ThemeToggle`, pre-paint theme script, `mo_theme_v1`,
-and `:root[data-theme="light"]` overrides are gone. Also done earlier:
-RSVP ("Will You Join Us?") and guestbook ("Leave a Wish") inline
+**Done recently:** RSVP ("Will You Join Us?") and guestbook ("Leave a Wish") inline
 forms replaced with buttons that open **Google Forms** (RSVP → `forms.gle/3TE4zwnbXSHrD4C98`,
 wishes → `forms.gle/mAHyjyQmh1PLxxT86`); Midnight & Gold redesign (dark),
-couple order flipped to Onur & Marina, bigger/more-readable
+light/dark toggle, couple order flipped to Onur & Marina, bigger/more-readable
 invitation card, music auto-starts when the letter opens (click-to-enter unlocks
 browser autoplay), cursor RTL fix, envelope card-in-frame/holder-sink fix.
 
@@ -244,34 +242,46 @@ Candidate next steps (confirm with user before building):
 
 ---
 
-## 10. Design system — dark-only theming
+## 10. Design system — light/dark theming
 
 Design tokens live in `globals.css`. The **dark** ("Midnight & Gold") values are
-the CSS base layer in `@theme` / `:root`. There is **no light mode** — light
-mode was removed (the `:root[data-theme="light"]` block, `ThemeToggle.tsx`, the
-pre-paint theme script, and `mo_theme_v1` are all gone). Tailwind v4 utilities
-reference these vars directly, so every utility stays consistent.
+the CSS base layer in `@theme` / `:root`; **light mode** overrides the same
+variables under `:root[data-theme="light"]`. Tailwind v4 utilities reference
+these vars, so flipping `<html data-theme>` flips the whole site.
+
+⚠️ **Dark is the shipped default** (the dark CSS base layer is also what a
+first-time visitor sees): `layout.tsx` renders `<html data-theme="dark">` and
+the pre-paint script falls back to `dark` when no `mo_theme_v1` is stored. A
+first-time visitor therefore paints dark ("Midnight & Gold") with no flash.
 
 - ⚠️ **Token NAMES are historical, not semantic** — read the values, not the names:
-  - `--color-espresso #f2ead6`, `--color-mocha #d9cdb2` are **LIGHT** (text on dark);
+  - Dark: `--color-espresso #f2ead6`, `--color-mocha #d9cdb2` are **LIGHT** (text on dark);
     `--color-onyx #0c0a12`, `--color-jet #06050a`, `--color-dark-choc #15121c` are dark surfaces;
     `--color-old-gold #d4af37` etc. are luminous gold.
+  - Light: the same names get **dark** espresso/mocha, cream/ivory surfaces, warmer golds.
 - **Component surfaces use dedicated vars** (NOT raw espresso/mocha, to avoid the
   text-vs-material dual-use trap): `--page-bg`, `--page-bg-image`, `--grain-blend`,
   `--surface-envelope`, `--surface-envelope-2`, `--surface-card`, `--surface-card-edge`,
   `--surface-seal`, `--panel-bg`, `--ghost-bg`, `--bar-bg`, `--bar-bg-strong`.
   `--sparkle-core`, `--sparkle-edge`, `--sparkle-halo`.
-  Use these (or `bg-[var(--bar-bg)]`) for any new surface; avoid hardcoded hexes.
+  Each has a dark and light value. Use these (or `bg-[var(--bar-bg)]`) for any new
+  theme-aware surface; avoid hardcoded hexes.
 - `Sparkles.tsx` uses **two nested elements**: the outer one owns the fall + sway
   (`sparkle-drift`, transform + an opacity envelope), the inner one owns the
   continuous glint (`sparkle-shimmer`, opacity + scale). Nested opacity multiplies,
   so the sparkle shimmers the whole way down while still fading in/out at the edges.
   Animations are **transform/opacity only**; the glow is a static `box-shadow`.
+  In light mode the core drops to `--color-gold-light` over a `--color-camel` halo
+  so it stays legible on the cream `--page-bg`.
 - `.text-gradient-gold` = gold-foil heading; `.btn-gold` = gold bg + dark (`jet`) text;
-  `.panel` = `--panel-bg` glass; `.btn-ghost` = ghost border button.
+  `.panel` = `--panel-bg` glass; `.btn-ghost` text = espresso (switches).
+- `ThemeToggle.tsx` toggles `data-theme` + persists to `mo_theme_v1`; a pre-paint
+  inline `<script>` in `layout.tsx` applies the stored theme before first paint (no FOUC),
+  defaulting to `dark`. Its `useState` seed is `dark` to match the SSR attribute.
 - `layout.tsx` metadata is **derived from `content.ts`** (`CONTENT.en.meta`, `EVENT`)
   rather than hardcoded, so date/venue/name edits propagate to SEO + OG tags.
-  `viewport` = `themeColor: "#0c0a12"` (the dark `--page-bg`) + `colorScheme: "dark"`.
+  `viewport` = `themeColor: "#0c0a12"` (the dark `--page-bg`) + `colorScheme: "light dark"`
+  so native form controls follow the active theme.
 - Font variables: `--font-cinzel` (Latin display), `--font-cormorant` (Latin serif),
   `--font-aref` (Aref Ruqaa), `--font-markazi` (Markazi Text).
 - **Arabic typography is switched by remapping the font *variables***, not by
@@ -299,5 +309,5 @@ reference these vars directly, so every utility stays consistent.
 2. `npm run build` to confirm the tree is healthy.
 3. Skim `src/lib/content.ts` (all copy) + `src/app/page.tsx` (section order).
 4. `git status` / `git log --oneline` to see current state.
-5. **Single dark theme** — there is no light mode; colors live only in the
-   dark `@theme`/`:root` values in `globals.css`.
+5. For any color change, remember it's a **two-theme** system — touch both the
+   dark `@theme`/`:root` values and the `:root[data-theme="light"]` overrides.

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useLang } from "@/components/LangProvider";
 import { scrollToTarget } from "@/components/SmoothScroll";
+import ThemeToggle from "@/components/ThemeToggle";
 import { cn } from "@/lib/utils";
 
 type NavItem = { id: string; label: string };
@@ -79,6 +80,8 @@ export default function Navbar() {
         </ul>
 
         <div className="flex items-center gap-3">
+          <ThemeToggle />
+
           {/* Language toggle */}
           <button
             type="button"
